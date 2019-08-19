@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_itens_coletas_romaneio" columnCount="10" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="59" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1d8f2ffc-554a-4098-a64c-46fbb81838bc">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="223"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="770"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="ID_COLETA" class="java.lang.Long"/>
+	<parameter name="GRUPO_RESIDUOS" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[(SELECT IFNULL(count(gestaofacil.itens_coleta.id), 0) total, 
+ 	gestaofacil.itens_coleta.id,
+	gestaofacil.itens_coleta.observacao,
+	gestaofacil.grupo_residuos.descricao,
+	gestaofacil.itens_coleta.coleta_id,
+	gestaofacil.itens_coleta.quantidadeColetada
+FROM gestaofacil.itens_coleta
+	INNER JOIN gestaofacil.grupo_residuos ON 
+	 gestaofacil.itens_coleta.`grupoResiduo_id` = gestaofacil.grupo_residuos.id 
+WHERE 
+	 gestaofacil.itens_coleta.coleta_id =   $P{ID_COLETA} and gestaofacil.grupo_residuos.descricao = $P{GRUPO_RESIDUOS}   )
+     UNION
+     (SELECT 0 total, 0 tota2, 0 total3, 0 total4, 0 total5, 0 total6) LIMIT 1
+
+
+
+]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_coleta"/>
+	</field>
+	<field name="observacao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="observacao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_coleta"/>
+	</field>
+	<field name="quantidadeColetada" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="quantidadeColetada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_coleta"/>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descricao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="grupo_residuos"/>
+	</field>
+	<field name="coleta_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="coleta_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_coleta"/>
+	</field>
+	<variable name="Variable_1" class="java.lang.Double" resetType="Master">
+		<variableExpression><![CDATA[$F{quantidadeColetada}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="0" width="40" height="20" uuid="012cf8dd-8d13-4415-b6b6-b5a231b4020e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="32ae5ef0-7714-4853-bc71-522183243aa5"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantidadeColetada} == null ? new DecimalFormat("#,##0.000", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format(0.0).toString() +" ":
+new DecimalFormat("#,##0.000", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{quantidadeColetada}).toString()+" ";]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Cadastro de Usuário/Colaborador</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Cadastrar novo Usuário/Colaborador"
+								update=":frmModalSalvar"
+								actionListener="#{usuarioMB.criarNovoObjeto()}"
+								onclick="PF('dlgUsuario').show(); PF('dlgUsuario').content.scrollTop('0')"
+								title="Cadastrar" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela" value="#{usuarioMB.listaUsuario}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum usuario Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Nome" filterBy="#{list.nome}"
+							sortBy="#{list.nome}" filterMatchMode="contains">
+							<h:outputText value="#{list.nome}" />
+						</p:column>
+
+						<p:column headerText="E-mail" filterBy="#{list.email}"
+							sortBy="#{list.email}" filterMatchMode="contains">
+							<h:outputText value="#{list.email}" />
+						</p:column>
+
+						<p:column headerText="Permissão" filterBy="#{list.permissao}"
+							sortBy="#{list.permissao}" filterMatchMode="contains">
+							<h:outputText value="#{list.permissao}" />
+						</p:column>
+
+						<p:column headerText="Acesso ao Sistema">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton alt="Conceder Permissões" icon="ui-icon-pencil"
+									update=":formTabelaPermissoes" utitle="Conceder Permissões"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgPermissoes').show();"
+									actionListener="#{usuarioMB.preencherPermissoes(list)}">
+								</p:commandButton>
+							</p:panelGrid>
+						</p:column>
+
+
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton alt="Alterar" icon="ui-icon-pencil"
+									update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgUsuario').show();"
+									actionListener="#{usuarioMB.preencherLista(list)}">
+								</p:commandButton>
+								<p:commandButton actionListener="#{usuarioMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+
+							</p:panelGrid>
+						</p:column>
+
+
+
+					</p:dataTable>
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Usuário/Colaborador" widgetVar="dlgUsuario"
+				modal="true" responsive="true" width="60%" id="dlgUsuario"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmModalSalvar">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Nome: *</label>
+							<p:inputText required="true" requiredMessage="Nome Obrigatório" onkeyup="value=value.toUpperCase()" title="Nome"
+								value="#{usuarioMB.usuario.nome}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>E-mail: </label>
+							<p:inputText title="E-mail"
+								value="#{usuarioMB.usuario.email}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>CPF:</label>
+							<p:inputMask validatorMessage="CPF Inválido"
+								validator="validacaoCPF" mask="999.999.999-99" title="E-mail"
+								value="#{usuarioMB.usuario.cpf}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Acesso ao Sistema: *</label>
+							<p:selectBooleanButton value="#{usuarioMB.usuario.acessoSistema}"
+								onLabel="Sim" offLabel="Não" style="width:60px" />
+						</div>
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Salvar"
+							actionListener="#{usuarioMB.salvar()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela"
+							oncomplete="PF('dlgUsuario').hide();" />
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgUsuario').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+
+			<!-- INÍCIO DIALOG PERMISSÕES -->
+			<p:dialog header="Conceder Permissões" widgetVar="dlgPermissoes"
+				modal="true" responsive="true" width="60%" id="dlgPermissoes"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmModalConcederPermisoes">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Nome: *</label>
+							<p:autoComplete dropdown="true"
+								value="#{usuarioMB.permissao.tipo}" scrollHeight="170"
+								completeMethod="#{tipoServidorMB.completarTipoServidor}"
+								forceSelection="true" converter="#{converterTipo}" var="cur"
+								itemLabel="#{cur.descricao}" itemValue="#{cur}">
+							</p:autoComplete>
+						</div>
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Incluir Permissão"
+							actionListener="#{usuarioMB.incluirPermissao()}"
+							styleClass="ui-priority-primary" update=":formTabelaPermissoes"
+							oncomplete="PF('dlgUsuario').hide();" />
+
+						<p:commandButton value="Fechar" onclick="PF('dlgUsuario').hide();"
+							alt="Fechar" />
+					</div>
+				</h:form>
+
+
+				<!-- TABELA-->
+				<div class="col-md-12">
+					<h:form id="formTabelaPermissoes">
+						<p:dataTable id="tabela" value="#{usuarioMB.permisssoes}"
+							resizableColumns="true" reflow="true" var="list" rows="5"
+							paginator="true" paginatorPosition="bottom"
+							emptyMessage="Nenhuma permissão cadastrada!"
+							rowsPerPageTemplate="5,10,15,30,50,100">
+
+							<p:column headerText="Descrição"
+								filterBy="#{list.tipo.descricao}"
+								sortBy="#{list.tipo.descricao}" filterMatchMode="contains">
+								<h:outputText value="#{list.tipo.descricao}" />
+							</p:column>
+
+
+
+							<p:column headerText="Opção">
+								<p:panelGrid columns="2" styleClass="ui-noborder">
+
+									<p:commandButton
+										actionListener="#{usuarioMB.inativarPermissao(list)}"
+										icon="ui-icon-trash" title="Excluir"
+										styleClass="btn btn-block" update="@form" alt="Excluir">
+										<p:confirm header="Confirmação" message="Deseja excluir?" />
+									</p:commandButton>
+
+								</p:panelGrid>
+							</p:column>
+
+
+
+						</p:dataTable>
+					</h:form>
+
+				</div>
+				<!--FIM DA TABELA-->
+
+			</p:dialog>
+			<!-- FIM DO DIALOG PERMISSÕES -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

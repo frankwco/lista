@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:body>
+	<ui:composition
+		template="../resources/template/template-cliente.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Cadastro de Clientes</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-3">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrarPF">
+							<p:commandButton value="Cadastrar Pessoa Física"
+								update=":frmModalSalvar, :frmModalSalvar:tabViewCliente"
+								actionListener="#{clienteMB.criarNovoObjeto('Física')}"
+								onclick="PF('dlgCliente').show(); PF('dlgCliente').content.scrollTop('0')"
+								title="Cadastrar" />
+						</h:form>
+
+					</ol>
+				</div>
+
+				<div class="col-md-3">
+					<ol class="breadcrumb">
+
+						<h:form id="frmCadastrarPJ">
+							<p:commandButton value="Cadastrar Pessoa Jurídica"
+								update=":frmModalSalvar"
+								actionListener="#{clienteMB.criarNovoObjeto('Jurídica')}"
+								onclick="PF('dlgCliente').show(); PF('dlgCliente').content.scrollTop('0')"
+								title="Cadastrar" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<div class="ui-fluid">
+				<p:panelGrid columns="12" columnClasses="ui-grid-col-12"
+					layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:accordionPanel activeIndex="1">
+						<p:tab title="Consultas">
+							<h:panelGrid columns="2" cellpadding="10">
+								<p:graphicImage name="demo/images/godfather/godfather1.jpg" />
+								<h:outputText value="family." />
+							</h:panelGrid>
+						</p:tab>
+
+					</p:accordionPanel>
+				</p:panelGrid>
+			</div>
+
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela" value="#{clienteMB.listCliente}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Cliente Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Nome/Razão"
+							filterBy="#{list.nomeRazaoSocial}"
+							sortBy="#{list.nomeRazaoSocial}" filterMatchMode="contains">
+							<h:outputText value="#{list.nomeRazaoSocial}" />
+						</p:column>
+
+						<p:column headerText="Endereço" filterBy="#{list.endereco}"
+							sortBy="#{list.endereco}" filterMatchMode="contains">
+							<h:outputText value="#{list.endereco}-#{list.numero}" />
+						</p:column>
+
+						<p:column headerText="Cidade" filterBy="#{list.cidade}"
+							sortBy="#{list.cidade}" filterMatchMode="contains">
+							<h:outputText
+								value="#{list.cidade.nome}-#{list.cidade.estado.nome}" />
+						</p:column>
+
+						<p:column headerText="" filterBy="#{list.email}"
+							sortBy="#{list.email}" filterMatchMode="contains">
+							<h:outputText value="#{list.email}" />
+						</p:column>
+
+						<p:column headerText="Opções">
+							<p:panelGrid columns="3" styleClass="ui-noborder">
+					
+								<p:commandButton alt="Pontos de Coleta" icon="ui-icon-cart"
+									title="Pontos de Coleta" styleClass="btn btn-block"
+									ajax="false"
+									action="#{clienteMB.chamarPontosColeta(list)}">
+								</p:commandButton>
+								<p:commandButton alt="Alterar" icon="ui-icon-pencil"
+									update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgCliente').show();"
+									actionListener="#{clienteMB.preencherLista(list)}">
+								</p:commandButton>
+								<p:commandButton actionListener="#{clienteMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+
+							</p:panelGrid>
+						</p:column>
+
+
+
+					</p:dataTable>
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Cliente" widgetVar="dlgCliente" modal="true"
+				responsive="true" width="60%" id="dlgCliente" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+
+
+				<h:form id="frmModalSalvar">
+					<p:tabView id="tabViewCliente" activeIndex="#{clienteMB.tabAtiva}">
+						<p:tab
+							title="Dados Gerais - Pessoa #{clienteMB.cliente.tipoPessoa}">
+							<div class="ui-fluid">
+
+								<!-- início pessoa física -->
+								<p:panelGrid
+									rendered="#{clienteMB.cliente.tipoPessoa=='Física'}">
+									<div class="col-md-12">
+										<label>Nome: *</label>
+										<p:inputText required="true"
+											requiredMessage="Nome Obrigatório"
+											onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()" title="Nome"
+											value="#{clienteMB.cliente.nomeRazaoSocial}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>CPF: *</label>
+										<p:inputMask validatorMessage="CPF Inválido" required="true"
+											requiredMessage="CPF Obrigatório" validator="validacaoCPF"
+											mask="999.999.999-99" title="E-mail"
+											value="#{clienteMB.cliente.cpfCnpj}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>RG: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()" title="RG"
+											value="#{clienteMB.cliente.rgInscricaoEstadual}" />
+									</div>
+								</p:panelGrid>
+								<!-- final pessoa física -->
+
+
+								<!-- início pessoa jurídica -->
+								<p:panelGrid
+									rendered="#{clienteMB.cliente.tipoPessoa=='Jurídica'}">
+									<div class="col-md-12">
+										<label>Razão Social: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()" required="true"
+											requiredMessage="Razão Social Obrigatório"
+											title="Razão Social"
+											value="#{clienteMB.cliente.nomeRazaoSocial}" />
+									</div>
+									<div class="col-md-12">
+										<label>Nome Fantasia: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()" title="Nome Fantasia"
+											value="#{clienteMB.cliente.nomeFantasia}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>CNPJ:</label>
+										<p:inputMask validatorMessage="CNPJ Inválido" required="true"
+											requiredMessage="CNPJ Obrigatório" validator="validacaoCNPJ"
+											mask="99.999.999/9999-99" title="CNPJ"
+											value="#{clienteMB.cliente.cpfCnpj}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>Inscrição Estadual: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()" title="Inscrição Estadual"
+											value="#{clienteMB.cliente.rgInscricaoEstadual}" />
+									</div>
+								</p:panelGrid>
+								<!-- final pessoa jurídica -->
+
+							
+
+								<div class="col-md-10">
+									<label>Logradouro: *</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.endereco}" />
+								</div>
+
+								<div class="col-md-2">
+									<label>Número: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.numero}" />
+								</div>
+
+								<div class="col-md-4">
+									<label>Edifício: *</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.edificio}" />
+								</div>
+
+								<div class="col-md-4">
+									<label>Sala: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.sala}" />
+								</div>
+
+								<div class="col-md-4">
+									<label>Andar: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.andar}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Bairro: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.bairro}" />
+								</div>
+								
+								<div class="col-md-6">
+									<label>CEP: </label>
+									<p:inputMask mask="99999-999" onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.cep}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Complemento: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.sala}" />
+								</div>
+
+
+								<div class="col-md-6">
+									<label>Cidade: *</label>
+									<p:autoComplete dropdown="true"
+										value="#{clienteMB.cliente.cidade}" scrollHeight="170"
+										completeMethod="#{cidadeMB.completar}" forceSelection="true"
+										converter="#{converterCidade}" var="cur" itemLabel="#{cur}"
+										itemValue="#{cur}">
+									</p:autoComplete>
+								</div>
+
+								<div class="col-md-6">
+									<label>E-mail: </label>
+									<p:inputText title="E-mail" value="#{clienteMB.cliente.email}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>E-mail 2: </label>
+									<p:inputText onkeyup="value=value.toLowerCase()" title="E-mail"
+										value="#{clienteMB.cliente.email2}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Telefone 1:</label>
+									<p:inputMask autoClear="false" mask="(99)99999-9999"
+										title="Telefone 1" value="#{clienteMB.cliente.telefone1}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Telefone 2:</label>
+									<p:inputMask autoClear="false" mask="(99)99999-9999"
+										title="Telefone 2" value="#{clienteMB.cliente.telefone2}" />
+								</div>
+								
+									<div class="col-md-12">
+									<label>Responsável/Contato: *</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Responsável"
+										value="#{clienteMB.cliente.responsavel}" />
+								</div>
+								
+
+								<div class="col-md-6">
+									<label>CPF do Responsável: *</label>
+									<p:inputMask validatorMessage="CPF Inválido" required="true"
+										requiredMessage="CPF Obrigatório" validator="validacaoCPF"
+										mask="999.999.999-99" title="E-mail"
+										value="#{clienteMB.cliente.cpfResponsavel}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>RG do Responsável: *</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="RG"
+										value="#{clienteMB.cliente.rgResponsavel}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Endereço Responsável (Rua, número e bairro): *</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Endereço Responsável"
+										value="#{clienteMB.cliente.enderecoResponsavel}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Cidade do Responsável: *</label>
+									<p:autoComplete dropdown="true"
+										value="#{clienteMB.cliente.cidadeResponsavel}" scrollHeight="170"
+										completeMethod="#{cidadeMB.completar}" forceSelection="true"
+										converter="#{converterCidade}" var="cur" itemLabel="#{cur}"
+										itemValue="#{cur}">
+									</p:autoComplete>
+								</div>
+
+								<div class="col-md-12">
+									<label>Observação:</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Observação"
+										value="#{clienteMB.cliente.observacao}" />
+								</div>
+								<small>Campos obrigatórios *</small>
+							</div>
+						</p:tab>
+
+						<!-- 						<p:tab title="Dados Financeiros"> -->
+						<!-- 							<div class="ui-fluid"> -->
+						<!-- 								<h:panelGrid columns="2"> -->
+						<!-- 									<div class="col-md-12"> -->
+						<!-- 										<label>Contrato Gerado pelo Cliente: *</label> -->
+						<!-- 										<p:selectBooleanButton -->
+						<!-- 											value="{clienteMB.cliente.contratoGeradoCliente}" -->
+						<!-- 											onLabel="Sim" offLabel="Não" -->
+						<!-- 											style="width:60px; margin-bottom:10px" /> -->
+						<!-- 									</div> -->
+
+						<!-- 									<div class="col-md-12"> -->
+						<!-- 										<label>Um Contrato para Todos Pontos: *</label> -->
+						<!-- 										<p:selectBooleanButton -->
+						<!-- 											value="{clienteMB.cliente.umContratoTodosPontos}" -->
+						<!-- 											onLabel="Sim" offLabel="Não" -->
+						<!-- 											style="width:60px; margin-bottom:10px" /> -->
+						<!-- 									</div> -->
+						<!-- 									<div class="col-md-12"> -->
+						<!-- 										<label>Um Boleto para Todos Pontos: *</label> -->
+						<!-- 										<p:selectBooleanButton -->
+						<!-- 											value="{clienteMB.cliente.umBoletoTodosPontos}" -->
+						<!-- 											onLabel="Sim" offLabel="Não" -->
+						<!-- 											style="width:60px; margin-bottom:10px" /> -->
+						<!-- 									</div> -->
+						<!-- 									<div class="col-md-12"> -->
+						<!-- 										<label>Existe um Valor Fixo Mensal?: *</label> -->
+						<!-- 										<p:selectOneMenu id="console" -->
+						<!-- 											value="{clienteMB.cliente.existeValorFixoMensal}" -->
+						<!-- 											style="margin-bottom:10px"> -->
+						<!-- 											<f:selectItem itemLabel="Não" itemValue="Não" /> -->
+						<!-- 											<f:selectItem itemLabel="Mensal por Ponto" -->
+						<!-- 												itemValue="Mensal por Ponto" /> -->
+						<!-- 											<f:selectItem itemLabel="Mensal para todos Pontos" -->
+						<!-- 												itemValue="Mensal para todos Pontos" /> -->
+						<!-- 											<p:ajax update="inputFixoMensalPonto, inputFixoMensalTotal" /> -->
+						<!-- 										</p:selectOneMenu> -->
+						<!-- 									</div> -->
+
+						<!-- 								</h:panelGrid> -->
+
+						<!-- 								<div class="col-md-6"> -->
+						<!-- 									<label>Valor Fixo Mensal Pontos: *</label> -->
+						<!-- 									<p:inputNumber decimalPlaces="2" thousandSeparator="." -->
+						<!-- 										decimalSeparator=","  title="Valor Fixo Mensal Ponto" -->
+						<!-- 										id="inputFixoMensalPonto" -->
+						<!-- 										value="{clienteMB.cliente.valorFixoMensalPonto}" -->
+						<!-- 										disabled="{clienteMB.cliente.existeValorFixoMensal!='Mensal por Ponto'}" /> -->
+						<!-- 								</div> -->
+
+						<!-- 								<div class="col-md-6"> -->
+						<!-- 									<label>Valor Fixo Mensal Total: *</label> -->
+						<!-- 									<p:inputNumber decimalPlaces="2" thousandSeparator="." -->
+						<!-- 										decimalSeparator="," title="Valor Fixo Mensal Total" -->
+						<!-- 										id="inputFixoMensalTotal" -->
+						<!-- 										value="{clienteMB.cliente.valorFixoMensalTotal}" -->
+						<!-- 										disabled="{clienteMB.cliente.existeValorFixoMensal!='Mensal para todos Pontos'}" /> -->
+						<!-- 								</div> -->
+
+
+
+						<!-- 								<br /> -->
+
+						<!-- 								<div class="col-md-12"> -->
+						<!-- 									<label>Cobra Valor Excedente: *&nbsp;&nbsp;</label> -->
+						<!-- 									<p:selectBooleanButton -->
+						<!-- 										value="{clienteMB.cliente.cobraExcedente}" onLabel="Sim" -->
+						<!-- 										offLabel="Não" -->
+						<!-- 										style="width:60px; margin-bottom:10px; margin-top:5px"> -->
+						<!-- 										<p:ajax update="inputPesoMensal, inputValorExcedente" /> -->
+						<!-- 									</p:selectBooleanButton> -->
+						<!-- 								</div> -->
+
+						<!-- 								<div class="col-md-6"> -->
+						<!-- 									<label>Peso Mensal: *</label> -->
+						<!-- 									<p:inputText title="Peso Mensal" id="inputPesoMensal" -->
+						<!-- 										disabled="{clienteMB.cliente.cobraExcedente==false}" -->
+						<!-- 										value="{clienteMB.cliente.pesoMensal}" /> -->
+						<!-- 								</div> -->
+						<!-- 								<div class="col-md-6"> -->
+						<!-- 									<label>Valor do Excedente: *</label> -->
+						<!-- 									<p:inputNumber decimalPlaces="2" thousandSeparator="." -->
+						<!-- 										decimalSeparator="," title="Valor do Excedente" -->
+						<!-- 										id="inputValorExcedente" -->
+						<!-- 										disabled="{clienteMB.cliente.cobraExcedente==false}" -->
+						<!-- 										value="{clienteMB.cliente.valorExcedente}" /> -->
+						<!-- 								</div> -->
+
+						<!-- 								<div class="col-md-12"> -->
+						<!-- 									<label>Cobrado por Quilo: *&nbsp;&nbsp;</label> -->
+						<!-- 									<p:selectBooleanButton -->
+						<!-- 										value="{clienteMB.cliente.cobradoPorQuilo}" onLabel="Sim" -->
+						<!-- 										offLabel="Não" -->
+						<!-- 										style="width:60px; margin-bottom:10px; margin-top:5px"> -->
+						<!-- 										<p:ajax update="inputCobradoQuilo" /> -->
+						<!-- 									</p:selectBooleanButton> -->
+						<!-- 								</div> -->
+
+						<!-- 								<div class="col-md-12"> -->
+						<!-- 									<label>Valor do Quilo: *</label> -->
+						<!-- 									<p:inputNumber decimalPlaces="2" thousandSeparator="." -->
+						<!-- 										decimalSeparator="," id="inputCobradoQuilo" -->
+						<!-- 										disabled="{clienteMB.cliente.cobradoPorQuilo==false}" -->
+						<!-- 										title="Valor do Quilo" -->
+						<!-- 										value="{clienteMB.cliente.valorPorQuilo}" /> -->
+						<!-- 								</div> -->
+
+
+						<!-- 								<small>Campos obrigatórios *</small> -->
+						<!-- 							</div> -->
+						<!-- 						</p:tab> -->
+						<p:tab title="Definir Ponto de Coleta"
+							rendered="#{clienteMB.cliente.id==null}">
+							<div class="ui-fluid">
+								<p:panelGrid rendered="#{clienteMB.cliente.id==null}"
+									columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
+									layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+									<p:outputLabel
+										value="Deseja Incluir um Ponto de Coleta com os Dados Deste Cliente?" />
+									<p:selectOneRadio value="#{clienteMB.definirPontoColeta}"
+										
+										>
+										<p:ajax update="gridMensagemIncluirPonto"
+											listener="#{clienteMB.definirPonto()}" />
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+											<f:selectItem itemLabel="Não" itemValue="false" />
+										</p:selectOneRadio>
+								</p:panelGrid>
+								<p:panelGrid id="gridMensagemIncluirPonto" columns="1"
+									columnClasses="ui-grid-col-12" layout="grid"
+									styleClass="ui-panelgrid-blank ui-fluid">
+									<p:outputLabel style="color:red"
+										rendered="#{clienteMB.definirPontoColeta==true}"
+										value="Assim que Salvar, você irá incluir um ponto de coleta com os dados deste cliente. Caso queira apagar, acesse a pagina Pontos de Coleta." />
+								</p:panelGrid>
+
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+
+					<div class="modal-footer">
+						<p:commandButton value="Salvar"
+							actionListener="#{clienteMB.salvar()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela">
+						</p:commandButton>
+					</div>
+
+
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

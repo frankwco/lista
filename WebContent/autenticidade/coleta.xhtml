@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition template="../resources/template/template-cliente.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Lançamento das Coletas</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO DOS BOTÕES -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+
+							<p:commandButton value="Pesquisar Coletas Realizadas"
+								update=":frmModalPesquisar"
+								onclick="PF('dlgPesquisarColeta').show(); PF('dlgPesquisarColeta').content.scrollTop('0')"
+								title="Pesquisar" actionListener="#{coletaMB.buscarColetas()}" />&nbsp;&nbsp;&nbsp;&nbsp;
+															
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DOS BOTÕES -->
+
+			<!-- 			INÍCIO DA MOVIMENTAÇÃO -->
+			<h:form id="frmTabela">
+				<div class="ui-fluid">
+					<div class="col-md-6">
+						<label>Data: *</label>
+						<p:calendar disabled="true" required="true"
+							requiredMessage="Data Obrigatória!!"
+							value="#{coletaMB.coleta.dataColeta}" mask="99/99/9999"
+							pattern="dd/MM/yyyy" />
+					</div>
+
+					<div class="col-md-6">
+						<label>Ponto Coleta: </label>
+						<p:autoComplete dropdown="true" disabled="true"
+							value="#{coletaMB.coleta.pontoColeta}" scrollHeight="170"
+							completeMethod="#{pontoColetaMB.completar}" forceSelection="true"
+							converter="#{converterPontoColeta}" var="cur"
+							itemLabel="#{cur.nomeRazaoSocialNomeFantasia}" itemValue="#{cur}">
+							<p:ajax event="itemSelect" update="tabela"
+								listener="#{coletaMB.carregarListaGrupos()}" />
+						</p:autoComplete>
+					</div>
+
+					<div class="col-md-6">
+						<label>Motorista: </label>
+						<p:autoComplete dropdown="true" disabled="true"
+							value="#{coletaMB.coleta.motorista}" scrollHeight="170"
+							completeMethod="#{usuarioMB.completar}" forceSelection="true"
+							converter="#{converterUsuario}" var="cur" itemLabel="#{cur.nome}"
+							itemValue="#{cur}">
+						</p:autoComplete>
+					</div>
+
+					<div class="col-md-6">
+						<label>Responsável pelo Cadastro:</label>
+						<p:inputText value="Pegar do Usuário Logado" disabled="true" />
+					</div>
+
+					<div class="col-md-12">
+						<label>Observações:</label>
+						<p:inputText disabled="true" onkeyup="value=value.toUpperCase()"
+							value="#{coletaMB.coleta.observacao}" />
+					</div>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>Campos
+						obrigatórios *</small>
+				</div>
+
+				<hr />
+
+				<!-- TABELA-->
+				<div class="col-md-12">
+
+					<p:dataTable id="tabela" value="#{coletaMB.listItensColeta}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Objeto Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100" editable="false"
+						editMode="cell">
+
+						<p:column headerText="Descrição"
+							filterBy="#{list.grupoResiduo.descricao}"
+							sortBy="#{list.grupoResiduo.descricao}"
+							filterMatchMode="contains">
+							<h:outputText value="#{list.grupoResiduo.descricao}" />
+						</p:column>
+
+
+						<p:column headerText="Valor">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{list.quantidadeColetada}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputNumber decimalPlaces="3" thousandSeparator="."
+										decimalSeparator="," value="#{list.quantidadeColetada}"
+										style="width:96%">
+										<p:ajax listener="#{coletaMB.salvarItemColeta(list)}"
+											update="tabela"></p:ajax>
+
+									</p:inputNumber>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Observação" filterBy="#{list.observacao}"
+							sortBy="#{list.observacao}" filterMatchMode="contains">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{list.observacao}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText disabled="#{coletaMB.coleta.id!=null}"
+										value="#{list.observacao}" onkeyup="value=value.toUpperCase()"
+										style="width:96%" >
+										<p:ajax listener="#{coletaMB.salvarItemColeta(list)}"
+											update="tabela"></p:ajax>
+										</p:inputText>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+
+					</p:dataTable>
+
+				</div>
+
+			</h:form>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+			<!--FIM DA TABELA-->
+
+			<!-- 			FIM DA MOVIMENTAÇÃO -->
+
+
+
+
+
+			<!-- DIALOG PESQUISAR -->
+			<p:dialog header="Pesquisar Movimentações"
+				widgetVar="dlgPesquisarColeta" modal="true" responsive="true"
+				width="60%" id="dlgPesquisarColeta" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalPesquisar">
+					<div class="ui-fluid">
+
+						<p:dataTable id="tabela" value="#{coletaMB.listColeta}"
+							resizableColumns="true" reflow="true" var="list" rows="10"
+							paginator="true" paginatorPosition="bottom"
+							emptyMessage="Nenhum Objeto Cadastrado!!"
+							rowsPerPageTemplate="5,10,15,30,50,100" editable="true"
+							editMode="cell">
+
+							<p:column headerText="Data Coleta">
+								<h:outputText value="#{coletaMB.converterData(list.dataColeta)}">
+
+								</h:outputText>
+
+							</p:column>
+
+							<p:column headerText="Ponto de Coleta"
+								filterBy="#{list.pontoColeta.nomeRazaoSocial} #{list.pontoColeta.nomeFantasia}"
+								sortBy="#{list.pontoColeta.nomeRazaoSocial} #{list.pontoColeta.nomeFantasia}"
+								filterMatchMode="contains">
+								<h:outputText
+									value="#{list.pontoColeta.nomeRazaoSocial} - #{list.pontoColeta.nomeFantasia}" />
+							</p:column>
+
+							<p:column headerText="Motorista"
+								filterBy="#{list.motorista.nome}"
+								sortBy="#{list.motorista.nome}" filterMatchMode="contains">
+								<h:outputText value="#{list.motorista.nome}" />
+							</p:column>
+
+							<p:column headerText="Carregar">
+								<p:commandButton alt="Carregar" value="Visualizar"
+									icon="ui-icon-pencil" title="Alterar"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgPesquisarColeta').hide();"
+									actionListener="#{coletaMB.preencherLista(list)}"
+									update=":dlgInformacao :frmTabela :frmCadastrar">
+
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG PESQUISAR -->
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

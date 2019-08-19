@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<style>
+.ui-datatable table {
+	width: auto !important;
+}
+</style>
+</h:head>
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+		#{avaliacaoDetalhesMB.init(param.ind)}
+		<p:growl id="mensagem"/>
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Análise
+						Detalhada do Indicador <b>#{avaliacaoDetalhesMB.indicador.descricao}</b>
+					</h1>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-lg-4 col-xs-4" style="filter: opacity(100%)">
+					<p:chart type="metergauge"
+						model="#{avaliacaoDetalhesMB.meterGaugeModel2}"
+						style="width:400px;height:250px" />
+
+				</div>
+
+				<div class="col-lg-4 col-xs-4" style="filter: opacity(100%)">
+					<h2>O que pode ser feito para melhorar o Indicador??</h2>
+					<h:outputText escape="false"
+						value="#{avaliacaoDetalhesMB.indicador.acoesMelhoria}" />
+				</div>
+
+				<div class="col-lg-4 col-xs-4" style="filter: opacity(100%)">
+					<h2>Classificações do SMART</h2>
+					<h:outputText escape="false"
+						value="#{avaliacaoDetalhesMB.verificarSmart()}" />
+				</div>
+
+
+
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-xs-12">
+					<h2>
+						Resultado Ideal: <b>#{avaliacaoDetalhesMB.indicador.metaMaiorMenorQue}</b>
+					</h2>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-1 col-xs-1">
+					<center>Janeiro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Fevereiro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Março</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Abril</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Maio</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Junho</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Julho</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Agosto</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Setembro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Outubro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Novembro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Dezembro</center>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-lg-1 col-xs-1">
+					<div
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta01, avaliacaoDetalhesMB.indicador.valor1, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}"
+						class="small-box ">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta01}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor1}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box "
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta02, avaliacaoDetalhesMB.indicador.valor2, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta02}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor2}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta03, avaliacaoDetalhesMB.indicador.valor3, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta03}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor3}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta04, avaliacaoDetalhesMB.indicador.valor4, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta04}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor4}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta05, avaliacaoDetalhesMB.indicador.valor5, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta05}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor5}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta06, avaliacaoDetalhesMB.indicador.valor6, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta06}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor6}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta07, avaliacaoDetalhesMB.indicador.valor7, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta07}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor7}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta08, avaliacaoDetalhesMB.indicador.valor8, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta08}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor8}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta09, avaliacaoDetalhesMB.indicador.valor9, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta09}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor9}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta10, avaliacaoDetalhesMB.indicador.valor10, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta10}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor10}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta11, avaliacaoDetalhesMB.indicador.valor11, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta11}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor11}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta12, avaliacaoDetalhesMB.indicador.valor12, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta12}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor12}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<h:panelGrid columns="11">
+<!-- 					<h2>Análise Comparativa dos Indicadores de -->
+<!-- 						{avaliacaoMB.categoria}&nbsp;&nbsp;&nbsp;</h2> -->
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(1)}" />
+					<h:outputText value="&#160;&#160;100% da Meta&#160;&#160;&#160;" />
+
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(2)}" />
+					<h:outputText
+						value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" />
+
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(3)}" />
+					<h:outputText
+						value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" />
+
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(4)}" />
+					<h:outputText
+						value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" />
+
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(5)}" />
+					<h:outputText
+						value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" />
+				</h:panelGrid>
+			</div>
+
+			<div class="row"></div>
+			<!-- 			INDICADORES DE ****** -->
+			<h2>Ocorrências Registradas</h2>
+			<hr />
+
+			<div class="row">
+				<h:form>
+					<p:tabView id="tabViewIndicador">
+						<p:tab title="Ocorrências Relacionadas ao Indicador">
+							<p:dataGrid var="ocorencia"
+								value="#{avaliacaoDetalhesMB.listaOcorrenciasPorIndicador}"
+								columns="4" layout="grid" rows="6" paginator="true"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="12,16">
+								<p:panel style="text-align:center">
+									<h:panelGrid columns="1" style="width:100%">
+										<!-- 							<p:graphicImage name="demo/images/car/#{car.brand}.gif" /> -->
+										<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
+										<h:outputText value="#{ocorencia.titulo}" />
+
+										<p:commandLink oncomplete="PF('dlgOcorrencia').show()"
+											title="Ver Ocorrência" update=":frmModalSalvar"
+											actionListener="#{avaliacaoDetalhesMB.preencherOcorrencia(ocorencia)}">
+											<h:outputText styleClass="ui-icon ui-icon-search"
+												style="margin:0 auto;" />
+
+										</p:commandLink>
+									</h:panelGrid>
+								</p:panel>
+
+							</p:dataGrid>
+
+						</p:tab>
+						<p:tab title="Todas Ocorrências">
+							<p:dataGrid var="ocorencia"
+								value="#{avaliacaoDetalhesMB.listaTodasOcorrencias}" columns="4"
+								layout="grid" rows="6" paginator="true"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="12,16">
+								<p:panel style="text-align:center">
+									<h:panelGrid columns="1" style="width:100%">
+										<!-- 							<p:graphicImage name="demo/images/car/#{car.brand}.gif" /> -->
+										<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
+										<h:outputText value="#{ocorencia.titulo}" />
+
+										<p:commandLink oncomplete="PF('dlgOcorrencia').show()"
+											title="Ver Ocorrência" update=":frmModalSalvar"
+											actionListener="#{avaliacaoDetalhesMB.preencherOcorrencia(ocorencia)}">
+											<h:outputText styleClass="ui-icon ui-icon-search"
+												style="margin:0 auto;" />
+
+										</p:commandLink>
+									</h:panelGrid>
+								</p:panel>
+
+							</p:dataGrid>
+						</p:tab>
+
+						<p:tab title="Registrar Informações Referentes a Avaliação">
+
+							<p:editor
+								value="#{avaliacaoDetalhesMB.indicador.observacoesAnalises}" />
+							<p:commandButton value="Salvar Observações" update="mensagem" actionListener="#{avaliacaoDetalhesMB.salvarObservacaoAnalise()}"/>
+						</p:tab>
+					</p:tabView>
+				</h:form>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- DIALOG VISUALIZAR OCORRÊNCIA -->
+			<p:dialog header="Visualizar a Ocorrência" widgetVar="dlgOcorrencia"
+				modal="true" responsive="true" width="60%" id="dlgOcorrencia"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmModalSalvar">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Título</label><br />
+							<h:outputText escape="false"
+								value="#{avaliacaoDetalhesMB.elementosCores.statusCirculoPretoPequeno} #{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.titulo}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Data</label><br />
+							<h:outputText escape="false"
+								value="#{avaliacaoDetalhesMB.elementosCores.statusCirculoPretoPequeno} #{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.dataOcorrencia}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+							</h:outputText>
+						</div>
+
+						<div class="col-md-12">
+							<label>Atividade Logística</label><br />
+							<h:outputText escape="false"
+								value="#{avaliacaoDetalhesMB.elementosCores.statusCirculoPretoPequeno} #{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.atividade.descricao}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Indicador Relacionado </label><br />
+							<h:outputText escape="false"
+								value="#{avaliacaoDetalhesMB.elementosCores.statusCirculoPretoPequeno} #{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.indicadorRelacionado.descricao}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Descrição</label><br />
+							<h:outputText escape="true"
+								value="#{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.descricao}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Gravidade</label><br />
+							<h:outputText escape="false"
+								value="#{avaliacaoDetalhesMB.elementosCores.get(avaliacaoDetalhesMB.ocorrenciaVerDetalhes.gravidade)}" />
+						</div>
+
+					</div>
+					<div class="col-md-12">
+						<div class="modal-footer">
+							<p:commandButton value="Fechar"
+								onclick="PF('dlgOcorrencia').hide();" alt="Fechar" />
+						</div>
+					</div>
+
+				</h:form>
+
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+

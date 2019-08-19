@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_pontos_coleta_cidade" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="baa1f3dc-c6f9-468d-8bf1-4603aa267117">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="340"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="653"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<queryString>
+		<![CDATA[SELECT gestaofacil.estado.sigla,
+	gestaofacil.cidade.nome,
+	gestaofacil.cidade.id
+FROM gestaofacil.pessoa
+	INNER JOIN gestaofacil.cidade ON 
+	 gestaofacil.pessoa.cidade_id = gestaofacil.cidade.id 
+	 AND gestaofacil.pessoa.`cidadeResponsavel_id` = gestaofacil.cidade.id 
+	INNER JOIN gestaofacil.estado ON 
+	 gestaofacil.cidade.estado_id = gestaofacil.estado.id group by gestaofacil.cidade.id]]>
+	</queryString>
+	<field name="sigla" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="sigla"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estado"/>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cidade"/>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cidade"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="1" y="25" width="429" height="17" uuid="61e73a1e-0aaa-4d3d-bb39-94e8e2f6336a"/>
+				<textElement markup="html">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>Cidade:</b>  "+$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="2" y="0" width="550" height="20" forecolor="#030303" uuid="ccfc92b1-8f8b-4c9a-8de2-f19406ed05f2"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Relatório de Pontos de Coleta por Cidades - " +new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="486" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="800" height="486" uuid="5ba4d5cb-8c9f-49c5-8738-5fb69fc6f970"/>
+				<subreportParameter name="ID_CIDADE">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["sub_relatorio_pontos_coleta_cidades.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

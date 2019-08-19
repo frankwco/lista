@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dados_financeiros_romaneio" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="5" isFloatColumnFooter="true" uuid="8093127d-b1c8-489e-aa3e-b0fe059735e4">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="245"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="748"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="ID_FECHAMENTO_MES" class="java.lang.Long"/>
+	<parameter name="VALOR_MENSAL" class="java.lang.Double"/>
+	<parameter name="A_FATURAR" class="java.lang.Double"/>
+	<parameter name="FORMA_COBRANCA" class="java.lang.String"/>
+	<parameter name="VALOR_FINAL" class="java.lang.Double"/>
+	<parameter name="VALOR_TOTAL_PONTOS" class="java.lang.Double"/>
+	<parameter name="PESO_EXCEDENTE" class="java.lang.Double"/>
+	<parameter name="PESO_EXCEDENTE_VALOR" class="java.lang.Double"/>
+	<parameter name="PESO_TOTAL" class="java.lang.Double"/>
+	<queryString>
+		<![CDATA[SELECT gestaofacil.fechamento_mes_itens_ponto_coleta.`gruposCobradosParte`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`gruposFazemParteContrato`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`pesoColetadoGrupoParte`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`pesoColetadoGruposContrato`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`pesoExcedenteCobradoParte`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`pesoExcedenteGruposContrato`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`valorExcedenteGruposCobradosParte`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`valorExcedenteGruposContrato`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`valorFixoMensalCobradoParte`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`valorFixoMensalContratoPonto`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`valorTotal`,
+	gestaofacil.fechamento_mes_itens_ponto_coleta.`fechamentoMes_id`,
+	gestaofacil.pessoa.`nomeFantasia`,
+	gestaofacil.pessoa.`nomeRazaoSocial`,
+	(select gestaofacil.fechamento_mes_itens_ponto_coleta.`gruposFazemParteContrato` from 
+		gestaofacil.fechamento_mes_itens_ponto_coleta where 
+		gestaofacil.fechamento_mes_itens_ponto_coleta.`fechamentoMes_id` = $P{ID_FECHAMENTO_MES} limit 1
+	) as gruposContratoColuna
+FROM gestaofacil.fechamento_mes_itens_ponto_coleta
+	INNER JOIN gestaofacil.itens_informacoes_financeiras_ponto_coleta ON 
+	 gestaofacil.fechamento_mes_itens_ponto_coleta.`itensPontoColeta_id` = gestaofacil.itens_informacoes_financeiras_ponto_coleta.id 
+	INNER JOIN gestaofacil.ponto_coleta ON 
+	 gestaofacil.itens_informacoes_financeiras_ponto_coleta.`pontoColeta_id` = gestaofacil.ponto_coleta.id 
+	INNER JOIN gestaofacil.pessoa ON 
+	 gestaofacil.ponto_coleta.id = gestaofacil.pessoa.id 
+WHERE 
+	 gestaofacil.fechamento_mes_itens_ponto_coleta.`fechamentoMes_id` = $P{ID_FECHAMENTO_MES} GROUP BY    
+	 gestaofacil.fechamento_mes_itens_ponto_coleta.itensPontoColeta_id]]>
+	</queryString>
+	<field name="gruposCobradosParte" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="gruposCobradosParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="gruposFazemParteContrato" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="gruposFazemParteContrato"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="pesoColetadoGrupoParte" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoColetadoGrupoParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="pesoColetadoGruposContrato" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoColetadoGruposContrato"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="pesoExcedenteCobradoParte" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoExcedenteCobradoParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="pesoExcedenteGruposContrato" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoExcedenteGruposContrato"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="valorExcedenteGruposCobradosParte" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorExcedenteGruposCobradosParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="valorExcedenteGruposContrato" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorExcedenteGruposContrato"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="valorFixoMensalCobradoParte" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFixoMensalCobradoParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="valorFixoMensalContratoPonto" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFixoMensalContratoPonto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="valorTotal" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorTotal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="fechamentoMes_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="fechamentoMes_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes_itens_ponto_coleta"/>
+	</field>
+	<field name="nomeFantasia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeFantasia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="nomeRazaoSocial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeRazaoSocial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="gruposContratoColuna" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="gruposContratoColuna"/>
+	</field>
+	<variable name="SOMA_TOTAL" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorTotal}]]></variableExpression>
+	</variable>
+	<variable name="SOMA_TOTAL_GRUPOS_PARTE" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorExcedenteGruposCobradosParte}]]></variableExpression>
+	</variable>
+	<variable name="PESO_GRUPOS_PARTE" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{pesoColetadoGrupoParte}]]></variableExpression>
+	</variable>
+	<variable name="PESO_EXCEDENTE_CONTRATO" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{pesoExcedenteGruposContrato}]]></variableExpression>
+	</variable>
+	<variable name="VALOR_PESO_EXCEDENTE" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorExcedenteGruposContrato}]]></variableExpression>
+	</variable>
+	<variable name="VALOR_TOTAL_PONTOS" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorFixoMensalContratoPonto}]]></variableExpression>
+	</variable>
+	<variable name="PESO_TOTAL" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{pesoColetadoGruposContrato}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="350" height="20" uuid="451a2abe-1708-4af3-950c-7d642fad01ab"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Informações do Fechamento do Mês]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="0" width="129" height="20" uuid="71d84d9a-17db-41f8-a852-c1c0177bd2bf"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Classes fora da Franquia]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="143" height="40" uuid="b9922676-7c17-48eb-9c98-f85bdb5ac875">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="30fedcd8-27e3-4070-92f1-825976a703a2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[ Ponto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="0" width="79" height="40" uuid="178c6884-bc2d-4f9a-ac4d-adcccb908b6f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8b317107-9b63-4f8d-9889-b33ca975af09"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Classes / Kg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="0" width="48" height="40" uuid="94d38f14-7f43-4f35-a885-f370ca91fe18">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b024713c-b159-4b8d-a9bd-9f5e982688f0"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor Pontos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="0" width="81" height="40" uuid="41be27ad-f4e6-4299-8275-f4dc559a4fdc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="463ec2e1-2283-4217-9cfe-c6cb40d888c3"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Classes / Kg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="479" y="0" width="60" height="40" uuid="4d2103b8-3616-491f-90e4-772b5ccce80d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2131b4a1-9aa3-47c7-97ba-37022f646d3a"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total R$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="0" width="48" height="40" uuid="cfb9745d-0ce4-44bf-94b1-73c18af55abf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f1a94dd4-aec6-49f9-b2b7-0a4533544807"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[R$]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="270" y="0" width="80" height="40" uuid="edc1b9ae-3d9c-4eb7-8391-f7930f90d5b9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA["Kg Exced. / R$<br/>"+$F{gruposContratoColuna}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="-5" width="143" height="15" uuid="86938152-2d5b-42e5-adbb-29e93100100f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="30fedcd8-27e3-4070-92f1-825976a703a2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["&nbsp;"+$F{nomeRazaoSocial}+" - "+$F{nomeFantasia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="143" y="-5" width="79" height="15" uuid="0fd58909-706c-40f5-9c4f-ceb62de825a7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8b317107-9b63-4f8d-9889-b33ca975af09"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gruposFazemParteContrato} + "  /  " + new DecimalFormat("#,##0.000").format($F{pesoColetadoGruposContrato})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="222" y="-5" width="48" height="15" uuid="384002b2-ce66-4c0a-9508-1037c6f5cde3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b024713c-b159-4b8d-a9bd-9f5e982688f0"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorFixoMensalContratoPonto} > 0.0 ? new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorFixoMensalContratoPonto}).toString()+" " : "";]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="-5" width="80" height="15" uuid="ce301523-b4e9-4931-b5c5-2e00dd5fef0b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="70bb8170-2e28-4f9b-a283-11aac70fee16"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pesoExcedenteGruposContrato}>0.0 ?
+new DecimalFormat("#,###0.000", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{pesoExcedenteGruposContrato} ).toString()+" / " + new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorExcedenteGruposContrato}).toString()+" " : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="-5" width="81" height="15" uuid="14f0256e-848b-4bda-ac5f-cc9c945030c4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="463ec2e1-2283-4217-9cfe-c6cb40d888c3"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gruposCobradosParte} + " / "+ new DecimalFormat("#,###0.000", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{pesoColetadoGrupoParte}).toString()+" "]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="479" y="-5" width="60" height="15" uuid="b6a409f4-4286-4770-834a-3058f53dd611">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2131b4a1-9aa3-47c7-97ba-37022f646d3a"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorTotal}).toString()+" "]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="431" y="-5" width="48" height="15" uuid="b375d23a-e338-44e3-b5f1-7e4c4e4fdd01">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f1a94dd4-aec6-49f9-b2b7-0a4533544807"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorExcedenteGruposCobradosParte}).toString()+" "]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="26" splitType="Stretch">
+			<textField pattern="#,##0.00#">
+				<reportElement x="479" y="-5" width="60" height="15" uuid="049436e3-b1d7-4685-b78b-24c3c4374bde"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($P{VALOR_FINAL}).toString()+" "]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="431" y="-5" width="48" height="15" uuid="505e3f6c-c3c3-4529-bb0d-7919a1798f10"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format(($V{SOMA_TOTAL_GRUPOS_PARTE}==null?0:$V{SOMA_TOTAL_GRUPOS_PARTE})).toString()+" "]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000">
+				<reportElement x="350" y="-5" width="81" height="15" uuid="fdb58d67-5352-4ced-8d78-4be59038c97a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,###0.000", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format(($V{PESO_GRUPOS_PARTE}==null?0:$V{PESO_GRUPOS_PARTE})).toString()+" "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="-5" width="80" height="15" uuid="1f917ba7-b3c2-4a1e-a41a-486dc2e69fbf"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,###0.000", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($P{PESO_EXCEDENTE} ).toString()+" / " + new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($P{PESO_EXCEDENTE_VALOR}).toString()+" "]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="222" y="-5" width="48" height="15" uuid="420d3ea6-4e6f-47ed-9d5b-99d87aab93e7"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($P{VALOR_TOTAL_PONTOS}).toString()+" ";]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000">
+				<reportElement x="143" y="-5" width="79" height="15" uuid="4403fe0b-eb17-4b10-a871-f94599c630ee"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,###0.000", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($P{PESO_TOTAL}).toString()+" ";]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="-5" width="143" height="15" uuid="4c738dbb-4780-465b-9774-f095971ad0b2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="270" y="10" width="209" height="15" uuid="1bf077d8-dbd5-4d6a-8f6c-9a5d70b120a9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FORMA_COBRANCA}.equals("Anual") ?
+"A faturar ("+new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format(($P{VALOR_FINAL}== null ?  0:$P{VALOR_FINAL})).toString()+""+" - "+new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format(($P{VALOR_MENSAL}== null ?  0:$P{VALOR_MENSAL})).toString()+""+"):&nbsp;" : "A faturar:&nbsp;"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="479" y="10" width="60" height="15" uuid="dcf8ea4d-ba9d-4f9e-9fed-b9deeb675e04"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FORMA_COBRANCA}.equals("Anual") ?
+new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format((($P{VALOR_FINAL}== null ?  0:$P{VALOR_FINAL}) - ($P{VALOR_MENSAL}== null ?  0:$P{VALOR_MENSAL}))).toString()+" ": new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($P{VALOR_FINAL}).toString()+" "]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

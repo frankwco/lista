@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pontos_coleta_rotas_sub" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="812" leftMargin="15" rightMargin="15" topMargin="10" bottomMargin="15" uuid="73f6231d-f317-40bd-aa0f-df85a3af2cba">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="207"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="786"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="ID_ROTA" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT gestaofacil.ponto_coleta.id,
+	gestaofacil.pessoa.`nomeFantasia`,
+	gestaofacil.pessoa.`nomeRazaoSocial`,
+	gestaofacil.pessoa.cidade_id,
+	gestaofacil.pessoa.endereco,
+	gestaofacil.pessoa.numero,
+	gestaofacil.pessoa.status,
+	gestaofacil.pessoa.apelido,
+	gestaofacil.ponto_coleta.`razaoSocialCliente`,
+	ponto_coleta.ordem
+FROM gestaofacil.ponto_coleta
+	INNER JOIN gestaofacil.pessoa ON 
+	 gestaofacil.ponto_coleta.id = gestaofacil.pessoa.id 
+WHERE 
+	 gestaofacil.ponto_coleta.rota_id = $P{ID_ROTA} 
+	 AND gestaofacil.pessoa.status = true
+ORDER BY ponto_coleta.ordem asc, gestaofacil.ponto_coleta.`razaoSocialCliente` DESC,
+	gestaofacil.pessoa.`nomeRazaoSocial` ASC]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ponto_coleta"/>
+	</field>
+	<field name="nomeFantasia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeFantasia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="nomeRazaoSocial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeRazaoSocial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="cidade_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="cidade_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="endereco" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="endereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="status" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="apelido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="apelido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="razaoSocialCliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="razaoSocialCliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ponto_coleta"/>
+	</field>
+	<field name="ordem" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ordem"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ponto_coleta"/>
+	</field>
+	<variable name="CONTAR_REGISTRO" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{id}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="130" y="0" width="150" height="33" uuid="07ceaa50-5827-48b8-9cd5-90d24cc71df1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97e6edac-54ff-4e15-bd12-cb22d97c6939"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" PC "+$F{id}+"- "+$F{nomeRazaoSocial}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="280" y="0" width="150" height="33" uuid="50654858-5b1c-4b52-a549-5443ffbcd38f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97e6edac-54ff-4e15-bd12-cb22d97c6939"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$F{nomeFantasia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="430" y="0" width="147" height="33" uuid="48b0b1eb-a2b6-491e-a8f3-98f6ec66025d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97e6edac-54ff-4e15-bd12-cb22d97c6939"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+"("+$F{ordem}+") "+$F{endereco}+", "+$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ElementGroupHeight" x="667" y="0" width="143" height="33" uuid="71b4812d-cab7-4cc6-8b23-91771e720770">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97e6edac-54ff-4e15-bd12-cb22d97c6939"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="577" y="0" width="90" height="33" uuid="7be00628-2958-4860-80b5-71ccc42bd2eb"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{apelido}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="130" height="33" uuid="17d45b51-b4c9-4b64-a608-1ed4c7c3c5df">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97e6edac-54ff-4e15-bd12-cb22d97c6939"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{razaoSocialCliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="260" y="0" width="300" height="20" uuid="06d78564-c5e8-4611-bc95-717c7e5d1143"/>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL DE PONTOS: "+$V{CONTAR_REGISTRO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

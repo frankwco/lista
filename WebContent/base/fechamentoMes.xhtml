@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body id="entirePage">
+
+
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+
+
+
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- 		<p:blockUI id="blockUI" block=":entirePage" -->
+			<!-- 		trigger="btnBuscarFechamento" /> -->
+
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Fechamento do Mês</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO DOS BOTÕES -->
+			<h:form id="frmCadastrar">
+
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+					closable="false" resizable="false" showHeader="false">
+					<h:outputText style="font-weight:bold"
+						value="Aguarde, realizando operação...." />
+					<br />
+					<center>
+						<p:graphicImage name="img/aguarde.gif" />
+					</center>
+				</p:dialog>
+
+				<div class="row container-fluid">
+
+					<div class="col-md-12">
+						<p:dataTable var="list"
+							value="#{informacoesFinanceirasMB.listInformacoesFinanceiras}"
+							rowKey="#{list.id}" style="margin-bottom:0" rows="5"
+							paginator="true" paginatorPosition="bottom"
+							selection="#{fechamentoMesMB.informacaoesFinanceirasSelecionadas}"
+							emptyMessage="Nenhum Contrato Cadastrado!!"
+							rowsPerPageTemplate="5,10,15,30,50,100">
+							<p:ajax event="filter" global="false" />
+							<f:facet name="header">
+            Selecionar os Contratos para Realizar o Fechamento do Mês
+        </f:facet>
+							<p:column selectionMode="multiple"
+								style="width:50px;text-align:center" />
+							<p:column headerText="Cliente"
+								filterBy="#{list.cliente.nomeRazaoSocial}"
+								sortBy="#{list.cliente.nomeRazaoSocial}"
+								filterMatchMode="contains">
+
+								<h:outputText value="#{list.cliente.nomeRazaoSocial}" />
+							</p:column>
+
+
+							<p:column headerText="Pontos de Coleta"
+								filterMatchMode="contains"
+								filterBy="#{list.listaItensInformacoesFinanceiraPontoColetaString}"
+								style="white-space:normal !important;">
+								<h:outputText escape="false"
+									value="#{list.listaItensInformacoesFinanceiraPontoColetaString}" />
+							</p:column>
+
+						</p:dataTable>
+					</div>
+
+					<div class="col-md-12">
+						<ol class="breadcrumb">
+
+							<p:outputLabel value="Mês:" />
+
+							<p:selectOneMenu style="width:125px"
+								value="#{fechamentoMesMB.fechamentoMes.mes}">
+								<f:selectItem itemLabel="Todos" itemValue="0" />
+								<f:selectItem itemLabel="Janeiro" itemValue="1" />
+								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+								<f:selectItem itemLabel="Março" itemValue="3" />
+								<f:selectItem itemLabel="Abril" itemValue="4" />
+								<f:selectItem itemLabel="Maio" itemValue="5" />
+								<f:selectItem itemLabel="Junho" itemValue="6" />
+								<f:selectItem itemLabel="Julho" itemValue="7" />
+								<f:selectItem itemLabel="Agosto" itemValue="8" />
+								<f:selectItem itemLabel="Setembro" itemValue="9" />
+								<f:selectItem itemLabel="Outubro" itemValue="10" />
+								<f:selectItem itemLabel="Novembro" itemValue="11" />
+								<f:selectItem itemLabel="Dezembro" itemValue="12" />
+
+							</p:selectOneMenu>
+
+							<p:outputLabel value="&#160; &#160; &#160;Ano:" />
+							<p:selectOneMenu style="width:125px"
+								value="#{fechamentoMesMB.fechamentoMes.ano}">
+								<f:selectItem itemLabel="Todos" itemValue="0" />
+								<f:selectItem itemLabel="2019" itemValue="2019" />
+								<f:selectItem itemLabel="2020" itemValue="2020" />
+								<f:selectItem itemLabel="2021" itemValue="2022" />
+								<f:selectItem itemLabel="2023" itemValue="2023" />
+							</p:selectOneMenu>
+
+
+						</ol>
+					</div>
+
+					<div class="col-md-12">
+
+						<p:commandButton
+							value="Realizar Fechamento do MÊS dos Contratos Selecionados"
+							update=":frmModalConfirmarFechamento"
+							oncomplete="PF('dlgConfirmarFechamento').show()" />
+
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+						<p:commandButton
+							value="Realizar Fechamento do MÊS de TODOS CONTRATOS"
+							actionListener="#{fechamentoMesMB.fazerFechamentoMes('todos')}"
+							update=":frmTabela, :dlgInformacao">
+							<p:confirm header="Confirmação"
+								message="Tem certeza que deseja fazer o fechamento deste MÊS/ANO?" />
+						</p:commandButton>
+						<br /> <br />
+
+
+
+						<p:commandButton value="EXCLUIR TODOS Fechamento do MÊS"
+							update=":frmTabela, :dlgInformacao"
+							actionListener="#{fechamentoMesMB.inativarFechamentoMes(null)}">
+							<p:confirm header="Confirmação"
+								message="Tem certeza que deseja EXCLUIR o fechamento deste MÊS/ANO?" />
+						</p:commandButton>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+						<p:commandButton id="btnBuscarFechamento"
+							value="Buscar Fechamentos MÊS"
+							update=":frmTabela, :dlgInformacao"
+							actionListener="#{fechamentoMesMB.buscarFechamentoMes('')}" />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+						<p:commandButton value="Buscar Fechamentos com Excedente"
+							update=":frmTabela, :dlgInformacao"
+							actionListener="#{fechamentoMesMB.buscarFechamentoMes('excedente')}" />
+					</div>
+				</div>
+			</h:form>
+
+
+			<!-- FIM DOS BOTÕES -->
+
+			<!-- 			INÍCIO DA MOVIMENTAÇÃO -->
+
+			<h:form id="frmTabela">
+
+				<hr />
+				<h2>FAA: Pode constar faturamento anterior aberto</h2>
+				<!-- TABELA-->
+				<div class="col-md-12" style="min-height: 700px">
+					<p:dataTable id="tabela"
+						value="#{fechamentoMesMB.listaFechamentoMes}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Objeto Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100" editable="true"
+						editMode="cell">
+						<p:ajax event="filter" global="false" />
+						<p:column style="white-space:normal !important;" width="300"
+							sortBy="#{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}"
+							headerText="Informação Financeira"
+							filterBy="#{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}"
+							filterMatchMode="contains">
+							<h:outputText
+								value="#{list.informacaoFinanceira.id}-(#{list.id})#{list.informacaoFinanceira.cliente.id}-#{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}" />
+						</p:column>
+
+						<p:column headerText="Mes/Ano" width="50">
+							<h:outputText value="#{list.mes}/#{list.ano}" />
+						</p:column>
+
+						<p:column headerText="Data Fecham." width="80">
+							<h:outputText value="#{list.dataFechamento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Valor Final" width="50">
+							<h:outputText
+								value="#{formatarMB.formatarNumeroDuasCasasDecimais(list.valorFinal)}" />
+						</p:column>
+
+						<!-- 						<p:column headerText="À Receber" width="50"> -->
+						<!-- 							<h:outputText -->
+						<!-- 								value="{formatarMB.formatarNumeroDuasCasasDecimais(list.diferencaGerarContasPagar)}" /> -->
+						<!-- 						</p:column> -->
+
+						<p:column headerText="Excedente/Fat." width="100">
+							<!-- 							<h:outputText -->
+							<!-- 								value="#{formatarMB.formatarNumeroDuasCasasDecimais(list.valorExcedenteGruposContrato+list.valorExcedenteGruposCobradosParte+list.valorExcedenteTodosPontos)}" /> -->
+							<h:outputText
+								value="#{formatarMB.formatarNumeroDuasCasasDecimais(list.valorFaturar)}" />
+						
+								&nbsp;<p:graphicImage rendered="#{list.faturado==true}"
+								value="/resources/img/certo.png" width="20" />
+							<p:graphicImage rendered="#{list.faturado==false}"
+								value="/resources/img/errado.png" width="20" />
+								&nbsp;&nbsp;
+								<p:outputLabel rendered="#{list.fechamentoAnteriorAberto==true}"
+								value="FAA" />
+
+						</p:column>
+
+						<p:column headerText="Pagamento" width="60"
+							filterBy="#{list.informacaoFinanceira.formaCobrancaRecebimento}"
+							filterMatchMode="contains">
+							<h:outputText
+								value="#{list.informacaoFinanceira.formaCobrancaRecebimento}" />
+						</p:column>
+
+						<p:column headerText="Ações">
+							<p:panelGrid columns="1">
+
+								<p:commandButton value="Romaneio"
+									onclick="this.form.target='_blank'"
+									action="#{fechamentoMesMB.gerarRomaneio(list)}" ajax="false" />
+
+								<p:commandButton value="Certificado"
+									onclick="this.form.target='_blank'"
+									action="#{fechamentoMesMB.gerarCertificado(list)}" ajax="false" />
+
+
+
+								<p:commandButton value="Faturamento"
+									update="frmModalFaturamento, frmModalFaturamento:tabelaFaturamento"
+									oncomplete="PF('dlgFaturamento').show()"
+									actionListener="#{fechamentoMesMB.buscarFechamentoAberto(list)}">
+								</p:commandButton>
+
+
+								<p:commandButton
+									rendered="#{list.faturado==true and list.valorFaturar>0}"
+									value="Cancelar Fat." update="@form, :dlgInformacao"
+									actionListener="#{fechamentoMesMB.cancelarParcelaFechamento(list)}">
+									<p:confirm header="Confirmação"
+										message="Tem certeza que deseja cancelar o FATURAMENTO?" />
+								</p:commandButton>
+							</p:panelGrid>
+						</p:column>
+
+
+
+					</p:dataTable>
+
+				</div>
+
+			</h:form>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+
+			<p:dialog header="Faturamento Mês" widgetVar="dlgFaturamento"
+				modal="true" responsive="true" width="60%" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalFaturamento">
+
+					<h:outputText
+						value="#{fechamentoMesMB.fechamentoMesFaturamento.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}" />
+					<hr />
+					<p:dataTable id="tabelaFaturamento"
+						value="#{fechamentoMesMB.listaFechamentoMesExcedente}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Objeto Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100" editable="true"
+						editMode="cell">
+<p:ajax event="filter" global="false" />
+
+						<!-- 						<p:ajax event="rowEditCancel" listener="{dtEditView.onRowCancel}" -->
+						<!-- 							update=":form:msgs" /> -->
+
+
+						<!-- 						<p:column style="white-space:normal !important;" width="300" -->
+						<!-- 							sortBy="{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}" -->
+						<!-- 							headerText="Informação Financeira" -->
+						<!-- 							filterBy="{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}" -->
+						<!-- 							filterMatchMode="contains"> -->
+						<!-- 							<h:outputText -->
+						<!-- 								value="{list.informacaoFinanceira.id}-(#{list.id})#{list.informacaoFinanceira.cliente.id}-#{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}" /> -->
+						<!-- 						</p:column> -->
+
+						<p:column headerText="Mes/Ano" width="50">
+							<h:outputText value="#{list.mes}/#{list.ano}" />
+						</p:column>
+
+						<p:column id="colunaFaturado" width="130" headerText="Faturar?">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText rendered="#{list.faturado==true}" value="Sim" />
+									<h:outputText rendered="#{list.faturado==false}" value="Não" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu style="width:125px" value="#{list.faturado}">
+										<f:selectItem itemLabel="Não" itemValue="false" />
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<p:ajax update="valorDesconto" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+
+						<p:column headerText="Valor Final" width="50">
+							<h:outputText
+								value="#{formatarMB.formatarNumeroDuasCasasDecimais(list.valorFinal)}" />
+						</p:column>
+
+
+						<p:column headerText="Excedente/Fat." width="100">
+							<h:outputText
+								value="#{formatarMB.formatarNumeroDuasCasasDecimais(list.valorFaturar)}" />
+														
+								&nbsp;
+						</p:column>
+
+
+						<p:column headerText="Desconto" width="100">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText
+										value="#{formatarMB.formatarNumeroDuasCasasDecimais(list.valorDesconto)}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputNumber id="valorDesconto"
+										disabled="#{list.faturado==false}" decimalPlaces="2"
+										thousandSeparator="." decimalSeparator=","
+										title="Valor Fixo Mensal Ponto" value="#{list.valorDesconto}">
+										<p:ajax event="blur" update="tabelaFaturamento"
+											listener="#{fechamentoMesMB.calcularDescontoTotalAberto()}" />
+									</p:inputNumber>
+								</f:facet>
+							</p:cellEditor>
+								&nbsp;
+						</p:column>
+
+						<p:column headerText="Pagamento" width="60">
+							<h:outputText
+								value="#{list.informacaoFinanceira.formaCobrancaRecebimento}" />
+						</p:column>
+
+						<p:column headerText="Obs.">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{list.observacao}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{list.observacao}" />
+								</f:facet>
+							</p:cellEditor>
+								&nbsp;
+						</p:column>
+
+
+						<p:columnGroup type="footer" id="gga">
+							<p:row id="ggb">
+								<p:column colspan="3" style="text-align:right"
+									footerText="Valor Total: " />
+
+								<p:column
+									footerText="#{formatarMB.formatarNumeroDuasCasasDecimais(fechamentoMesMB.totalAberto)}" />
+								<p:column id="ggc"
+									footerText="#{formatarMB.formatarNumeroDuasCasasDecimais(fechamentoMesMB.totalDesconto)}" />
+								<p:column footerText="" />
+								<p:column footerText="" />
+
+							</p:row>
+						</p:columnGroup>
+
+					</p:dataTable>
+
+
+
+					<p:panelGrid>
+						<div class="ui-fluid">
+
+							<div class="col-md-6">
+								<label>Data do Vencimento: *</label>
+								<p:calendar required="true" requiredMessage="Data Obrigatória!!"
+									value="#{fechamentoMesMB.parcelaFechamento.dataVencimento}"
+									pattern="dd/MM/yyyy" />
+							</div>
+
+
+
+							<div class="col-md-6">
+								<label>Nosso Número: </label>
+								<p:inputText
+									value="#{fechamentoMesMB.parcelaFechamento.nossoNumero}" />
+							</div>
+
+							<br /> <br />
+							<div class="col-md-6" style="margin-top: 20px">
+								<p:commandButton
+									onkeypress="if (event.keyCode == 13) { return false; }"
+									value="Confirmar o Faturamento / Emissão Boleto dos SELECIONADOS"
+									update=":frmTabela, :dlgInformacao"
+									actionListener="#{fechamentoMesMB.salvarParcelaFechamento()}"
+									oncomplete="PF('dlgFaturamento').hide()">
+									<p:confirm header="Confirmação"
+										message="Tem certeza que deseja fazer/cancelar o faturamento?" />
+								</p:commandButton>
+							</div>
+
+						</div>
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+
+
+			<p:dialog header="Confirmar Fechamento"
+				widgetVar="dlgConfirmarFechamento" modal="true" responsive="true"
+				width="60%" closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmModalConfirmarFechamento">
+					<p:dataTable var="list"
+						value="#{fechamentoMesMB.informacaoesFinanceirasSelecionadas}"
+						style="margin-bottom:0" rows="5" paginator="true"
+						paginatorPosition="bottom"
+						emptyMessage="Nenhum Contrato Selecionado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+						<p:ajax event="filter" global="false" />
+						<f:facet name="header">
+           Contratos Selecionados para Realizar o Fechamento do Mês
+        </f:facet>
+						<p:column headerText="Cliente"
+							filterBy="#{list.cliente.nomeRazaoSocial}"
+							sortBy="#{list.cliente.nomeRazaoSocial}"
+							filterMatchMode="contains">
+							<h:outputText value="#{list.cliente.nomeRazaoSocial}" />
+						</p:column>
+
+						<p:column headerText="Pontos de Coleta" filterMatchMode="contains"
+							filterBy="#{list.listaItensInformacoesFinanceiraPontoColetaString}"
+							style="white-space:normal !important;">
+							<h:outputText escape="false"
+								value="#{list.listaItensInformacoesFinanceiraPontoColetaString}" />
+						</p:column>
+
+					</p:dataTable>
+					<br />
+
+					<p:commandButton
+						value="CONFIRMAR Fechamento do MÊS dos Contratos Selecionados"
+						update=":frmTabela, :dlgInformacao"
+						actionListener="#{fechamentoMesMB.fazerFechamentoMes('selecionados')}">
+						<p:confirm header="Confirmação"
+							message="Tem certeza que deseja fazer o fechamento deste MÊS/ANO?" />
+					</p:commandButton>
+				</h:form>
+			</p:dialog>
+
+
+
+
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

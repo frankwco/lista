@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<style>
+.ui-datatable table {
+	width: auto !important;
+}
+</style>
+</h:head>
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+		#{avaliacaoMB.init('Custo',0)}
+			<!-- TITULO -->
+			<div class="row">
+
+				<div class="col-md-12">
+					<h1 class="page-header">
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Avaliação de
+						Desempenho
+					</h1>
+				</div>
+			</div>
+			<h4>O que vamos Analisar??</h4>
+
+			<div class="row">
+				<h:form>
+					<div class="col-lg-3 col-xs-3">
+						<!-- small box -->
+						<div class="small-box bg-orange"
+							style="filter: opacity(#{avaliacaoMB.opacidadeCusto}%)">
+							<div class="inner">
+								<h3 style="font-size: 35px">Custo</h3>
+							</div>
+							<div class="icon">
+								<i class="fa fa-dollar" aria-hidden="true"></i>
+							</div>
+							<p:commandLink value="Selecionar"
+								actionListener="#{avaliacaoMB.escolherCategoriaCusto()}"
+								update="@form" class="small-box-footer" />
+							<!-- 						<a href="avaliacaoCustos.jsf" class="small-box-footer"><p:commandLink value="TEste"/> -->
+							<!-- 							<i class="fa fa-arrow-circle-right"></i> -->
+							<!-- 						</a> -->
+						</div>
+					</div>
+
+
+					<div class="col-lg-3 col-xs-3">
+						<!-- small box -->
+						<div class="small-box bg-blue"
+							style="filter: opacity(#{avaliacaoMB.opacidadeProdutividade}%)">
+							<div class="inner">
+								<h3 style="font-size: 35px">Produtividade</h3>
+							</div>
+							<div class="icon">
+								<i class="fa fa-line-chart" aria-hidden="true"></i>
+							</div>
+							<p:commandLink value="Selecionar"
+								actionListener="#{avaliacaoMB.escolherCategoriaProdutividade()}"
+								update="@form" class="small-box-footer" />
+
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-xs-3"
+						style="filter: opacity(#{avaliacaoMB.opacidadeQualidade}%)">
+						<!-- small box -->
+						<div class="small-box bg-green">
+							<div class="inner">
+								<h3 style="font-size: 35px">Qualidade</h3>
+							</div>
+							<div class="icon">
+								<i class="fa fa-star" aria-hidden="true"></i>
+							</div>
+							<p:commandLink value="Selecionar"
+								actionListener="#{avaliacaoMB.escolherCategoriaQualidade()}"
+								update="@form" class="small-box-footer" />
+
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-xs-3"
+						style="filter: opacity(#{avaliacaoMB.opacidadeTempo}%)">
+						<!-- small box -->
+						<div class="small-box bg-red">
+							<div class="inner">
+								<h3 style="font-size: 35px">Tempo</h3>
+							</div>
+							<div class="icon">
+								<i class="fa fa-clock-o" aria-hidden="true"></i>
+							</div>
+							<p:commandLink value="Selecionar"
+								actionListener="#{avaliacaoMB.escolherCategoriaTempo()}"
+								update="@form" class="small-box-footer" />
+
+						</div>
+					</div>
+
+
+				</h:form>
+			</div>
+
+			<div class="row">
+
+				<h:form>
+
+					<div class="col-md-12">
+
+						<h:panelGrid columns="10">
+
+							<p:outputLabel value="Mês:" />
+
+							<p:selectOneMenu style="width:125px" value="#{avaliacaoMB.mes}">
+								<f:selectItem itemLabel="Janeiro" itemValue="1" />
+								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+								<f:selectItem itemLabel="Março" itemValue="3" />
+								<f:selectItem itemLabel="Abril" itemValue="4" />
+								<f:selectItem itemLabel="Maio" itemValue="5" />
+								<f:selectItem itemLabel="Junho" itemValue="6" />
+								<f:selectItem itemLabel="Julho" itemValue="7" />
+								<f:selectItem itemLabel="Agosto" itemValue="8" />
+								<f:selectItem itemLabel="Setembro" itemValue="9" />
+								<f:selectItem itemLabel="Outubro" itemValue="10" />
+								<f:selectItem itemLabel="Novembro" itemValue="11" />
+								<f:selectItem itemLabel="Dezembro" itemValue="12" />
+
+							</p:selectOneMenu>
+
+							<p:outputLabel value="&#160; &#160; &#160;Ano:" />
+							<p:selectOneMenu style="width:125px" value="#{avaliacaoMB.ano}">
+								<f:selectItem itemLabel="2017" itemValue="2017" />
+								<f:selectItem itemLabel="2018" itemValue="2018" />
+								<f:selectItem itemLabel="2019" itemValue="2019" />
+								<f:selectItem itemLabel="2020" itemValue="2020" />
+								<f:selectItem itemLabel="2021" itemValue="2022" />
+							</p:selectOneMenu>
+
+							<h:outputLabel value=" &#160; &#160; &#160;Processos:" />
+							<p:selectCheckboxMenu value="#{avaliacaoMB.processos}"
+								label="Processos" multiple="true" filter="true"
+								filterMatchMode="startsWith" panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+ 							&#160; &#160; &#160;
+							<p:commandButton value="Buscar"
+								update="grafico1, formTabelaIndicadores"
+								actionListener="#{avaliacaoMB.graficoCategoriaIndicadorDataProcessoInit()}" />
+						</h:panelGrid>
+
+					</div>
+				</h:form>
+
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico1">
+
+						<p:chart type="bar" model="#{avaliacaoMB.combinedModel}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+
+			</div>
+			<!-- 			INDICADORES DE ****** -->
+			<hr />
+
+
+			<div class="row">
+				<h:panelGrid columns="11">
+					<h2>Análise Comparativa dos Indicadores de
+						#{avaliacaoMB.categoria}&nbsp;&nbsp;&nbsp;</h2>
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(1)}" />
+					<h:outputText value="&#160;&#160;100% da Meta&#160;&#160;&#160;" />
+
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(2)}" />
+					<h:outputText
+						value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" />
+
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(3)}" />
+					<h:outputText
+						value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" />
+
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(4)}" />
+					<h:outputText
+						value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" />
+
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(5)}" />
+					<h:outputText
+						value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" />
+				</h:panelGrid>
+			</div>
+
+			<div class="row">
+				<h:form id="formTabelaIndicadores">
+					<p:dataTable var="ind" value="#{avaliacaoMB.listaIndicadores}">
+						<f:facet name="header">
+           Indicadores
+        </f:facet>
+
+						<p:columnGroup type="header">
+							<p:row>
+								<p:column rowspan="3" headerText="Indicador" width="250" />
+							</p:row>
+							<p:row>
+								<p:column colspan="3"
+									headerText="Mês #{avaliacaoMB.mes-2}/#{avaliacaoMB.ano}" />
+								<p:column colspan="3"
+									headerText="Mês #{avaliacaoMB.mes-1}/#{avaliacaoMB.ano}" />
+								<p:column colspan="3"
+									headerText="Mês #{avaliacaoMB.mes}/#{avaliacaoMB.ano} - Pesquisado" />
+							</p:row>
+							<p:row>
+								<p:column headerText="Meta" />
+								<p:column headerText="Realizado" />
+								<p:column headerText="Estado" />
+								<p:column headerText="Meta" />
+								<p:column headerText="Realizado" />
+								<p:column headerText="Estado" />
+								<p:column headerText="Meta" />
+								<p:column headerText="Realizado" />
+								<p:column headerText="Estado" style="width:100px;" />
+							</p:row>
+						</p:columnGroup>
+
+						<p:column>
+							<p:commandLink
+								value="#{ind.abreviacao}: #{ind.descricao} - (Ideal: #{ind.metaMaiorMenorQue})"
+								action="#{avaliacaoMB.chamarDetalhes(ind)}" />
+						</p:column>
+
+						<p:column>
+							<h:outputText value="#{avaliacaoMB.getMeta2(ind)}" />
+						</p:column>
+
+						<p:column>
+							<h:outputText
+								rendered="#{avaliacaoMB.getRealizado2(ind).equals(avaliacaoMB.a)!=true}"
+								value="#{avaliacaoMB.getRealizado2(ind)}" />
+						</p:column>
+
+						<p:column>
+							<center>
+								<h:outputText escape="false"
+									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta2(ind), avaliacaoMB.getRealizado2(ind), ind.metaMaiorMenorQue)}" />
+							</center>
+						</p:column>
+
+						<p:column>
+							<h:outputText value="#{avaliacaoMB.getMeta1(ind)}" />
+						</p:column>
+
+						<p:column>
+							<h:outputText
+								rendered="#{avaliacaoMB.getRealizado1(ind).equals(avaliacaoMB.a)!=true}"
+								value="#{avaliacaoMB.getRealizado1(ind)}" />
+						</p:column>
+
+						<p:column>
+							<center>
+								<h:outputText escape="false"
+									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta1(ind), avaliacaoMB.getRealizado1(ind), ind.metaMaiorMenorQue)}" />
+							</center>
+						</p:column>
+
+						<p:column>
+							<h:outputText value="#{avaliacaoMB.getMeta(ind)}" />
+						</p:column>
+
+						<p:column>
+							<h:outputText
+								rendered="#{avaliacaoMB.getRealizado(ind).equals(avaliacaoMB.a)!=true}"
+								value="#{avaliacaoMB.getRealizado(ind)}" />
+						</p:column>
+
+						<p:column style="width:100px;">
+							<center>
+								<h:outputText escape="false"
+									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta(ind), avaliacaoMB.getRealizado(ind), ind.metaMaiorMenorQue)}" />
+							</center>
+						</p:column>
+
+
+					</p:dataTable>
+				</h:form>
+				<h:form>
+					<p:commandButton value="Verificar Variáveis de Cálculo"
+						update="frmDialogVariaveisCalculo"
+						actionListener="#{avaliacaoMB.preencherListaVariaveisCalculo()}"
+						oncomplete="PF('dlgVariaveisCalculo').show()" />
+				</h:form>
+			</div>
+
+			<p:dialog header="Variáveis de Cálculo"
+				widgetVar="dlgVariaveisCalculo" modal="true" responsive="true"
+				width="60%" closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmDialogVariaveisCalculo">
+					<p:dataTable value="#{avaliacaoMB.variaveisCalculo}"
+						resizableColumns="true" reflow="true" var="list" rows="20"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nada para exibir"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{list.descricao}" />
+						</p:column>
+						<p:column headerText="Mês #{avaliacaoMB.mes-2}/#{avaliacaoMB.ano}">
+							<h:outputText value="#{list.mesMenosDois}">
+<!-- 								<f:convertNumber pattern="¤ #,##0.00" currencySymbol="R$" /> -->
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Mês #{avaliacaoMB.mes-1}/#{avaliacaoMB.ano}">
+							<h:outputText value="#{list.mesMenosUm}">
+<!-- 								<f:convertNumber pattern="¤ #,##0.00" currencySymbol="R$" /> -->
+							</h:outputText>
+						</p:column>
+						<p:column
+							headerText="Mês #{avaliacaoMB.mes}/#{avaliacaoMB.ano} - Pesquisado">
+							<h:outputText value="#{list.mesAtual}">
+<!-- 								<f:convertNumber pattern="¤ #,##0.00" currencySymbol="R$" /> -->
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:dialog>
+
+			<!-- 			<div class="row"> -->
+			<!-- 				<h:panelGrid columns="10"> -->
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(1)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;100% da Meta&#160;&#160;&#160;" /> -->
+
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(2)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" /> -->
+
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(3)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" /> -->
+
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(4)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" /> -->
+
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(5)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" /> -->
+			<!-- 				</h:panelGrid> -->
+			<!-- 			</div> -->
+
+
+			<!-- FIM TITULO -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+

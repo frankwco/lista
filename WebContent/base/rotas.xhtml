@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Cadastro de Rotas</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Cadastrar" update=":frmModalSalvar"
+								actionListener="#{rotaMB.criarNovoObjeto()}"
+								onclick="PF('dlgRota').show(); PF('dlgRota').content.scrollTop('0')"
+								title="Cadastrar Estado" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela" value="#{rotaMB.listRota}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum administrador cadastrado"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+						<p:ajax event="filter" global="false" />
+						<p:column headerText="Nome" filterBy="#{list.nome}"
+							sortBy="#{list.nome}" filterMatchMode="contains">
+							<h:outputText value="#{list.nome}" />
+						</p:column>
+
+
+
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+
+								<p:commandButton alt="Alterar" icon="ui-icon-pencil"
+									update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block" oncomplete="PF('dlgRota').show();"
+									actionListener="#{rotaMB.preencherLista(list)}">
+								</p:commandButton>
+
+
+
+
+								<p:commandButton actionListener="#{rotaMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+
+							</p:panelGrid>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Estado" widgetVar="dlgRota" modal="true"
+				responsive="true" width="60%" id="dlgRota" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalSalvar">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Nome: *</label>
+							<p:inputText onkeyup="value=value.toUpperCase()" required="true"
+								title="Nome" value="#{rotaMB.rota.nome}" />
+						</div>
+
+
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Salvar"
+							actionListener="#{rotaMB.salvar()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela" />
+
+						<p:commandButton value="Cancelar" onclick="PF('dlgRota').hide();"
+							alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

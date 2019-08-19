@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<p:growl id="growl" autoUpdate="true" life="3000" showDetail="true"
+				sticky="false" />
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Para iniciar o processo de escolha dos
+						indicadores utilizaremos a metodologia S.M.A.R.T, clique no botão
+						"Analisar" para iniciar</h1>
+
+				</div>
+
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- TABELA-->
+			<div class="col-md-12">
+
+				<!-- 			INÍCIO DA TABELA COM SUBTABELA -->
+				<h:form id="formTabelaProcessoSub">
+					<p:dataTable var="processo" value="#{indicadorMB.listProcesso}">
+						<f:facet name="header">
+           				 Indicadores Cadastrados na Base de Dados
+        			</f:facet>
+						<p:subTable var="indicador" value="#{processo.indicadores}">
+							<f:facet name="header">
+								<h:outputText style="font-size: 16px; font-weight:bold;"
+									value="#{processo.descricao}" />
+							</f:facet>
+							<p:columnGroup type="header">
+								<p:row>
+									<p:column headerText="Grupo de Indicadores" />
+									<p:column headerText="Descrição" />
+									<p:column headerText="Selecionado para Avaliação?" />
+									<p:column headerText="Opções" width="150" />
+								</p:row>
+							</p:columnGroup>
+							<p:column>
+								<h:outputText value="#{indicador.categoriaIndicador.descricao}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{indicador.descricao}" />
+							</p:column>
+							<p:column>
+								<center>
+									<h:graphicImage width="25px"
+										rendered="#{indicador.utilizarAnalise == true}"
+										value="/resources/img/certo.png">
+									</h:graphicImage>
+
+									<h:graphicImage width="25px"
+										rendered="#{indicador.utilizarAnalise == false}"
+										value="/resources/img/errado.png">
+									</h:graphicImage>
+								</center>
+								<!-- 								<h:outputText rendered="#{indicador.utilizarAnalise == false}" -->
+								<!-- 									value="Não" /> -->
+								<!-- 								<h:outputText rendered="#{indicador.utilizarAnalise == true}" -->
+								<!-- 									value="Sim" /> -->
+							</p:column>
+							<p:column width="150">
+								<h:outputText value="Saiba Mais" /> &nbsp;&nbsp;&nbsp;&nbsp;
+								<p:commandLink rendered="#{indicador.utilizarAnalise == false}"
+									value="Analisar" update="frmDlgDefinirIndicador, dialogHeader"
+									onclick="PF('dlgDefinirIndicador').show();">
+									<f:setPropertyActionListener value="#{indicador}"
+										target="#{indicadorMB.indicador}" />
+								</p:commandLink>
+
+								<p:commandButton rendered="#{indicador.utilizarAnalise == true}"
+									value="Cancelar" update="@form"
+									actionListener="#{indicadorMB.removerIndicador(indicador)}">
+									<f:setPropertyActionListener value="#{indicador}"
+										target="#{indicadorMB.indicador}" />
+									<p:confirm header="Confirmação"
+										message="Deseja Remover o Indicador da Avaliação?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+						</p:subTable>
+					</p:dataTable>
+				</h:form>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+				<!-- 	FIM DA TABELA COM SUBTABELA -->
+
+			</div>
+			<!--FIM DA TABELA-->
+			<br />
+
+			<!-- BOTAO DOS BOTÕES -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+
+							<br />
+							<p:commandButton value="Resumo dos Indicadores Selecionados"
+								styleClass="ui-priority-primary" style="height:50px; width:100%"
+								actionListener="#{lancamentoMB.criarNovoObjeto()}"
+								onclick="PF('dlgLancamento').show(); PF('dlgLancamento').content.scrollTop('0')"
+								title="Cadastrar" />
+
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DOS BOTÕES -->
+
+
+			<!-- DIALOG ESCOLHER INDICADOR -->
+			<p:dialog widgetVar="dlgDefinirIndicador" modal="true"
+				responsive="true" width="740" id="dlgDefinirIndicador"
+				closeOnEscape="true" height="700" draggable="true">
+				<f:facet name="header">
+					<h:outputText id="dialogHeader"
+						value="#{indicadorMB.indicador.categoriaIndicador.descricao} de
+							#{indicadorMB.indicador.processo.descricao}:
+								#{indicadorMB.indicador.descricao}" />
+				</f:facet>
+
+				<h:form id="frmDlgDefinirIndicador">
+
+					<label>Metas dos Indicadores</label>
+					<p:commandLink style="color:#007bff; font-size:14px !important"
+						value="       Mais Informações? Clique aqui"
+						onclick="PF('dlgSaibaMais').show()" />
+
+					<h:panelGrid columns="2">
+						<label>Considerado Bom: </label>
+						<p:selectOneRadio
+							value="#{indicadorMB.indicador.metaMaiorMenorQue}">
+							<f:selectItem itemLabel="Menor/Igual Meta" itemValue="&lt;=Meta" />
+							<f:selectItem itemLabel="Maior/Igual Meta" itemValue=">=Meta" />
+						</p:selectOneRadio>
+					</h:panelGrid>
+
+
+					<h:panelGrid columns="6">
+						<h:outputText value=" Janeiro" />
+						<h:outputText value=" Fevereiro" />
+						<h:outputText value=" Março" />
+						<h:outputText value=" Abril" />
+						<h:outputText value=" Maio" />
+						<h:outputText value=" Junho" />
+						<p:inputText value="#{indicadorMB.indicador.meta01}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta02}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta03}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta04}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta05}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta06}" size="12" />
+						<h:outputText value=" Julho" />
+						<h:outputText value=" Agosto" />
+						<h:outputText value=" Setembro" />
+						<h:outputText value=" Outubro" />
+						<h:outputText value=" Novembro" />
+						<h:outputText value=" Dezembro" />
+						<p:inputText value="#{indicadorMB.indicador.meta07}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta08}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta09}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta10}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta11}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta12}" size="12" />
+
+					</h:panelGrid>
+
+					<h2>Você julga que o indicador/meta é??</h2>
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<h:panelGrid columns="5">
+								<h:graphicImage value="/resources/img/smart_2s.png" />
+								<h:graphicImage value="/resources/img/smart_2m.png" />
+								<h:graphicImage value="/resources/img/smart_2a.png" />
+								<h:graphicImage value="/resources/img/smart_2r.png" />
+								<h:graphicImage value="/resources/img/smart_2t.png" />
+
+								<p:selectOneButton value="#{indicadorMB.indicador.especifico}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
+
+								<p:selectOneButton value="#{indicadorMB.indicador.mensuravel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
+
+								<p:selectOneButton value="#{indicadorMB.indicador.atingivel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
+
+								<p:selectOneButton value="#{indicadorMB.indicador.relevante}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
+
+								<p:selectOneButton value="#{indicadorMB.indicador.temporizavel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
+
+							</h:panelGrid>
+						</div>
+					</div>
+
+
+					<br />
+					<label>Observações Pertinentes</label>
+					<p:editor value="#{indicadorMB.indicador.observacao}" width="650"
+						height="100" />
+
+					<p:commandButton value="Finalizar" update="frmDlgIncluirIndicador"
+						actionListener="#{indicadorMB.verificarSmart()}" />
+
+
+
+				</h:form>
+
+			</p:dialog>
+			<!-- FIM DO DIALOG ESCOLHER INDICADOR-->
+
+			<!-- DIALOG INCLUIR INDICADOR  -->
+			<p:dialog header="Indicador" widgetVar="dlgIncluirIndicador"
+				modal="true" responsive="true" width="60%" id="dlgIncluirIndicador"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmDlgIncluirIndicador">
+					<h1>
+						O Indicador <b>#{indicadorMB.indicador.descricao}</b>
+					</h1>
+					<h2>
+						<h:outputText escape="false" value="#{indicadorMB.naoEe}" />
+					</h2>
+					<h1>
+						<h:outputText escape="false" value="#{indicadorMB.mensagemNaoEe}" />
+					</h1>
+					<br />
+
+					<div class="modal-footer">
+						<p:commandButton value="Incluir"
+							onclick="PF('dlgDefinirIndicador').hide(); PF('dlgIncluirIndicador').hide();"
+							actionListener="#{indicadorMB.confirmarInclusaoIndicador('sim')}"
+							styleClass="ui-priority-primary" update=":formTabelaProcessoSub" />
+
+
+						<p:commandButton value="Não Incluir"
+							onclick="PF('dlgDefinirIndicador').hide(); PF('dlgIncluirIndicador').hide();"
+							styleClass="ui-priority-primary" />
+
+
+					</div>
+				</h:form>
+
+			</p:dialog>
+			<!-- FIM DO DIALOG INCLUIR INDICADOR-->
+
+			<!-- INÍCIO AJUDA INDICADDORES -->
+			<p:dialog header="Saiba Mais" widgetVar="dlgSaibaMais" modal="true"
+				responsive="true" width="60%" closable="true" closeOnEscape="true"
+				resizable="false" draggable="false">
+				<h:form id="frmSaibaMais">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Fórmula de Cálculo do Indicador:
+								#{indicadorMB.indicador.formulaIndicador}</label>
+						</div>
+					</div>
+
+				</h:form>
+			</p:dialog>
+			<!-- FIM AJUDA INDICADORES -->
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

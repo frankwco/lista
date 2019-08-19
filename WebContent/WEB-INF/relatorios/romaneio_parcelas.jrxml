@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="romaneio_parcelas" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="1" bottomMargin="10" isFloatColumnFooter="true" uuid="b353d5f4-8c4b-460a-9c5e-bffc7fed3106">
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="174"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="819"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="INFORMACAO_FINANCEIRA" class="java.lang.Long"/>
+	<parameter name="MES" class="java.lang.Integer"/>
+	<parameter name="ANO" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT gestaofacil.contas_receber_parcelas.`valorParcela`,
+	gestaofacil.contas_receber_parcelas.`dataVencimento`,
+	gestaofacil.contas_receber_parcelas.`referenteMes`,
+	gestaofacil.contas_receber_parcelas.`referenteAno`,
+	gestaofacil.contas_receber_parcelas.`fechamentoMes_id`,
+	gestaofacil.contas_receber_parcelas.`idInformacaoFinanceiraUnico`,
+	gestaofacil.contas_receber_parcelas.status,
+	gestaofacil.contas_receber_parcelas.boletoEmitido
+FROM gestaofacil.contas_receber_parcelas
+WHERE 
+	 gestaofacil.contas_receber_parcelas.`idInformacaoFinanceiraUnico` = $P{INFORMACAO_FINANCEIRA} AND 
+	 gestaofacil.contas_receber_parcelas.status is true AND 
+	 gestaofacil.contas_receber_parcelas.boletoEmitido is false AND
+	 gestaofacil.contas_receber_parcelas.`referenteMes` <=  $P{MES}  AND
+	gestaofacil.contas_receber_parcelas.`referenteAno` <=  $P{ANO} order by  gestaofacil.contas_receber_parcelas.`referenteMes`, 
+	gestaofacil.contas_receber_parcelas.`referenteAno`]]>
+	</queryString>
+	<field name="valorParcela" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorParcela"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contas_receber_parcelas"/>
+	</field>
+	<field name="dataVencimento" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="dataVencimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contas_receber_parcelas"/>
+	</field>
+	<field name="referenteMes" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="referenteMes"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contas_receber_parcelas"/>
+	</field>
+	<field name="referenteAno" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="referenteAno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contas_receber_parcelas"/>
+	</field>
+	<field name="fechamentoMes_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="fechamentoMes_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contas_receber_parcelas"/>
+	</field>
+	<field name="idInformacaoFinanceiraUnico" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="idInformacaoFinanceiraUnico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contas_receber_parcelas"/>
+	</field>
+	<field name="status" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contas_receber_parcelas"/>
+	</field>
+	<field name="boletoEmitido" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="boletoEmitido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contas_receber_parcelas"/>
+	</field>
+	<variable name="VALOR_TOTAL" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorParcela}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="340" height="20" uuid="8ba311ef-bbd9-4f70-9ac2-4e2b70ef1e16"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Valores em aberto"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="108" height="15" uuid="c7325c9a-8e59-45a9-9a12-80ca62ec99c0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="47339e38-3cca-4631-91b2-0b874c1f967d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Data Vencimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="108" y="0" width="100" height="15" uuid="e79699c4-37d5-498a-8b13-93b398b7ab1f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="de66bbec-c46f-44aa-a804-2d1f60bfedf9"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Mês de Referência]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="208" y="0" width="100" height="15" uuid="fc223a1d-7220-47b9-8536-bf374fc4b360">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6c4fb959-c914-410c-b4ee-488c9e06e99e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="108" height="15" uuid="7d7033fa-6531-4c9c-9495-b4ea3a23592a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="47339e38-3cca-4631-91b2-0b874c1f967d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataVencimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="0" width="100" height="15" uuid="24bfb936-07cf-4e9e-9fd6-5073935536e9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="de66bbec-c46f-44aa-a804-2d1f60bfedf9"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{referenteMes}+"/"+$F{referenteAno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="0" width="100" height="15" uuid="63251f9d-7b07-4c62-bb2f-b5b36907ac24">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6c4fb959-c914-410c-b4ee-488c9e06e99e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorParcela}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="208" y="0" width="100" height="15" uuid="4f8711b3-2fa6-4976-98bd-6168a5533bd7"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($V{VALOR_TOTAL}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="208" height="15" uuid="80315c08-973c-4c8e-bde0-c962ace732e0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Valot Total &nbsp;&nbsp;"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

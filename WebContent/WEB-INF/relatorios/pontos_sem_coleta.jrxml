@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pontos_sem_coleta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="da2b4960-b0b3-4716-b24f-6702fc3d634b">
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="249"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="744"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="DATA_INICIAL" class="java.lang.String"/>
+	<parameter name="DATA_FINAL" class="java.lang.String"/>
+	<parameter name="DATA_INICIAL_MOSTRAR" class="java.lang.String"/>
+	<parameter name="DATA_FINAL_MOSTRAR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+   gestaofacil.pessoa.`nomeRazaoSocial`,
+	gestaofacil.pessoa.`nomeFantasia`,
+    gestaofacil.pessoa.`endereco`,
+    gestaofacil.pessoa.`numero`,
+    gestaofacil.pessoa.`bairro`,
+    gestaofacil.cidade.nome,
+    gestaofacil.estado.sigla,
+    pessoa.id,
+    informacoes_financeiras.vigente
+FROM gestaofacil.ponto_coleta INNER JOIN gestaofacil.pessoa  ON  gestaofacil.ponto_coleta.id = gestaofacil.pessoa.id INNER JOIN gestaofacil.cidade ON gestaofacil.pessoa.`cidade_id` = gestaofacil.cidade.id INNER JOIN gestaofacil.estado ON gestaofacil.cidade.estado_id=gestaofacil.estado.id INNER JOIN itens_informacoes_financeiras_ponto_coleta on itens_informacoes_financeiras_ponto_coleta.pontoColeta_id = ponto_coleta.id INNER JOIN informacoes_financeiras on informacoes_financeiras.id = itens_informacoes_financeiras_ponto_coleta.informacoesFinanceiras_id WHERE not exists (SELECT *FROM coleta
+                       WHERE coleta.dataColeta BETWEEN  $P{DATA_INICIAL}  AND  $P{DATA_FINAL}  and coleta.pontoColeta_id = ponto_coleta.id and coleta.status = true) and ponto_coleta.status = true and informacoes_financeiras.vigente = true GROUP BY ponto_coleta.id ORDER BY gestaofacil.cidade.nome]]>
+	</queryString>
+	<field name="nomeRazaoSocial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeRazaoSocial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="nomeFantasia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeFantasia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="endereco" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="endereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="bairro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="bairro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cidade"/>
+	</field>
+	<field name="sigla" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="sigla"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estado"/>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="vigente" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="vigente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<variable name="TOTAL_PONTOS" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{id}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="23" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="3" y="0" width="550" height="20" forecolor="#030303" uuid="5e95a8c1-d862-4fc8-8be6-d3db9d6f596a"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Relatório emitido em: " +new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="22" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="2" y="0" width="552" height="20" forecolor="#030303" uuid="cb9c7d1a-b336-4d5b-b283-483aa33eaf36"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PONTOS SEM COLETA: "+  $P{DATA_INICIAL_MOSTRAR} +" ATÉ "+$P{DATA_FINAL_MOSTRAR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="250" height="25" backcolor="#F0EBEB" uuid="f966f033-a94c-4a4e-82ec-c229b34d226f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="aa96af81-19a0-4de0-a4ed-e2496f1cace7"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ponto de Coleta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="303" height="25" backcolor="#F0EBEB" uuid="f9651117-2633-4cd8-85f1-882869151c02">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="23ebb1fd-8675-41b5-9c65-909e13b1e1fb"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereço]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="2" y="0" width="248" height="20" uuid="c50b18e2-f4ab-43ac-b7fc-0ab5f4283cce">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="aa96af81-19a0-4de0-a4ed-e2496f1cace7"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nomeRazaoSocial}+" / " + $F{nomeFantasia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="250" y="2" width="303" height="18" uuid="9c037c0d-8c90-4bb7-b13d-f98fa2d4c931">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="23ebb1fd-8675-41b5-9c65-909e13b1e1fb"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" "+$F{endereco}+", "+$F{numero}+" - "+$F{nome}+"-"+$F{sigla}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="300" y="2" width="253" height="30" uuid="601d3aec-91d1-4fe9-af7e-9cfe9eca5d9e"/>
+				<textElement textAlignment="Right">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total de Pontos: "+$V{TOTAL_PONTOS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

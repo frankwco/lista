@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:outputText style="font-weight:bold"
+					value="Aguarde, realizando operação...." />
+				<br />
+				<center>
+					<p:graphicImage name="img/aguarde.gif" />
+				</center>
+			</p:dialog>
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Pontos de Coleta</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-3">
+
+					<h:form id="frmCadastrarPF">
+						<p:commandButton value="Cadastrar Ponto de Coleta"
+							update=":frmModalSalvar, :formCabecalhoPontoColeta"
+							actionListener="#{pontoColetaMB.criarNovoObjeto()}"
+							onclick="PF('dlgPontoColeta').show(); PF('dlgPontoColeta').content.scrollTop('0')"
+							title="Cadastrar Ponto Coleta" />
+					</h:form>
+
+
+				</div>
+
+				<div class="col-md-3">
+
+					<h:form>
+						<p:commandButton value="Relação de Pontos de Coleta por Cidades"
+							onclick="this.form.target='_blank'"
+							action="#{pontoColetaMB.gerarRelatorioPontosCidade()}"
+							ajax="false" />
+					</h:form>
+
+
+				</div>
+				<div class="col-md-3">
+					<h:form>
+						<p:commandButton value="Relação de Pontos de Coleta por Rotas"
+							onclick="this.form.target='_blank'"
+							action="#{pontoColetaMB.gerarRelatorioPontosRotas()}"
+							ajax="false" />
+					</h:form>
+				</div>
+				<div class="col-md-3">
+					
+
+				</div>
+			</div>
+
+			<!-- 			<div class="row container-fluid" style="margin-top: 20px"> -->
+			<!-- 				<h:form> -->
+			<!-- 					<div class="col-md-2"> -->
+			<!-- 						<h:outputText value="Pesquisar por Rota: " /> -->
+			<!-- 					</div> -->
+			<!-- 					<div class="col-md-4"> -->
+			<!-- 						<p:selectOneMenu style="width:100%" -->
+			<!-- 							value="{pontoColetaMB.rotaSelecionada}" -->
+			<!-- 							converter="{converterRota}" panelStyle="width:180px" -->
+			<!-- 							effect="fade" var="t" filter="true" filterMatchMode="contains"> -->
+			<!-- 							<f:selectItems value="{rotaMB.listRota}" var="cur" -->
+			<!-- 								itemLabel="{cur}" itemValue="{cur}" /> -->
+			<!-- 							<p:column style="white-space:normal !important;"> -->
+			<!-- 								<h:outputText value="{t}" /> -->
+			<!-- 							</p:column> -->
+			<!-- 						</p:selectOneMenu> -->
+
+			<!-- 					</div> -->
+			<!-- 					<div class="col-md-4"> -->
+			<!-- 						<p:commandButton value="Pesquisar" /> -->
+			<!-- 					</div> -->
+
+
+
+			<!-- 				</h:form> -->
+			<!-- 			</div> -->
+			<br />
+
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela" value="#{pontoColetaMB.listPontoColeta}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						rowKey="#{list.id}" paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Ponto de Coletas Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100"
+						selection="#{pontoColetaMB.pontosColetaAlterarRota}">
+						<p:ajax event="filter" global="false" />
+						<f:facet name="header">
+            Para alterar as rotas, selecione os pontos e clique em no botão Alterar Rota dos Pontos Selecionados
+        </f:facet>
+						<p:column selectionMode="multiple"
+							style="width:50px;text-align:center" />
+						<p:column headerText="Cliente"
+							style="white-space:normal !important;"
+							filterBy="#{list.cliente.nomeRazaoSocialNomeFantasia}"
+							sortBy="#{list.cliente.nomeRazaoSocialNomeFantasia}"
+							filterMatchMode="contains">
+							<h:outputText value="#{list.cliente.nomeRazaoSocialNomeFantasia}" />
+						</p:column>
+
+						<p:column headerText="Nome/Razão"
+							style="white-space:normal !important;"
+							filterBy="#{list.nomeRazaoSocialNomeFantasia}"
+							sortBy="#{list.nomeRazaoSocialNomeFantasia}"
+							filterMatchMode="contains">
+							<h:outputText value="#{list.nomeRazaoSocialNomeFantasia}" />
+						</p:column>
+
+						<p:column headerText="Endereço" filterBy="#{list.endereco}"
+							style="white-space:normal !important;" sortBy="#{list.endereco}"
+							filterMatchMode="contains">
+							<h:outputText value="#{list.endereco}-#{list.numero}" />
+						</p:column>
+
+						<p:column headerText="Cidade" filterBy="#{list.cidade.nome}"
+							sortBy="#{list.cidade.nome}" filterMatchMode="contains">
+							<h:outputText
+								value="#{list.cidade.nome}-#{list.cidade.estado.nome}" />
+						</p:column>
+
+						<p:column headerText="Rota-Ordem" filterBy="#{list.rota.nome}"
+							sortBy="#{list.rota.nome}" filterMatchMode="contains">
+							<h:outputText value="#{list.rota.nome} - " />
+							<h:outputText value="#{list.ordem}" />
+						</p:column>
+
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton alt="Alterar" icon="ui-icon-pencil"
+									update=":frmModalSalvar, :formCabecalhoPontoColeta"
+									title="Alterar" styleClass="btn btn-block"
+									oncomplete="PF('dlgPontoColeta').show();"
+									actionListener="#{pontoColetaMB.preencherLista(list)}">
+								</p:commandButton>
+
+
+
+								<p:commandButton alt="Alterar Ordem" icon="fa fa-list"
+									update=":formAlterarOrdemRota" title="Alterar Ordem"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgAlterarOrdemRota').show();"
+									actionListener="#{pontoColetaMB.preencherLista(list)}">
+								</p:commandButton>
+
+								<p:commandButton
+									actionListener="#{pontoColetaMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+
+							</p:panelGrid>
+						</p:column>
+
+
+
+					</p:dataTable>
+					<br/>
+					
+					<p:commandButton alt="Alterar Rota" 
+						value="Alterar Rota dos Pontos Selecionados"
+						update=":formAlterarRota" title="Alterar Rota"
+						styleClass="btn btn-block"
+						oncomplete="PF('dlgAlterarRotaPontoColeta').show();">
+					</p:commandButton>
+					
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+			<!-- DIALOG ALTERAR ROTA -->
+			<p:dialog header="Alterar Rota do Ponto de Coleta"
+				widgetVar="dlgAlterarRotaPontoColeta" modal="true" responsive="true"
+				width="50%" id="dlgAlterarRotaPontoColeta" closable="true"
+				closeOnEscape="true" resizable="false" height="150"
+				draggable="false">
+				<h:form id="formAlterarRota">
+
+					
+					<div class="col-md-3">
+						<h:outputText value="Rota: " />
+					</div>
+					<div class="col-md-6">
+						<p:selectOneMenu style="width:100%"
+							value="#{pontoColetaMB.pontoColeta.rota}"
+							converter="#{converterRota}" panelStyle="width:180px"
+							effect="fade" var="t" filter="true" filterMatchMode="contains">
+							<f:selectItems value="#{rotaMB.listRota}" var="cur"
+								itemLabel="#{cur}" itemValue="#{cur}" />
+							<p:column style="white-space:normal !important;">
+								<h:outputText value="#{t}" />
+							</p:column>
+						</p:selectOneMenu>
+
+					</div>
+					
+					<div class="col-md-3">
+						<p:commandButton value="Salvar"
+							actionListener="#{pontoColetaMB.alterarRota()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela" />
+					</div>
+					<br/>
+					
+					<div class="col-md-12">
+
+					<p:dataTable id="tabelass"
+						value="#{pontoColetaMB.pontosColetaAlterarRota}"
+						resizableColumns="true" reflow="true" var="list" rows="5"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Ponto de Coletas Selecionado"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+						<p:ajax event="filter" global="false" />
+
+						<p:column headerText="Cliente"
+							style="white-space:normal !important;"
+							filterBy="#{list.cliente.nomeRazaoSocialNomeFantasiaEndereco}"
+							sortBy="#{list.cliente.nomeRazaoSocialNomeFantasiaEndereco}"
+							filterMatchMode="contains">
+							<h:outputText
+								value="#{list.cliente.nomeRazaoSocialNomeFantasiaEndereco}" />
+						</p:column>
+
+						<p:column headerText="Nome/Razão"
+							style="white-space:normal !important;"
+							filterBy="#{list.nomeRazaoSocialNomeFantasiaEndereco}"
+							sortBy="#{list.nomeRazaoSocialNomeFantasiaEndereco}"
+							filterMatchMode="contains">
+							<h:outputText value="#{list.nomeRazaoSocialNomeFantasiaEndereco}" />
+						</p:column>
+
+					</p:dataTable>
+					</div>
+					<br />
+
+					
+
+
+
+				</h:form>
+			</p:dialog>
+
+			<!-- DIALOG ALTERAR ROTA -->
+			<p:dialog header="Alterar Ordem Rota" widgetVar="dlgAlterarOrdemRota"
+				modal="true" responsive="true" width="50%" id="dlgAlterarOrdemRota"
+				closable="true" closeOnEscape="true" resizable="false" height="150"
+				draggable="false">
+				<h:form id="formAlterarOrdemRota">
+					<h:outputText
+						value="#{pontoColetaMB.pontoColeta.nomeRazaoSocialNomeFantasiaEndereco}" />
+					<br />
+					<br />
+					<div class="col-md-2">
+						<h:outputText value="Rota: " />
+					</div>
+					<div class="col-md-4">
+						<p:inputText required="true" requiredMessage="Ordem Obrigatória!"
+							value="#{pontoColetaMB.pontoColeta.ordem}" />
+
+					</div>
+					<div class="col-md-4">
+						<p:commandButton value="Salvar"
+							actionListener="#{pontoColetaMB.alterarOrdemRota()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela" />
+					</div>
+
+
+
+				</h:form>
+			</p:dialog>
+
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Ponto de Coleta" widgetVar="dlgPontoColeta"
+				modal="true" responsive="true" width="60%" id="dlgPontoColeta"
+				closable="true" closeOnEscape="true" resizable="false" height="900"
+				draggable="false">
+
+
+				<h:form id="formCabecalhoPontoColeta">
+					<p:panelGrid rendered="#{pontoColetaMB.pontoColeta.id==null}">
+						<h2>Selecione a forma de cadastro e o Cliente</h2>
+					</p:panelGrid>
+
+					<p:panelGrid rendered="#{pontoColetaMB.pontoColeta.id!=null}">
+						<center>
+							<h2>#{pontoColetaMB.pontoColeta.modeloCadastroPonto}</h2>
+						</center>
+					</p:panelGrid>
+					<div class="ui-fluid">
+						<p:panelGrid rendered="#{pontoColetaMB.pontoColeta.id==null}"
+							columns="1" columnClasses="ui-grid-col-12" layout="grid"
+							styleClass="ui-panelgrid-blank ui-fluid">
+
+							<p:selectOneButton
+								disabled="#{pontoColetaMB.pontoColeta.id!=null}"
+								value="#{pontoColetaMB.modeloCadastroPonto}">
+								<f:selectItem
+									itemLabel="Ponto de Coleta com os Dados do Cliente"
+									itemValue="Ponto de Coleta com os Dados do Cliente" />
+								<f:selectItem itemLabel="Novo Ponto de Coleta para o Cliente"
+									itemValue="Novo Ponto de Coleta para o Cliente" />
+								<p:ajax update="frmModalSalvar, @form"
+									listener="#{pontoColetaMB.selecionarFormaCadastro()}" />
+							</p:selectOneButton>
+
+						</p:panelGrid>
+						<p:panelGrid columns="2"
+							columnClasses="ui-grid-col-1,ui-grid-col-11" layout="grid"
+							styleClass="ui-panelgrid-blank ui-fluid">
+							<p:outputLabel value="Cliente:*" />
+
+							<p:autoComplete id="autoCompleteSelecionarCliente"
+								dropdown="true" disabled="#{pontoColetaMB.pontoColeta.id!=null}"
+								value="#{pontoColetaMB.pontoColeta.cliente}" scrollHeight="170"
+								completeMethod="#{clienteMB.completar}" forceSelection="true"
+								converter="#{converterCliente}" var="cur"
+								itemLabel="#{cur.nomeRazaoSocialNomeFantasiaEndereco}"
+								itemValue="#{cur}">
+								<p:ajax update="frmModalSalvar, @form, :dlgInformacao"
+									event="itemSelect"
+									listener="#{pontoColetaMB.cadastrarPontoColetaDadosCliente()}" />
+							</p:autoComplete>
+							<!-- 							<p:commandButton value="OK" update="frmModalSalvar" -->
+							<!-- 								actionListener="{pontoColetaMB.mostrar()}" /> -->
+						</p:panelGrid>
+
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+							layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+							<p:selectOneButton id="selecionarTipoPessoa"
+								rendered="#{pontoColetaMB.pontoColeta.cliente!=null and pontoColetaMB.modeloCadastroPonto=='Novo Ponto de Coleta para o Cliente'}"
+								disabled="#{pontoColetaMB.pontoColeta.id!=null}"
+								value="#{pontoColetaMB.pontoColeta.tipoPessoa}">
+								<f:selectItem itemLabel="Pessoa Física" itemValue="Física" />
+								<f:selectItem itemLabel="Pessoa Jurídica" itemValue="Jurídica" />
+								<p:ajax update="frmModalSalvar" />
+							</p:selectOneButton>
+
+						</p:panelGrid>
+
+					</div>
+
+				</h:form>
+
+				<h:form id="frmModalSalvar">
+
+					<p:tabView activeIndex="#{pontoColetaMB.tabAtiva}"
+						rendered="#{pontoColetaMB.pontoColeta.cliente!=null}">
+						<p:tab
+							title="Dados Gerais - Pessoa #{pontoColetaMB.pontoColeta.tipoPessoa}">
+							<div class="ui-fluid">
+
+								<!-- início pessoa física -->
+								<p:panelGrid
+									rendered="#{pontoColetaMB.pontoColeta.tipoPessoa=='Física'}">
+									<div class="col-md-12">
+										<label>Nome: *</label>
+										<p:inputText title="Nome" required="true"
+											requiredMessage="Nome Obrigatório"
+											onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											value="#{pontoColetaMB.pontoColeta.nomeRazaoSocial}" />
+									</div>
+
+									<div class="col-md-8">
+										<label>Nome Fantasia: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											title="Nome Fantasia"
+											value="#{pontoColetaMB.pontoColeta.nomeFantasia}" />
+									</div>
+
+									<div class="col-md-4">
+										<label>Complemento do Nome: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											onblur="value=value.toUpperCase()" title="Complemento"
+											value="#{pontoColetaMB.pontoColeta.apelido}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>CPF: * <small>Colocar 00000000000 caso
+												não exista CPF</small></label>
+										<p:inputMask validator="validacaoCPF" required="true"
+											requiredMessage="CPF Obrigatório"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											mask="999.999.999-99" title="CPF"
+											value="#{pontoColetaMB.pontoColeta.cpfCnpj}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>RG: *</label>
+										<p:inputText
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											title="RG"
+											value="#{pontoColetaMB.pontoColeta.rgInscricaoEstadual}" />
+									</div>
+								</p:panelGrid>
+								<!-- final pessoa física -->
+
+
+								<!-- início pessoa jurídica -->
+								<p:panelGrid
+									rendered="#{pontoColetaMB.pontoColeta.tipoPessoa=='Jurídica'}">
+									<div class="col-md-12">
+										<label>Razão Social: *</label>
+										<p:inputText required="true"
+											requiredMessage="Razão Social Obrigatório"
+											onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											title="Razão Social"
+											value="#{pontoColetaMB.pontoColeta.nomeRazaoSocial}" />
+									</div>
+									<div class="col-md-8">
+										<label>Nome Fantasia: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											title="Nome Fantasia"
+											value="#{pontoColetaMB.pontoColeta.nomeFantasia}" />
+									</div>
+
+									<div class="col-md-4">
+										<label>Complemento do Nome: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											onblur="value=value.toUpperCase()" title="Complemento"
+											value="#{pontoColetaMB.pontoColeta.apelido}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>CNPJ: * <small>Colocar 00000000000000
+												caso não exista CNPJ</small></label>
+										<p:inputMask validator="validacaoCNPJ" required="true"
+											requiredMessage="CNPJ Obrigatório"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											mask="99.999.999/9999-99" title="CNPJ"
+											value="#{pontoColetaMB.pontoColeta.cpfCnpj}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>Inscrição Estadual: *</label>
+										<p:inputText
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											title="Inscrição Estadual"
+											value="#{pontoColetaMB.pontoColeta.rgInscricaoEstadual}" />
+									</div>
+								</p:panelGrid>
+								<!-- final pessoa jurídica -->
+
+
+
+								<div class="col-md-10">
+									<label>Logradouro: *</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										title="Nome" value="#{pontoColetaMB.pontoColeta.endereco}" />
+								</div>
+
+								<div class="col-md-2">
+									<label>Número: *</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										title="Nome" value="#{pontoColetaMB.pontoColeta.numero}" />
+								</div>
+
+								<div class="col-md-4">
+									<label>Edifício: *</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.edificio}" />
+								</div>
+
+								<div class="col-md-4">
+									<label>Sala: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.sala}" />
+								</div>
+
+								<div class="col-md-4">
+									<label>Andar: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.andar}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Bairro: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.bairro}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>CEP: </label>
+									<p:inputMask mask="99999-999"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										value="#{clienteMB.cliente.cep}" />
+								</div>
+
+
+								<div class="col-md-6">
+									<label>Complemento: </label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()" title="Nome"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.sala}" />
+								</div>
+
+
+								<div class="col-md-6">
+									<label>Cidade: *</label>
+									<p:autoComplete dropdown="true"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.cidade}" scrollHeight="170"
+										completeMethod="#{cidadeMB.completar}" forceSelection="true"
+										converter="#{converterCidade}" var="cur" itemLabel="#{cur}"
+										itemValue="#{cur}">
+									</p:autoComplete>
+								</div>
+
+								<div class="col-md-6">
+									<label>E-mail: </label>
+									<p:inputText title="E-mail" onkeyup="value=value.toLowerCase()"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.email}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>E-mail 2: </label>
+									<p:inputText onkeyup="value=value.toLowerCase()" title="E-mail"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.email2}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Telefone 1:</label>
+									<p:inputMask autoClear="false" mask="(99)99999-9999"
+										title="Telefone 1"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										value="#{pontoColetaMB.pontoColeta.telefone1}" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Telefone 2:</label>
+									<p:inputMask autoClear="false" mask="(99)99999-9999"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										title="Telefone 2"
+										value="#{pontoColetaMB.pontoColeta.telefone2}" />
+								</div>
+
+								<p:panelGrid
+									rendered="#{pontoColetaMB.pontoColeta.tipoPessoa=='Jurídica'}">
+									<div class="col-md-12">
+										<label>Responsável/Contato: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											onblur="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											title="Responsável"
+											value="#{pontoColetaMB.pontoColeta.responsavel}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>CPF do Responsável: *</label>
+										<p:inputMask validatorMessage="CPF Inválido"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											requiredMessage="CPF Obrigatório" validator="validacaoCPF"
+											mask="999.999.999-99" title="E-mail"
+											value="#{pontoColetaMB.pontoColeta.cpfResponsavel}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>RG do Responsável: *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											onblur="value=value.toUpperCase()" title="RG"
+											value="#{pontoColetaMB.pontoColeta.rgResponsavel}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>Endereço Responsável (Rua, número e bairro): *</label>
+										<p:inputText onkeyup="value=value.toUpperCase()"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											onblur="value=value.toUpperCase()"
+											title="Endereço Responsável"
+											value="#{pontoColetaMB.pontoColeta.enderecoResponsavel}" />
+									</div>
+
+									<div class="col-md-6">
+										<label>Cidade do Responsável: *</label>
+										<p:autoComplete dropdown="true"
+											disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+											value="#{pontoColetaMB.pontoColeta.cidadeResponsavel}"
+											scrollHeight="170" completeMethod="#{cidadeMB.completar}"
+											forceSelection="true" converter="#{converterCidade}"
+											var="cur" itemLabel="#{cur}" itemValue="#{cur}">
+										</p:autoComplete>
+									</div>
+
+								</p:panelGrid>
+
+								<div class="col-md-12">
+									<label>Observação:</label>
+									<p:inputText onkeyup="value=value.toUpperCase()"
+										onblur="value=value.toUpperCase()"
+										disabled="#{pontoColetaMB.pontoColeta.modeloCadastroPonto=='Ponto de Coleta com os Dados do Cliente'}"
+										title="Observação"
+										value="#{pontoColetaMB.pontoColeta.observacao}" />
+								</div>
+
+
+								<small>Campos obrigatórios *</small>
+							</div>
+
+
+						</p:tab>
+
+						<p:tab disabled="true" title="Dados Financeiros">
+							<div class="ui-fluid">
+								<h:panelGrid columns="2">
+									<div class="col-md-12">
+										<label>Contrato Gerado pelo Cliente: *</label>
+										<p:selectBooleanButton disabled="true"
+											value="#{pontoColetaMB.pontoColeta.cliente.contratoGeradoCliente}"
+											onLabel="Sim" offLabel="Não"
+											style="width:60px; margin-bottom:10px" />
+									</div>
+
+									<div class="col-md-12">
+										<label>Um Contrato para Todos Pontos: *</label>
+										<p:selectBooleanButton disabled="true"
+											value="#{pontoColetaMB.pontoColeta.cliente.umContratoTodosPontos}"
+											onLabel="Sim" offLabel="Não"
+											style="width:60px; margin-bottom:10px" />
+									</div>
+									<div class="col-md-12">
+										<label>Um Boleto para Todos Pontos: *</label>
+										<p:selectBooleanButton disabled="true"
+											value="#{pontoColetaMB.pontoColeta.cliente.umBoletoTodosPontos}"
+											onLabel="Sim" offLabel="Não"
+											style="width:60px; margin-bottom:10px" />
+									</div>
+									<div class="col-md-12">
+										<label>Existe um Valor Fixo Mensal?: *</label>
+										<p:selectOneMenu id="console" disabled="true"
+											value="#{pontoColetaMB.pontoColeta.cliente.existeValorFixoMensal}"
+											style="margin-bottom:10px">
+											<f:selectItem itemLabel="Não" itemValue="Não" />
+											<f:selectItem itemLabel="Mensal por Ponto"
+												itemValue="Mensal por Ponto" />
+											<f:selectItem itemLabel="Mensal para todos Pontos"
+												itemValue="Mensal para todos Pontos" />
+											<p:ajax update="inputFixoMensalPonto, inputFixoMensalTotal" />
+										</p:selectOneMenu>
+									</div>
+
+								</h:panelGrid>
+
+								<div class="col-md-6">
+									<label>Valor Fixo Mensal Pontos: *</label>
+									<p:inputText title="Valor Fixo Mensal Ponto"
+										id="inputFixoMensalPonto"
+										value="#{pontoColetaMB.pontoColeta.cliente.valorFixoMensalPonto}"
+										disabled="true" />
+								</div>
+
+								<div class="col-md-6">
+									<label>Valor Fixo Mensal Total: *</label>
+									<p:inputText title="Valor Fixo Mensal Total"
+										id="inputFixoMensalTotal"
+										value="#{pontoColetaMB.pontoColeta.cliente.valorFixoMensalTotal}"
+										disabled="true" />
+								</div>
+
+
+
+								<br />
+
+								<div class="col-md-12">
+									<label>Cobra Valor Excedente: *&nbsp;&nbsp;</label>
+									<p:selectBooleanButton disabled="true"
+										value="#{pontoColetaMB.pontoColeta.cliente.cobraExcedente}"
+										onLabel="Sim" offLabel="Não"
+										style="width:60px; margin-bottom:10px; margin-top:5px">
+										<p:ajax update="inputPesoMensal, inputValorExcedente" />
+									</p:selectBooleanButton>
+								</div>
+
+								<div class="col-md-6">
+									<label>Peso Mensal: *</label>
+									<p:inputText title="Peso Mensal" id="inputPesoMensal"
+										disabled="true"
+										value="#{pontoColetaMB.pontoColeta.cliente.pesoMensal}" />
+								</div>
+								<div class="col-md-6">
+									<label>Valor do Excedente: *</label>
+									<p:inputText title="Valor do Excedente"
+										id="inputValorExcedente" disabled="true"
+										value="#{pontoColetaMB.pontoColeta.cliente.valorExcedente}" />
+								</div>
+
+								<div class="col-md-12">
+									<label>Cobrado por Quilo: *&nbsp;&nbsp;</label>
+									<p:selectBooleanButton disabled="true"
+										value="#{pontoColetaMB.pontoColeta.cliente.cobradoPorQuilo}"
+										onLabel="Sim" offLabel="Não"
+										style="width:60px; margin-bottom:10px; margin-top:5px">
+										<p:ajax update="inputCobradoQuilo" />
+									</p:selectBooleanButton>
+								</div>
+
+								<div class="col-md-12">
+									<label>Valor do Quilo: *</label>
+									<p:inputText id="inputCobradoQuilo" disabled="true"
+										title="Valor do Quilo"
+										value="#{pontoColetaMB.pontoColeta.cliente.valorPorQuilo}" />
+								</div>
+
+
+								<small>Campos obrigatórios *</small>
+							</div>
+						</p:tab>
+
+
+					</p:tabView>
+
+
+					<p:panelGrid rendered="#{pontoColetaMB.pontoColeta.cliente!=null}">
+						<div class="modal-footer">
+							<p:commandButton value="Salvar"
+								actionListener="#{pontoColetaMB.salvar()}"
+								styleClass="ui-priority-primary"
+								update=":dlgInformacao :frmTabela" />
+
+							<p:commandButton value="Cancelar"
+								onclick="PF('dlgPontoColeta').hide();" alt="Cancelar" />
+						</div>
+					</p:panelGrid>
+
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

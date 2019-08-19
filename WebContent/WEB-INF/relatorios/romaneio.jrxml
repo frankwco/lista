@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="romaneio" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ec448ca6-2cdc-494e-a1a0-8617d898d619">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="320"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="673"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="731"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="255"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="ID_FECHAMENTO_MES" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT gestaofacil.fechamento_mes.ano,
+	gestaofacil.fechamento_mes.`dataFechamento`,
+	gestaofacil.fechamento_mes.`diferencaGerarContasPagar`,
+	gestaofacil.fechamento_mes.`emitidoContasReceber`,
+	gestaofacil.fechamento_mes.mes,
+	gestaofacil.fechamento_mes.`pesoColetadoGrupoParte`,
+	gestaofacil.fechamento_mes.`pesoColetadoGruposContrato`,
+	gestaofacil.fechamento_mes.`pesoExcedenteCobradoParte`,
+	gestaofacil.fechamento_mes.`pesoExcedenteGruposContrato`,
+	gestaofacil.fechamento_mes.`pesoExcedenteTodosPontos`,
+	gestaofacil.fechamento_mes.`quantidadePontos`,
+	gestaofacil.fechamento_mes.status,
+	gestaofacil.fechamento_mes.`valorExcedenteGruposCobradosParte`,
+	gestaofacil.fechamento_mes.`valorExcedenteGruposContrato`,
+	gestaofacil.fechamento_mes.`valorExcedenteTodosPontos`,
+	gestaofacil.fechamento_mes.`valorFinal`,
+	gestaofacil.fechamento_mes.`valorFixoMensalCobradoParte`,
+	gestaofacil.fechamento_mes.`valorFixoMensalContratoPonto`,
+	gestaofacil.fechamento_mes.`valorFixoTodosPontos`,
+	gestaofacil.fechamento_mes.`valorTotalPorQuilo`,
+	gestaofacil.fechamento_mes.`informacaoFinanceira_id`,
+	gestaofacil.fechamento_mes.id AS idFechamentoMes,
+	gestaofacil.pessoa.endereco,
+	gestaofacil.pessoa.`nomeFantasia`,
+	gestaofacil.pessoa.`nomeRazaoSocial`,
+	gestaofacil.pessoa.numero,
+	gestaofacil.pessoa.`cpfCnpj`,
+	gestaofacil.cidade.nome AS nomeCidade,
+	gestaofacil.estado.sigla,
+	gestaofacil.pessoa.email,
+	gestaofacil.pessoa.email2,
+	gestaofacil.pessoa.telefone1,
+	gestaofacil.pessoa.telefone2,
+	gestaofacil.informacoes_financeiras.`cobradoPorQuilo`,
+	gestaofacil.informacoes_financeiras.`valorPorQuilo`,
+	gestaofacil.informacoes_financeiras.`existeValorFixoMensal`,
+	gestaofacil.informacoes_financeiras.`diaVencimentoFatura`,
+	gestaofacil.informacoes_financeiras.`valorExcedente`,
+	gestaofacil.informacoes_financeiras.`valorFixoMensalPonto`,
+	gestaofacil.informacoes_financeiras.`valorFixoMensalTotal`,
+	gestaofacil.informacoes_financeiras.`cobraExcedente`,
+	gestaofacil.informacoes_financeiras.`pesoMensal`,
+	gestaofacil.informacoes_financeiras.`formaCobranca`,
+	gestaofacil.informacoes_financeiras.`idInformacaoFinanceiraUnico`,
+	gestaofacil.informacoes_financeiras.`dataFinal`,
+	gestaofacil.informacoes_financeiras.codigoContratoAtual
+FROM gestaofacil.fechamento_mes
+	INNER JOIN gestaofacil.informacoes_financeiras ON 
+	 gestaofacil.fechamento_mes.`informacaoFinanceira_id` = gestaofacil.informacoes_financeiras.id 
+	INNER JOIN gestaofacil.cliente ON 
+	 gestaofacil.informacoes_financeiras.cliente_id = gestaofacil.cliente.id 
+	INNER JOIN gestaofacil.pessoa ON 
+	 gestaofacil.cliente.id = gestaofacil.pessoa.id 
+	INNER JOIN gestaofacil.cidade ON 
+	 gestaofacil.pessoa.cidade_id = gestaofacil.cidade.id 
+	INNER JOIN gestaofacil.estado ON 
+	 gestaofacil.cidade.estado_id = gestaofacil.estado.id 
+WHERE 
+	 gestaofacil.fechamento_mes.id = $P{ID_FECHAMENTO_MES}]]>
+	</queryString>
+	<field name="ano" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ano"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="dataFechamento" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="dataFechamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="diferencaGerarContasPagar" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="diferencaGerarContasPagar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="emitidoContasReceber" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="emitidoContasReceber"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="mes" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="mes"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="pesoColetadoGrupoParte" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoColetadoGrupoParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="pesoColetadoGruposContrato" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoColetadoGruposContrato"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="pesoExcedenteCobradoParte" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoExcedenteCobradoParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="pesoExcedenteGruposContrato" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoExcedenteGruposContrato"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="pesoExcedenteTodosPontos" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoExcedenteTodosPontos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="quantidadePontos" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="quantidadePontos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="status" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="valorExcedenteGruposCobradosParte" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorExcedenteGruposCobradosParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="valorExcedenteGruposContrato" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorExcedenteGruposContrato"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="valorExcedenteTodosPontos" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorExcedenteTodosPontos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="valorFinal" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFinal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="valorFixoMensalCobradoParte" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFixoMensalCobradoParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="valorFixoMensalContratoPonto" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFixoMensalContratoPonto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="valorFixoTodosPontos" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFixoTodosPontos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="valorTotalPorQuilo" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorTotalPorQuilo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="informacaoFinanceira_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="informacaoFinanceira_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="idFechamentoMes" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="idFechamentoMes"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fechamento_mes"/>
+	</field>
+	<field name="endereco" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="endereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="nomeFantasia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeFantasia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="nomeRazaoSocial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeRazaoSocial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="cpfCnpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cpfCnpj"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="nomeCidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeCidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cidade"/>
+	</field>
+	<field name="sigla" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="sigla"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estado"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="email2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="email2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="telefone1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefone1"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="telefone2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefone2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="cobradoPorQuilo" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="cobradoPorQuilo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="valorPorQuilo" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorPorQuilo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="existeValorFixoMensal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="existeValorFixoMensal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="diaVencimentoFatura" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="diaVencimentoFatura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="valorExcedente" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorExcedente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="valorFixoMensalPonto" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFixoMensalPonto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="valorFixoMensalTotal" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFixoMensalTotal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="cobraExcedente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cobraExcedente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="pesoMensal" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoMensal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="formaCobranca" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="formaCobranca"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="idInformacaoFinanceiraUnico" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="idInformacaoFinanceiraUnico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="dataFinal" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="dataFinal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<field name="codigoContratoAtual" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="codigoContratoAtual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="informacoes_financeiras"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="141" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="61" width="480" height="18" uuid="50c6d111-a40b-441e-9998-691c3d310c61">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d6aba645-a72a-4217-96b9-509f902d43ec"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["Cliente: "+$F{nomeRazaoSocial}+" / "+ $F{nomeFantasia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="81" width="540" height="18" uuid="daac9569-225f-447c-a27f-aed93ef95124">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c8d863b9-af70-4880-ad75-f0c71fe5ba87"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["Endereço: "+$F{endereco}+", "+$F{numero}+" - "+$F{nomeCidade}+"-"+$F{sigla}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="100" width="540" height="18" uuid="891b8fee-3838-46eb-9dc4-4d420874edb3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="345a4a4a-b480-47a8-8249-52b316d49857"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["E-mail: "+$F{email}+" / "+$F{email2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="118" width="310" height="18" uuid="a0e67bd2-8be3-4e7b-8cce-c47d1f6248fd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0598486-a3a6-424f-854c-ba6b1e782d8f"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["Telefones: "+$F{telefone1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="135" width="540" height="1" uuid="f220eedd-da7b-4b8f-8e15-f49e1de9e4d7"/>
+			</line>
+			<image>
+				<reportElement x="0" y="1" width="210" height="55" uuid="817788e0-9441-42b0-b11b-6b17b33d79cb"/>
+				<imageExpression><![CDATA["logo_original.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="200" y="1" width="340" height="55" uuid="e1f7fd23-796f-4d1b-80b9-9409bd2ae08f"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[DS TRANSPORTE - D. SORTI & SORTI LTDA - ME
+Av. Cidade Alta 270 - Parque Cidade Alta
+Fones: (44) 3252-4480 / (44) 99932-3410
+Email: contato@dsresiduos.com.br]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="58" width="540" height="1" uuid="86b76307-4332-45ae-b022-6ac256dd458a"/>
+			</line>
+			<textField>
+				<reportElement x="310" y="118" width="229" height="18" uuid="09dd2600-0544-45f4-addd-8182d3b9e2b9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0598486-a3a6-424f-854c-ba6b1e782d8f"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Mês de Referência: "+(
+        $F{mes}.equals(1) ? "Janeiro" : 
+        $F{mes}.equals(2) ? "Fevereiro" :
+        $F{mes}.equals(3) ? "Março" :
+        $F{mes}.equals(4) ? "Abril" :
+        $F{mes}.equals(5) ? "Maio" :
+        $F{mes}.equals(6) ? "Junho" :
+        $F{mes}.equals(7) ? "Julho" :
+        $F{mes}.equals(8) ? "Agosto" :
+        $F{mes}.equals(9) ? "Setembro" :
+        $F{mes}.equals(10) ? "Outubro" : 
+        $F{mes}.equals(11) ? "Novembro" : "Dezembro"
+    )+"/"+$F{ano}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="351" y="99" width="186" height="18" uuid="09f2498c-32ec-426a-81d1-0abc19b4339f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["CPF/CNPJ: "+$F{cpfCnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="61" width="61" height="19" uuid="d578a9a1-47fa-43e7-b212-135765e1285e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{codigoContratoAtual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<subreport>
+				<reportElement positionType="Float" x="-1" y="0" width="540" height="20" uuid="a6a4c2ed-ecda-4571-8402-918f7eb10e44"/>
+				<subreportParameter name="ID_FECHAMENTO_MES">
+					<subreportParameterExpression><![CDATA[$F{idFechamentoMes}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["sub_coleta_romaneio.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="22">
+			<subreport>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="538" height="20" isPrintInFirstWholeBand="true" uuid="9b99b250-89ba-4e4a-9a46-70af7509ccad">
+					<printWhenExpression><![CDATA[($F{existeValorFixoMensal}.equals("Mensal para todos Pontos") || $F{cobradoPorQuilo} == true) && $F{cobraExcedente}.equals("Não")]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="ID_FECHAMENTO_MES">
+					<subreportParameterExpression><![CDATA[$F{idFechamentoMes}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["sub_pesos_classes_romaneio.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="22">
+			<subreport>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="1" y="0" width="538" height="20" isPrintInFirstWholeBand="true" uuid="a052690c-4877-4fd6-af42-56d629e80ff5">
+					<printWhenExpression><![CDATA[($F{existeValorFixoMensal}.equals("Mensal por Ponto") || $F{existeValorFixoMensal}.equals("Mensal para todos Pontos"))]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="ID_FECHAMENTO_MES">
+					<subreportParameterExpression><![CDATA[$F{idFechamentoMes}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="VALOR_MENSAL">
+					<subreportParameterExpression><![CDATA[$F{valorFixoTodosPontos}+$F{valorFixoMensalPonto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FORMA_COBRANCA">
+					<subreportParameterExpression><![CDATA[$F{formaCobranca}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="A_FATURAR">
+					<subreportParameterExpression><![CDATA[$F{diferencaGerarContasPagar}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="VALOR_FINAL">
+					<subreportParameterExpression><![CDATA[$F{valorFinal}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="VALOR_TOTAL_PONTOS">
+					<subreportParameterExpression><![CDATA[$F{valorFixoTodosPontos}+$F{valorFixoMensalContratoPonto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PESO_EXCEDENTE">
+					<subreportParameterExpression><![CDATA[$F{pesoExcedenteGruposContrato}+$F{pesoExcedenteTodosPontos}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PESO_EXCEDENTE_VALOR">
+					<subreportParameterExpression><![CDATA[$F{valorExcedenteGruposContrato}+$F{valorExcedenteTodosPontos}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PESO_TOTAL">
+					<subreportParameterExpression><![CDATA[$F{pesoColetadoGruposContrato}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["dados_financeiros_romaneio.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="41">
+			<printWhenExpression><![CDATA[$F{existeValorFixoMensal}.equals("Mensal para todos Pontos") && 1==2]]></printWhenExpression>
+			<staticText>
+				<reportElement x="451" y="1" width="85" height="20" uuid="74327a6d-b738-4b33-bd6d-e905fa4ae0fc">
+					<printWhenExpression><![CDATA[$F{existeValorFixoMensal}.equals("Mensal para todos Pontos") && $F{cobraExcedente}.equals("Não")&&1==2]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.000">
+				<reportElement x="351" y="21" width="100" height="20" isPrintInFirstWholeBand="true" uuid="029fe1e6-0665-4b11-b55d-58bd136a4bd4">
+					<printWhenExpression><![CDATA[$F{existeValorFixoMensal}.equals("Mensal para todos Pontos") && $F{cobraExcedente}.equals("Não")&&1==2]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,###0.000", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{pesoColetadoGruposContrato}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="1" width="350" height="40" uuid="46eb69f7-4336-4388-a019-b67b8981d4eb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d6aba645-a72a-4217-96b9-509f902d43ec"/>
+					<printWhenExpression><![CDATA[$F{existeValorFixoMensal}.equals("Mensal para todos Pontos") && $F{cobraExcedente}.equals("Não")&&1==2]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Valor Mensal para todos os Pontos: "]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="451" y="21" width="85" height="20" uuid="816d47a3-5adf-4a4f-b06b-2a315c80148a">
+					<printWhenExpression><![CDATA[$F{existeValorFixoMensal}.equals("Mensal para todos Pontos") && $F{cobraExcedente}.equals("Não")&&1==2]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorFinal}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="351" y="1" width="100" height="20" uuid="da03353d-bf15-48fe-8d99-34f7f64549d2">
+					<printWhenExpression><![CDATA[$F{existeValorFixoMensal}.equals("Mensal para todos Pontos") && $F{cobraExcedente}.equals("Não")&&1==2]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Peso Coletado]]></text>
+			</staticText>
+		</band>
+		<band height="41">
+			<printWhenExpression><![CDATA[$F{cobradoPorQuilo}==true]]></printWhenExpression>
+			<textField>
+				<reportElement x="1" y="0" width="252" height="40" uuid="fdcda4d9-a14c-485a-b5f1-5a7324e7a0dc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d6aba645-a72a-4217-96b9-509f902d43ec"/>
+					<printWhenExpression><![CDATA[$F{cobradoPorQuilo}==true]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Contrato por Quilo: "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="253" y="0" width="100" height="20" uuid="737ca705-5c65-464e-9f53-a209794f9307">
+					<printWhenExpression><![CDATA[$F{cobradoPorQuilo}==true]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Peso Coletado]]></text>
+			</staticText>
+			<textField pattern="#,##0.000">
+				<reportElement x="253" y="20" width="100" height="20" isPrintInFirstWholeBand="true" uuid="bb8f3541-fabe-43bc-8072-d2d66cc36904">
+					<printWhenExpression><![CDATA[$F{cobradoPorQuilo}==true]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pesoColetadoGruposContrato}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="353" y="0" width="100" height="20" uuid="fb32942f-7c83-4b9d-ab44-3f1d5e586e9f">
+					<printWhenExpression><![CDATA[$F{cobradoPorQuilo}==true]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor Kg]]></text>
+			</staticText>
+			<textField pattern="#,##0.00#">
+				<reportElement x="353" y="20" width="100" height="20" uuid="1e575666-7bd8-4e4d-b7f0-2822e53158e9">
+					<printWhenExpression><![CDATA[$F{cobradoPorQuilo}==true]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorPorQuilo}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="453" y="0" width="83" height="20" uuid="8c118849-0de6-48a6-a4bd-b14931be09c5">
+					<printWhenExpression><![CDATA[$F{cobradoPorQuilo}==true]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00#">
+				<reportElement x="453" y="20" width="83" height="20" uuid="08c9b475-ee1b-42a2-93c0-6f33b2e3c698">
+					<printWhenExpression><![CDATA[$F{cobradoPorQuilo}==true]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorFinal}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="107">
+			<staticText>
+				<reportElement x="-1" y="16" width="542" height="20" uuid="3c38211a-4329-42cf-b100-2a8bbd70da02"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informações do Contrato]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="37" width="180" height="20" uuid="9fef21ae-ac72-4366-8538-3da2ae88d32b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["&nbsp;Mensalidade de todos os Pontos:  "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="57" width="50" height="30" uuid="09826be6-dcd6-4964-b867-d64b50951453"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" markup="html"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorFixoMensalPonto}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="87" width="50" height="20" uuid="e4c8f1cc-eccc-4df6-8a88-424d2558a362"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" markup="html"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorPorQuilo}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="350" y="37" width="80" height="20" uuid="9c378f76-1204-4fef-90a7-e16de7028ab1"/>
+				<subreportParameter name="INFORMACAO_FINANCEIRA">
+					<subreportParameterExpression><![CDATA[$F{informacaoFinanceira_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="COBRA_VALOR_PARTE">
+					<subreportParameterExpression><![CDATA[new Boolean(false)]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["romaneio_grupos_contrato.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="253" y="37" width="97" height="20" uuid="8aec013b-83e2-478e-a431-7ce8ab9b22fd"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["&nbsp;Tipo: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="253" y="57" width="97" height="30" uuid="a004f284-5c06-42d2-8716-83dc0818bacd"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top" markup="html"/>
+				<textFieldExpression><![CDATA["&nbsp;Kg Franquia: "+($F{cobraExcedente}.equals("Excedente por Ponto") ?  "Por Ponto" : $F{cobraExcedente}.equals("Excedente para todos os Pontos") ?  "Para TODOS os pontos" : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="253" y="87" width="97" height="20" uuid="9d3cef18-9953-436b-bf0d-e9ebf0ecb996"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top" markup="html"/>
+				<textFieldExpression><![CDATA["&nbsp;R$ p/ Kg Exced.: "]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="350" y="57" width="80" height="30" uuid="228c428e-5806-4d7b-9084-1f3648fb2b97"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="html">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{pesoMensal}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="350" y="87" width="80" height="20" uuid="c2501aee-a01d-4ed7-bfa0-ef5dd63c78e7"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="html">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorExcedente}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="430" y="37" width="107" height="20" uuid="aa1b62ae-8287-4887-af7b-feb1d2de3e13"/>
+				<subreportParameter name="INFORMACAO_FINANCEIRA">
+					<subreportParameterExpression><![CDATA[$F{informacaoFinanceira_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["romaneio_grupos_contrato_parte.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="180" y="37" width="50" height="20" uuid="ca38a45e-ea1b-46c6-9ee2-08025235b9a5"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" markup="html"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR"))).format($F{valorFixoMensalTotal}).toString()+"&nbsp;";]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="57" width="180" height="30" uuid="2d7b7017-bcb4-4d58-be41-5afed1b2aae2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["&nbsp;Mensalidade por Ponto: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="87" width="180" height="20" uuid="eeabfec1-b708-4b44-8552-37c957c009a2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["&nbsp;Valor por quilo: "]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#" isBlankWhenNull="true">
+				<reportElement x="350" y="37" width="80" height="20" uuid="5ddc7e72-2f3f-4a5f-a513-fe956165e4f2"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font isBold="false"/>
+				</textElement>
+			</textField>
+		</band>
+		<band height="20">
+			<subreport>
+				<reportElement x="1" y="0" width="536" height="20" uuid="ef10595e-4f6e-4ccb-a41c-74fa44243e75"/>
+				<subreportParameter name="INFORMACAO_FINANCEIRA">
+					<subreportParameterExpression><![CDATA[$F{idInformacaoFinanceiraUnico}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="MES">
+					<subreportParameterExpression><![CDATA[$F{mes}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ANO">
+					<subreportParameterExpression><![CDATA[$F{ano}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["romaneio_parcelas.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

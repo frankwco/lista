@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Cadastrar Contas Receber</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO DOS BOTÕES -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Nova Contas Receber"
+								actionListener="#{contasReceberMB.novoContasReceber()}"
+								update=":frmTabela, @form" /> &nbsp;&nbsp;&nbsp;&nbsp;
+								
+														<p:commandButton value="Pesquisar"
+								update=":frmModalPesquisar"
+								actionListener="#{contasReceberMB.preencherListaContasReceber()}"
+								onclick="PF('dlgPesquisarContasReceber').show(); PF('dlgPesquisarContasReceber').content.scrollTop('0')"
+								title="Pesquisar" /> &nbsp;&nbsp;&nbsp;&nbsp;
+
+							<p:commandButton
+								action="#{contasReceberMB.excluirContasReceber()}"
+								disabled="#{contasReceberMB.contasReceber.id==null}"
+								icon="ui-icon-trash" value="Excluir Contas a Receber"
+								title="Excluir" update=":frmTabela :dlgInformacao @form"
+								alt="Excluir">
+								<p:confirm header="Confirmação"
+									message="Tem certeza que deseja EXCLUIR esta CONTA A RECEBER??" />
+							</p:commandButton>
+
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DOS BOTÕES -->
+
+			<!-- 			INÍCIO DA MOVIMENTAÇÃO -->
+			<h:form id="frmTabela">
+				<div class="ui-fluid">
+
+					<div class="col-md-12">
+						<label>Contratante: </label>
+						<p:autoComplete dropdown="true"
+							disabled="#{contasReceberMB.contasReceber.id!=null}"
+							value="#{contasReceberMB.contasReceber.informacaoFinanceira}"
+							scrollHeight="170"
+							completeMethod="#{informacoesFinanceirasMB.completarInformacaoFinanceira}"
+							forceSelection="true"
+							converter="#{converterInformacoesFinanceiras}" var="cur"
+							itemLabel="#{cur.cliente.nomeRazaoSocialNomeFantasiaEndereco}"
+							itemValue="#{cur}">
+						</p:autoComplete>
+					</div>
+
+					<div class="col-md-3">
+						<label>Data Cadastro: *</label>
+						<p:calendar required="true" requiredMessage="Data Obrigatória!!"
+							disabled="#{contasReceberMB.contasReceber.id!=null}"
+							value="#{contasReceberMB.contasReceber.dataCadastro}"
+							mask="99/99/9999" pattern="dd/MM/yyyy" />
+					</div>
+
+					<div class="col-md-3">
+						<label>Data da primeira parcela: *</label>
+						<p:calendar required="true" requiredMessage="Data Obrigatória!!"
+							disabled="#{contasReceberMB.contasReceber.id!=null}"
+							value="#{contasReceberMB.contasReceber.dataPrimeiroVencimento}"
+							pattern="dd/MM/yyyy" />
+					</div>
+
+
+
+					<div class="col-md-3">
+						<label>Quantidade de Parcelas: *</label>
+						<p:inputNumber required="true"
+							disabled="#{contasReceberMB.contasReceber.id!=null}"
+							requiredMessage="Quantidade de Parcelas Obrigatório"
+							decimalPlaces="0" thousandSeparator="." decimalSeparator=","
+							title="Quantidade de Parcelas"
+							value="#{contasReceberMB.contasReceber.quantidadeParcelas}" />
+					</div>
+
+					<div class="col-md-3">
+						<label>Valor por Parcela: *</label>
+						<p:inputNumber required="true"
+							disabled="#{contasReceberMB.contasReceber.id!=null}"
+							requiredMessage="Valor por Parcelas Obrigatório"
+							decimalPlaces="2" thousandSeparator="." decimalSeparator=","
+							title="Valor por Parcelas"
+							value="#{contasReceberMB.contasReceber.valorParcelas}" />
+					</div>
+					<div class="col-md-4">
+						<label>Primeira parcela referente ao mês?: *</label><br/>						
+
+						<p:selectOneMenu required="true"
+							requiredMessage="Mês Primeira Parcela Obrigatório"
+							style="width:125px" value="#{contasReceberMB.contasReceber.mesPrimeiraParcela}">
+							<f:selectItem itemLabel="Janeiro" itemValue="1" />
+							<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+							<f:selectItem itemLabel="Março" itemValue="3" />
+							<f:selectItem itemLabel="Abril" itemValue="4" />
+							<f:selectItem itemLabel="Maio" itemValue="5" />
+							<f:selectItem itemLabel="Junho" itemValue="6" />
+							<f:selectItem itemLabel="Julho" itemValue="7" />
+							<f:selectItem itemLabel="Agosto" itemValue="8" />
+							<f:selectItem itemLabel="Setembro" itemValue="9" />
+							<f:selectItem itemLabel="Outubro" itemValue="10" />
+							<f:selectItem itemLabel="Novembro" itemValue="11" />
+							<f:selectItem itemLabel="Dezembro" itemValue="12" />
+
+						</p:selectOneMenu>
+					</div>
+					<div class="col-md-4">
+						<label>Primeira parcela referente ao ano? *</label><br/>
+						<p:selectOneMenu required="true"
+							requiredMessage="Ano Primeira Parcela Obrigatório"
+							style="width:125px" value="#{contasReceberMB.contasReceber.anoPrimeiraParcela}">
+							<f:selectItem itemLabel="2019" itemValue="2019" />
+							<f:selectItem itemLabel="2020" itemValue="2020" />
+							<f:selectItem itemLabel="2021" itemValue="2022" />
+							<f:selectItem itemLabel="2023" itemValue="2023" />
+						</p:selectOneMenu>
+					</div>
+
+					<div class="col-md-4">
+						<label>Nosso Número - <small>Somente nº antes do -
+								(traço)</small>:
+						</label>
+						<p:inputText disabled="#{contasReceberMB.contasReceber.id!=null}"
+							value="#{contasReceberMB.contasReceber.nossoNumero}" />
+					</div>
+
+
+
+
+					<div class="col-md-12">
+						<label>Observações:</label>
+						<p:inputText onkeyup="value=value.toUpperCase()"
+							disabled="#{contasReceberMB.contasReceber.id!=null}"
+							value="#{contasReceberMB.contasReceber.observacao}" />
+					</div>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>Campos
+						obrigatórios *</small>
+				</div>
+
+				<hr />
+				<p:commandButton value="Gerar Parcelas"
+					disabled="#{contasReceberMB.contasReceber.id!=null}"
+					actionListener="#{contasReceberMB.gerarParcelas()}"
+					update="tabela, :dlgInformacao, botaoFinalizarContasReceber" /> &nbsp;&nbsp;&nbsp;&nbsp;
+
+				<!-- TABELA-->
+				<div class="col-md-12">
+					<small>Parcelas</small>
+					<p:dataTable id="tabela" value="#{contasReceberMB.listaParcelas}"
+						resizableColumns="true" reflow="true" var="list" rows="12"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhuma parcela cadastrada!"
+						rowsPerPageTemplate="5,10,15,30,50,100" editable="true"
+						editMode="cell">
+
+						<p:column headerText="Parcela" filterMatchMode="contains">
+							<h:outputText value="#{list.parcela}/#{list.quantidadeParcelas}" />
+						</p:column>
+
+						<p:column headerText="Referente" filterMatchMode="contains">
+							<h:outputText value="#{list.referenteMes}/#{list.referenteAno}" />
+						</p:column>
+
+						<p:column headerText="Dt do Vencimento">
+							<h:outputText value="#{list.dataVencimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Dt do Pagamento">
+							<h:outputText value="#{list.dataPagamento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Valor da Parcela">
+							<p:cellEditor rendered="#{list.id==null}">
+								<f:facet name="output">
+									<h:outputText value="#{list.valorParcela}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputNumber decimalPlaces="3" thousandSeparator="."
+										decimalSeparator="," value="#{list.valorParcela}"
+										style="width:96%">
+									</p:inputNumber>
+								</f:facet>
+							</p:cellEditor>
+							<h:outputText rendered="#{list.id!=null}"
+								value="#{list.valorParcela}" />
+						</p:column>
+
+						<p:column headerText="Valor Pago">
+							<h:outputText value="#{list.valorPago}" />
+						</p:column>
+
+						<p:column headerText="Nosso Nº - Boleto">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{list.nossoNumero}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{list.nossoNumero}" style="width:96%">
+										<p:ajax listener="#{contasReceberMB.salvarParcela(list)}"
+											update="tabela"></p:ajax>
+									</p:inputText>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Opções">
+							<p:commandButton rendered="#{list.dataPagamento==null}"
+								value="Baixar" title="Baixar" update=":frmModalBaixarParcela"
+								oncomplete="PF('dlgBaixarParcela').show()"
+								styleClass="btn btn-block" alt="Baixar">
+								<f:setPropertyActionListener value="#{list}"
+									target="#{contasReceberMB.contasReceberParcelas}" />
+							</p:commandButton>
+
+							<p:commandButton rendered="#{list.dataPagamento!=null}"
+								value="Cancelar Baixa" title="Cancelar Baixa" update="@form"
+								actionListener="#{contasReceberMB.cancelarBaixarParcela(list)}"
+								styleClass="btn btn-block" alt="Cancelar Baixa">
+								<p:confirm header="Confirmação"
+									message="Deseja Cancelar a Baixa da Parcela??"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+
+
+
+				</div>
+
+				<div class="modal-footer">
+
+					<p:commandButton id="botaoFinalizarContasReceber"
+						value="Inserir Conta a Receber" styleClass="ui-priority-primary"
+						update=":dlgInformacao, @form, :frmCadastrar"
+						actionListener="#{contasReceberMB.salvar()}"
+						disabled="#{contasReceberMB.contasReceber.id!=null || contasReceberMB.listaParcelas.size()==0}">
+						<p:confirm header="Confirmação"
+							message="Deseja Inserir a Conta a Receber para esta Informação Financeira??"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</div>
+			</h:form>
+
+
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+			<!--FIM DA TABELA-->
+
+			<!-- 			FIM DA MOVIMENTAÇÃO -->
+
+			<!-- DIALOG PESQUISAR -->
+			<p:dialog header="Pesquisar Contas a Receber"
+				widgetVar="dlgPesquisarContasReceber" modal="true" responsive="true"
+				width="80%" id="dlgPesquisarContasReceber" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<div class="ui-fluid">
+					<div class="col-md-12">
+
+						<h:form id="frmModalPesquisar">
+
+							<p:dataTable id="tabela"
+								value="#{contasReceberMB.listaContasReceber}"
+								resizableColumns="true" reflow="true" var="list" rows="10"
+								paginator="true" paginatorPosition="bottom"
+								emptyMessage="Nenhum Objeto Cadastrado!!"
+								rowsPerPageTemplate="5,10,15,30,50,100">
+
+								<p:column style="white-space:normal !important;" width="500"
+									headerText="Cliente"
+									filterBy="#{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}"
+									sortBy="#{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}"
+									filterMatchMode="contains">
+									<h:outputText
+										value="#{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}" />
+								</p:column>
+
+								<p:column headerText="Data">
+									<h:outputText value="#{list.dataCadastro}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Qtd Parcelas">
+									<h:outputText value="#{list.quantidadeParcelas}" />
+								</p:column>
+
+
+
+								<p:column headerText="Carregar">
+									<p:commandButton alt="Carregar" icon="ui-icon-pencil"
+										title="Alterar" styleClass="btn btn-block"
+										oncomplete="PF('dlgPesquisarContasReceber').hide();"
+										actionListener="#{contasReceberMB.carregarContaReceber(list)}"
+										update=":dlgInformacao :frmTabela :frmCadastrar">
+									</p:commandButton>
+								</p:column>
+
+
+							</p:dataTable>
+
+
+						</h:form>
+					</div>
+				</div>
+			</p:dialog>
+			<!-- FIM DO DIALOG PESQUISAR -->
+
+			<!-- DIALOG BAIXA PARCELA -->
+			<p:dialog header="Baixar Parcela" widgetVar="dlgBaixarParcela"
+				modal="true" responsive="true" width="80%" id="dlgBaixarParcela"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+
+				<h:form id="frmModalBaixarParcela">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Data do Pagamento: *</label>
+							<p:calendar required="true" requiredMessage="Data Obrigatória!!"
+								value="#{contasReceberMB.contasReceberParcelas.dataPagamento}"
+								pattern="dd/MM/yyyy" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Valor da Parcela: *</label>
+							<p:inputNumber required="true" disabled="true"
+								requiredMessage="Valor por Parcelas Obrigatório"
+								decimalPlaces="2" thousandSeparator="." decimalSeparator=","
+								title="Valor por Parcelas"
+								value="#{contasReceberMB.contasReceberParcelas.valorParcela}" />
+						</div>
+
+
+
+
+						<div class="col-md-12">
+							<label>Valor Pago: *</label>
+							<p:inputNumber required="true"
+								requiredMessage="Valor por Parcelas Obrigatório"
+								decimalPlaces="2" thousandSeparator="." decimalSeparator=","
+								title="Valor por Parcelas"
+								value="#{contasReceberMB.contasReceberParcelas.valorPago}" />
+						</div>
+
+						<div class="col-md-12">
+							<p:commandButton style="margin-top: 15px;"
+								value="Efetuar Baixa da Parcela"
+								styleClass="ui-priority-primary"
+								update=":dlgInformacao, :frmTabela:tabela"
+								actionListener="#{contasReceberMB.baixarParcela()}">
+								<p:confirm header="Confirmação"
+									message="Deseja Efetuar a Baixa da Parcela??"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</div>
+
+					</div>
+				</h:form>
+
+			</p:dialog>
+			<!-- FIM DO DIALOG BAIXA PARCELA -->
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

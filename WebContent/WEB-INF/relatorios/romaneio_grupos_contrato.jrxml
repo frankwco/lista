@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="romaneio_grupos_contrato" columnCount="31" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="19" leftMargin="2" rightMargin="2" topMargin="0" bottomMargin="2" uuid="9bdca1c4-2bb6-4321-aa33-6ab10f5142b9">
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="260"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="733"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="INFORMACAO_FINANCEIRA" class="java.lang.Long"/>
+	<parameter name="COBRA_VALOR_PARTE" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[SELECT gestaofacil.grupo_residuos.descricao,
+	gestaofacil.itens_informacoes_financeiras_grupo.`cobraValorParte`,
+	gestaofacil.itens_informacoes_financeiras_grupo.`pesoValorFixo`,
+	gestaofacil.itens_informacoes_financeiras_grupo.`valorFixo`,
+	gestaofacil.itens_informacoes_financeiras_grupo.`valorPorQuiloExcedente`,
+	gestaofacil.itens_informacoes_financeiras_grupo.`informacoesFinanceiras_id`
+FROM gestaofacil.itens_informacoes_financeiras_grupo
+	INNER JOIN gestaofacil.grupo_residuos ON 
+	 gestaofacil.itens_informacoes_financeiras_grupo.`grupoResiduos_id` = gestaofacil.grupo_residuos.id 
+WHERE 
+	 gestaofacil.itens_informacoes_financeiras_grupo.`informacoesFinanceiras_id` = $P{INFORMACAO_FINANCEIRA} and 
+	 gestaofacil.itens_informacoes_financeiras_grupo.`cobraValorParte` =  false and 
+	 gestaofacil.itens_informacoes_financeiras_grupo.`status` = true;]]>
+	</queryString>
+	<field name="descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descricao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="grupo_residuos"/>
+	</field>
+	<field name="cobraValorParte" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="cobraValorParte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_informacoes_financeiras_grupo"/>
+	</field>
+	<field name="pesoValorFixo" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pesoValorFixo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_informacoes_financeiras_grupo"/>
+	</field>
+	<field name="valorFixo" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorFixo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_informacoes_financeiras_grupo"/>
+	</field>
+	<field name="valorPorQuiloExcedente" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorPorQuiloExcedente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_informacoes_financeiras_grupo"/>
+	</field>
+	<field name="informacoesFinanceiras_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="informacoesFinanceiras_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="itens_informacoes_financeiras_grupo"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="20" height="20" uuid="218d306e-a177-4bc5-8416-afa018b44964">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b5cec253-6fab-46fb-86ed-637d0b461ee5"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

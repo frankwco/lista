@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Modelo de Contrato</h1>
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-3">
+					<ol class="breadcrumb">
+						<h:form>
+							<p:commandButton value="Voltar para a Lista" ajax="false"
+								action="contratos.jsf" />
+						</h:form>
+					</ol>
+				</div>
+
+				<div class="col-md-3">
+					<ol class="breadcrumb">
+
+						<h:form id="frmCadastrarPJ">
+
+						</h:form>
+					</ol>
+				</div>
+			</div>
+
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<h:form>
+				<div class="row container-fluid">
+					<p:repeat var="var" value="#{contratoMB.atributosPF}">
+						<div class="col-md-3">
+							<p:commandButton type="button" update=":formContratoNovo"
+								value="#{var}"
+								onclick="PF('editorWidget').editor.execCommand('inserthtml','#{var}');" />
+						</div>
+
+					</p:repeat>
+				</div>
+
+
+
+			</h:form>
+			<hr />
+			<br />
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="formContratoNovo">
+					<label>Descrição do Contrato:&nbsp;&nbsp;&nbsp;</label>
+					<p:inputText value="#{contratoMB.contrato.descricao}" size="50" />
+					<br />
+					<br />
+					<p:editor id="editorWidget" widgetVar="editorWidget"
+						value="#{contratoMB.contrato.textoModelo}" height="500" />
+					<br />
+					<br />
+					<p:commandButton value="Salvar Alterações"
+						actionListener="#{contratoMB.salvar()}" update=":dlgInformacao" />
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

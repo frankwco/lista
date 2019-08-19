@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Modelos de Contratos</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-3">
+					<ol class="breadcrumb">
+						<h:form>
+							<p:commandButton value="Novo Modelo Contrato" ajax="false"
+								action="contratoNovo.jsf" />
+						</h:form>
+
+					</ol>
+				</div>
+
+				
+			</div>
+
+			<!-- FIM DO BOTAO CADASTRAR -->
+			
+
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela" value="#{contratoMB.listaContrato}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Modelo de Contrato Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{list.descricao}" />
+						</p:column>
+
+						<p:column headerText="Opções">
+							<p:panelGrid columns="3" styleClass="ui-noborder">
+
+								<p:commandButton alt="Alterar" value="Alterar"
+									title="Alterar" styleClass="btn btn-block" ajax="false"
+									action="#{contratoMB.chamarAlterar(list.id)}">
+								</p:commandButton>
+								
+								<p:commandButton
+									alt="Imprimir" value="Visualizar"
+									title="Imprimir" styleClass="btn btn-block"
+									onclick="this.form.target='_blank'" ajax="false"
+									actionListener="#{contratoMB.imprimirModeloContrato(list)}" />
+									
+								<p:commandButton actionListener="#{contratoMB.inativar(list)}"
+									value="Excluir" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+
+							</p:panelGrid>
+						</p:column>
+
+
+
+					</p:dataTable>
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

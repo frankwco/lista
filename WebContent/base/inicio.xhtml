@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources2/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources2/dist/css/AdminLTE.min.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources2/dist/css/skins/skin-blue.min.css" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+	<link rel="stylesheet"
+		href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+</h:head>
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- 		{avaliacaoMB.init('Custo',0)} -->
+
+			<!-- TITULO -->
+			<!-- 	<div class="row"> -->
+			<!-- 		<div class="col-md-12"> -->
+			<!-- 			<h1 class="page-header"> -->
+			<!-- 				<i class="fa fa-hourglass-half" aria-hidden="true"></i> Seja bem-vindo -->
+			<!-- 			</h1> -->
+
+			<!-- 		</div> -->
+
+
+			<!-- 	</div> -->
+			<!-- 	<div class="row" style="min-height: 700px"> -->
+			<!-- 		<div class="col-md-12"> -->
+			<!-- 		<h:form> -->
+
+
+
+			<!-- 		</h:form>	 -->
+			<!-- 		</div> -->
+
+
+			<!-- 	</div> -->
+
+			<!-- Content Wrapper. Contains page content -->
+			<!--       <div class="content-wrapper"> -->
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+			<h1>
+				Verifique algumas informações da sua empresa - Mês 01/2019<small></small>
+			</h1>
+			<p:panelGrid
+				rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+				<!-- 							<ol class="breadcrumb"> -->
+				<!-- 								<li><p:commandLink update="custoTotal, porcentagemFaturamento, grafico2, mostrarAno, mostrarMes" actionListener="{avaliacaoMB.buscarValoresTelaInicio(2)}" value="Mês {avaliacaoMB.mes-2}/{avaliacaoMB.ano}"/></li> -->
+				<!-- 								<li><p:commandLink update="custoTotal, porcentagemFaturamento, grafico2, mostrarAno, mostrarMes" actionListener="{avaliacaoMB.buscarValoresTelaInicio(1)}" value="Mês {avaliacaoMB.mes-1}/{avaliacaoMB.ano}"/></li> -->
+				<!-- 								<li><p:commandLink update="custoTotal, porcentagemFaturamento, grafico2, mostrarAno, mostrarMes" actionListener="{avaliacaoMB.buscarValoresTelaInicio(0)}" value="Mês {avaliacaoMB.mes}/{avaliacaoMB.ano}"/></li> -->
+				<!-- 							</ol> -->
+			</p:panelGrid> </section>
+
+			<!-- Main content -->
+			<!-- Main content -->
+			<section class="content"> <!-- Info boxes -->
+			<div class="row">
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<p:panelGrid id="panelDadosPrincipal"
+						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+						<div class="info-box">
+							<span class="info-box-icon bg-aqua"><i
+								class="fa fa-dollar"></i></span>
+
+							<div class="info-box-content">
+
+								<!-- 							<span class="description-percentage text-red"><i -->
+								<!-- 								class="fa fa-caret-up"></i> 17% </span> -->
+								<h5 class="description-header">
+									<h:outputText id="custoTotal" value="R$ 0,00" />
+								</h5>
+								<span class="description-text">Faturamento do mês - <h:outputText
+										id="mostrarMes" value="01/2019" />
+								</span>
+
+								<!--               <span class="info-box-text">Custo total - 09/2018</span> -->
+								<!--               <span class="info-box-number">150000,00<small></small></span> -->
+
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+					</p:panelGrid>
+					<!-- /.info-box -->
+				</div>
+				<!-- /.col -->
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<p:panelGrid
+						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+						<div class="info-box">
+							<span class="info-box-icon bg-red"><i
+								class="fa fa-credit-card-alt"></i></span>
+
+							<div class="info-box-content">
+
+								<!-- 							<span class="description-percentage text-red"><i -->
+								<!-- 								class="fa fa-caret-up"></i> 3%</span> -->
+								<h5 class="description-header">
+									<h:outputText id="porcentagemFaturamentoss" value="R$ 0,00" />
+									<small></small>
+								</h5>
+								<span class="description-text">Contas a Pagar no Mês - <h:outputText
+										id="mostrarAnoss" value="01/2019" /></span>
+
+
+								<!-- 							<span class="info-box-text">Custo por entrega - 09/2018</span> <span -->
+								<!-- 								class="info-box-number">35,00</span> -->
+
+
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+					</p:panelGrid>
+					<!-- /.info-box -->
+				</div>
+				<!-- /.col -->
+
+				<!-- fix for small devices only -->
+				<div class="clearfix visible-sm-block"></div>
+
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<p:panelGrid
+						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+						<div class="info-box">
+							<span class="info-box-icon bg-green"><i
+								class="fa fa-money"></i></span>
+
+							<div class="info-box-content">
+
+								<!-- 															<span class="description-percentage text-red"><i -->
+								<!-- 																class="fa fa-caret-up"></i> 0%</span> -->
+								<h5 class="description-header">
+									<h:outputText id="porcentagemFaturamento" value="R$ 0,00" />
+									<small></small>
+								</h5>
+								<span class="description-text">Contas Pagas do Mês - <h:outputText
+										id="mostrarAno" value="01/2019" /></span>
+
+
+							</div>
+
+						</div>
+					</p:panelGrid>
+					<!-- /.info-box -->
+				</div>
+
+			</div>
+			<!-- /.row -->
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h2 class="box-title" style="color: red">Atenção aos Contatos Abaixo</h2>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="table-responsive">
+								#{informacoesFinanceirasMB.buscarContratosVencidos()}
+								<h:form id="frmTabela">
+									<p:dataTable id="tabela"
+										value="#{informacoesFinanceirasMB.listInformacoesFinanceirasVencidas}"
+										resizableColumns="true" reflow="true" var="list" rows="10"
+										paginator="true" paginatorPosition="bottom"
+										emptyMessage="Nenhum Contrato Vencido!"
+										rowsPerPageTemplate="5,10,15,30,50,100">
+
+										<p:column headerText="Cliente"
+											style="white-space:normal !important;">
+											<h:outputText value="#{list.cliente.nomeRazaoSocial}" />
+										</p:column>
+
+										<p:column width="70" headerText="Vencimento">
+											<h:outputText
+												value="#{formataDataMB.formatarData(list.dataFinal)}">
+												<f:convertDateTime pattern="dd/MM/yyyy" />
+											</h:outputText>
+										</p:column>
+
+										<p:column>
+											<span style="font-size: 16px; " class="label label-danger">Vencido</span>
+										</p:column>
+
+									</p:dataTable>
+									
+									
+								</h:form>
+							</div>
+							<!-- /.table-responsive -->
+						</div>
+						<!-- /.box-body -->
+						<div class="box-footer clearfix">
+							<a href="dadosContratos.jsf"
+								class="btn btn-sm btn-info btn-flat pull-left">Ir para
+								Gerenciamento de Contratos</a>
+						</div>
+						<!-- /.box-footer -->
+					</div>
+				</div>
+				
+				<div class="col-md-12">
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h2 class="box-title">Contratos a Vencer</h2>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="table-responsive">
+								<h:form id="frmTabelas">
+									<p:dataTable id="tabela"
+										value="#{informacoesFinanceirasMB.listInformacoesFinanceirasVencer}"
+										resizableColumns="true" reflow="true" var="list" rows="10"
+										paginator="true" paginatorPosition="bottom"
+										emptyMessage="Nenhum Contrato para Vencer"
+										rowsPerPageTemplate="5,10,15,30,50,100">
+
+										<p:column headerText="Cliente"
+											style="white-space:normal !important;">
+											<h:outputText value="#{list.cliente.nomeRazaoSocial}" />
+										</p:column>
+
+										<p:column width="70" headerText="Vencimento">
+											<h:outputText
+												value="#{formataDataMB.formatarData(list.dataFinal)}">
+												<f:convertDateTime pattern="dd/MM/yyyy" />
+											</h:outputText>
+										</p:column>
+
+										<p:column>
+											<span style="font-size: 16px; " class="label label-success">A Vencer</span>
+										</p:column>
+
+									</p:dataTable>
+									
+									
+								</h:form>
+							</div>
+							<!-- /.table-responsive -->
+						</div>
+						<!-- /.box-body -->
+						<div class="box-footer clearfix">
+							<a href="dadosContratos.jsf"
+								class="btn btn-sm btn-info btn-flat pull-left">Ir para
+								Gerenciamento de Contratos</a>
+						</div>
+						<!-- /.box-footer -->
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-success">
+						<div class="box-header with-border">
+							<h3 class="box-title">Confira a Movimentação das Coletas</h3>
+
+							<div class="box-tools pull-right">
+								<button type="button" class="btn btn-box-tool"
+									data-widget="collapse">
+									<i class="fa fa-minus"></i>
+								</button>
+								<button type="button" class="btn btn-box-tool"
+									data-widget="remove">
+									<i class="fa fa-times"></i>
+								</button>
+							</div>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body no-padding">
+							<p:chart type="bar" model="#{chartView.barModel}"
+								style="height:300px" />
+							<!-- /.row -->
+
+						</div>
+						<!-- /.box-body -->
+					</div>
+				</div>
+				<!-- /.col -->
+			</div>
+
+
+			</section>
+
+
+
+			<!-- FIM TITULO -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

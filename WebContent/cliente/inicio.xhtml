@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources2/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources2/dist/css/AdminLTE.min.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources2/dist/css/skins/skin-blue.min.css" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+	<link rel="stylesheet"
+		href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+</h:head>
+<h:body>
+	<ui:composition template="../resources/template/template-cliente.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+
+			<section class="content-header">
+			<h2>Olá, esta é sua área no sistema da DS Resíduos, por ela você
+				poderá:</h2><br/>
+			<ul>
+				<li>Emitir Certificados</li>
+				<li>Emitir Romaneios</li>
+				<li>Verificar o seu contrato</li>
+				<li>Consultar sua situação financeira</li>
+			</ul>
+			<p:panelGrid
+				rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+
+			</p:panelGrid> </section>
+
+			<!-- Main content -->
+			<!-- Main content -->
+			<section class="content"> <!-- Info boxes --> </section>
+	
+
+			<!-- FIM TITULO -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

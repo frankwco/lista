@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="42e1508c-3a5c-4891-8509-b4ef6431d5fe">
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="209"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="783"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Gestão Lite"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="TEXTO_CONTRATO" class="java.lang.String"/>
+	<parameter name="ID" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select 1]]>
+	</queryString>
+	<field name="1" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="1"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="20" uuid="7d4026cf-92cf-46fc-9d2d-40f3d0be93c9"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DS TRANSPORTE – D. SORTI & SORTI LTDA - ME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="21" width="550" height="20" uuid="0f937296-82ec-444c-9dd4-112a6d114b99"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[www.dsresiduos.com.br]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="550" height="30" uuid="73325d26-7094-4605-9449-6ad062273820"/>
+				<textElement textAlignment="Justified" markup="html"/>
+				<textFieldExpression><![CDATA[$P{TEXTO_CONTRATO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="550" height="48" uuid="4b18424b-055b-4ccb-842a-49211c6859c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[DS Transporte – D SORTI & SORTI LTDA – ME
+Avenida Cidade Alta nº 270, Parque Cidade Alta – Fone: (44) 3252-4480 / 9927-9338 – Nova Esperança – PR 
+danielsorti@hotmail.com]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="2" splitType="Stretch"/>
+	</summary>
+</jasperReport>

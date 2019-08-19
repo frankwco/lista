@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition
+		template="../resources/template/template-cliente.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Fechamento do Mês</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO DOS BOTÕES -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+
+							<p:outputLabel value="Mês:" />
+
+							<p:selectOneMenu style="width:125px"
+								value="#{fechamentoMesMB.fechamentoMes.mes}">
+								<f:selectItem itemLabel="Janeiro" itemValue="1" />
+								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+								<f:selectItem itemLabel="Março" itemValue="3" />
+								<f:selectItem itemLabel="Abril" itemValue="4" />
+								<f:selectItem itemLabel="Maio" itemValue="5" />
+								<f:selectItem itemLabel="Junho" itemValue="6" />
+								<f:selectItem itemLabel="Julho" itemValue="7" />
+								<f:selectItem itemLabel="Agosto" itemValue="8" />
+								<f:selectItem itemLabel="Setembro" itemValue="9" />
+								<f:selectItem itemLabel="Outubro" itemValue="10" />
+								<f:selectItem itemLabel="Novembro" itemValue="11" />
+								<f:selectItem itemLabel="Dezembro" itemValue="12" />
+
+							</p:selectOneMenu>
+
+							<p:outputLabel value="&#160; &#160; &#160;Ano:" />
+							<p:selectOneMenu style="width:125px"
+								value="#{fechamentoMesMB.fechamentoMes.ano}">
+								<f:selectItem itemLabel="2019" itemValue="2019" />
+								<f:selectItem itemLabel="2020" itemValue="2020" />
+								<f:selectItem itemLabel="2021" itemValue="2022" />
+								<f:selectItem itemLabel="2023" itemValue="2023" />
+							</p:selectOneMenu>
+
+ 							&#160; &#160; &#160;
+					
+							<p:commandButton value="Busca"
+								update=":frmTabela"
+								actionListener="#{fechamentoMesMB.buscarFechamentoMesCliente()}" />
+
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DOS BOTÕES -->
+
+			<!-- 			INÍCIO DA MOVIMENTAÇÃO -->
+			<h:form id="frmTabela">
+
+				<hr />
+
+				<!-- TABELA-->
+				<div class="col-md-12" style="min-height: 700px">
+					<p:dataTable id="tabela"
+						value="#{fechamentoMesMB.listaFechamentoMes}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Objeto Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100" editable="true"
+						editMode="cell">
+
+						<p:column style="white-space:normal !important;" width="300"
+							headerText="Informação Financeira">
+							<h:outputText
+								value="#{list.informacaoFinanceira.cliente.nomeRazaoSocialNomeFantasiaEndereco}" />
+						</p:column>
+
+						<p:column headerText="Mes/Ano">
+							<h:outputText value="#{list.mes}/#{list.ano}" />
+						</p:column>
+
+						<p:column headerText="Data Fechamento">
+							<h:outputText value="#{list.dataFechamento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Valor Final">
+							<h:outputText value="#{list.valorFinal}" />
+						</p:column>
+
+						<p:column headerText="À Receber">
+							<h:outputText value="#{list.diferencaGerarContasPagar}" />
+						</p:column>
+
+						<p:column headerText="Pagamento">
+							<h:outputText
+								value="#{list.informacaoFinanceira.formaCobranca}/#{list.informacaoFinanceira.recebimentoBoletoDeposito}" />
+						</p:column>
+
+						<p:column headerText="Ações">
+							<p:panelGrid columns="1">
+								<p:commandButton value="Romaneio"
+									onclick="this.form.target='_blank'"
+									action="#{fechamentoMesMB.gerarRomaneio(list)}" ajax="false" />
+								<p:commandButton value="Certificado"
+									onclick="this.form.target='_blank'"
+									action="#{fechamentoMesMB.gerarCertificado(list)}" ajax="false" />
+							</p:panelGrid>
+						</p:column>
+
+						<!-- 						<p:column headerText="Excluir"> -->
+						<!-- 							<p:commandButton action="{coletaMB.inativarItens(list)}" -->
+						<!-- 								icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block" -->
+						<!-- 								update="tabela :dlgInformacao" alt="Excluir"> -->
+						<!-- 								<p:confirm header="Confirmação" message="Deseja excluir?" /> -->
+						<!-- 							</p:commandButton> -->
+						<!-- 						</p:column> -->
+
+					</p:dataTable>
+
+				</div>
+
+			</h:form>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+
+
+
+			<!-- DIALOG PESQUISAR -->
+			<p:dialog header="Pesquisar Movimentações"
+				widgetVar="dlgPesquisarColeta" modal="true" responsive="true"
+				width="60%" id="dlgPesquisarColeta" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalPesquisar">
+					<div class="ui-fluid">
+						<small>Para visualizar mais detalhes clique na lupa!!</small>
+						<p:dataTable id="tabela" value="#{coletaMB.listColeta}"
+							resizableColumns="true" reflow="true" var="list" rows="10"
+							paginator="true" paginatorPosition="bottom"
+							emptyMessage="Nenhum Objeto Cadastrado!!"
+							rowsPerPageTemplate="5,10,15,30,50,100" editable="true"
+							editMode="cell">
+
+							<p:column headerText="Descrição" filterBy="#{list.dataColeta}"
+								sortBy="#{list.dataColeta}" filterMatchMode="contains">
+								<h:outputText value="#{list.dataColeta}" />
+							</p:column>
+
+							<p:column headerText="Ponto de Coleta"
+								filterBy="#{list.pontoColeta.nomeRazaoSocial} #{list.pontoColeta.nomeFantasia}"
+								sortBy="#{list.pontoColeta.nomeRazaoSocial} #{list.pontoColeta.nomeFantasia}"
+								filterMatchMode="contains">
+								<h:outputText
+									value="#{list.pontoColeta.nomeRazaoSocial} - #{list.pontoColeta.nomeFantasia}" />
+							</p:column>
+
+							<p:column headerText="Motorista"
+								filterBy="#{list.motorista.nome}"
+								sortBy="#{list.motorista.nome}" filterMatchMode="contains">
+								<h:outputText value="#{list.motorista.nome}" />
+							</p:column>
+
+							<p:column headerText="Carregar" style="width:68px">
+								<p:commandButton alt="Carregar" icon="ui-icon-pencil"
+									title="Alterar" styleClass="btn btn-block"
+									oncomplete="PF('dlgPesquisarColeta').hide();"
+									actionListener="#{coletaMB.preencherLista(list)}"
+									update=":dlgInformacao :frmTabela">
+
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG PESQUISAR -->
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<style>
+.ui-datatable table {
+	width: auto !important;
+}
+</style>
+</h:head>
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+		#{avaliacaoDesempenhoEspecificosMB.init('Custo')}
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Avaliação de
+						Desempenho
+					</h1>
+				</div>
+			</div>
+			<h4>O que vamos Analisar??</h4>
+
+			<div class="row">
+				<h:form>
+					<div class="col-lg-3 col-xs-3">
+						<!-- small box -->
+						<div class="small-box bg-orange" style="filter: opacity(100%)">
+							<div class="inner">
+								<h3 style="font-size: 35px">Custo</h3>
+							</div>
+							<div class="icon">
+								<i class="fa fa-dollar" aria-hidden="true"></i>
+							</div>
+							<p:commandLink value="Analisar"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" />
+							<!-- 						<a href="avaliacaoCustos.jsf" class="small-box-footer"><p:commandLink value="TEste"/> -->
+							<!-- 							<i class="fa fa-arrow-circle-right"></i> -->
+							<!-- 						</a> -->
+						</div>
+					</div>
+				</h:form>
+
+				<div class="col-lg-3 col-xs-3">
+					<!-- small box -->
+					<div class="small-box bg-blue" style="filter: opacity(50%)">
+						<div class="inner">
+							<h3 style="font-size: 35px">Produtividade</h3>
+						</div>
+						<div class="icon">
+							<i class="fa fa-line-chart" aria-hidden="true"></i>
+						</div>
+						<a href="avaliacaoProdutividade.jsf" class="small-box-footer">Analisar
+							<i class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-xs-3" style="filter: opacity(50%)">
+					<!-- small box -->
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 35px">Qualidade</h3>
+						</div>
+						<div class="icon">
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</div>
+						<a href="avaliacaoQualidade.jsf" class="small-box-footer">Analisar
+							<i class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-xs-3" style="filter: opacity(50%)">
+					<!-- small box -->
+					<div class="small-box bg-red">
+						<div class="inner">
+							<h3 style="font-size: 35px">Tempo</h3>
+						</div>
+						<div class="icon">
+							<i class="fa fa-clock-o" aria-hidden="true"></i>
+						</div>
+						<a href="avaliacaoTempo.jsf" class="small-box-footer">Analisar
+							<i class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+
+				<!-- 								<div class="col-lg-4 col-xs-4"> -->
+				<!-- 								small box -->
+				<!-- 								<div class="small-box bg-yellow"> -->
+				<!-- 									<div class="inner"> -->
+				<!-- 										<h3>Outros</h3> -->
+				<!-- 									</div> -->
+				<!-- 									<div class="icon"> -->
+				<!-- 										<i class="fa fa-binoculars" aria-hidden="true"></i> -->
+				<!-- 									</div> -->
+				<!-- 									<a href="avaliacaoOutros.jsf" class="small-box-footer">Visualizar <i -->
+				<!-- 										class="fa fa-arrow-circle-right"></i> -->
+				<!-- 									</a> -->
+				<!-- 								</div> -->
+				<!-- 							</div> -->
+
+
+			</div>
+
+			<div class="row">
+
+				<h:form>
+
+					<div class="col-md-12">
+
+						<h:panelGrid columns="10">
+
+							<p:outputLabel value="Mês:" />
+
+							<p:selectOneMenu style="width:125px">
+								<f:selectItem itemLabel="Janeiro" itemValue="1" />
+								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+								<f:selectItem itemLabel="Março" itemValue="3" />
+								<f:selectItem itemLabel="Abril" itemValue="4" />
+								<f:selectItem itemLabel="Maio" itemValue="5" />
+								<f:selectItem itemLabel="Junho" itemValue="6" />
+								<f:selectItem itemLabel="Julho" itemValue="7" />
+								<f:selectItem itemLabel="Agosto" itemValue="8" />
+								<f:selectItem itemLabel="Setembro" itemValue="9" />
+								<f:selectItem itemLabel="Outubro" itemValue="10" />
+								<f:selectItem itemLabel="Novembro" itemValue="11" />
+								<f:selectItem itemLabel="Dezembro" itemValue="12" />
+
+							</p:selectOneMenu>
+
+							<p:outputLabel value="&#160; &#160; &#160;Ano:" />
+							<p:selectOneMenu style="width:125px">
+								<f:selectItem itemLabel="2017" itemValue="2017" />
+								<f:selectItem itemLabel="2018" itemValue="2018" />
+								<f:selectItem itemLabel="2019" itemValue="2019" />
+								<f:selectItem itemLabel="2020" itemValue="2020" />
+								<f:selectItem itemLabel="2021" itemValue="2022" />
+							</p:selectOneMenu>
+
+							<h:outputLabel value=" &#160; &#160; &#160;Processos:" />
+							<p:selectCheckboxMenu
+								value="#{avaliacaoDesempenhoEspecificosMB.processos}"
+								label="Processos" multiple="true" filter="true"
+								filterMatchMode="startsWith" panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+ 							&#160; &#160; &#160;
+							<p:commandButton value="Buscar" update="grafico1"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorData('Custo')}" />
+						</h:panelGrid>
+
+					</div>
+				</h:form>
+
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico1">
+
+						<p:chart type="bar"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCusto}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+
+			</div>
+			<!-- 			INDICADORES DE ****** -->
+			<h2>Relação dos Indicadores de Custo</h2>
+			<hr />
+
+
+			<p:dataTable var="ind" value="#{indicadorMB.listIndicador}">
+				<f:facet name="header">
+           Indicadores
+        </f:facet>
+
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column rowspan="3" headerText="Indicador" width="250"/>
+					</p:row>
+					<p:row>
+						<p:column colspan="3" headerText="Mês 07/2018" />
+						<p:column colspan="3" headerText="Mês 08/2018" />
+						<p:column colspan="3" headerText="Mês 09/2018 - Pesquisado" />
+					</p:row>
+					<p:row>
+						<p:column headerText="Meta" />
+						<p:column headerText="Realizado" />
+						<p:column headerText="Estado" />
+						<p:column headerText="Meta" />
+						<p:column headerText="Realizado" />
+						<p:column headerText="Estado" />
+						<p:column headerText="Meta" />
+						<p:column headerText="Realizado" />
+						<p:column headerText="Estado" style="width:100px;" />
+					</p:row>
+				</p:columnGroup>
+
+				<p:column>
+					<h:outputText value="#{ind.descricao}" />
+				</p:column>
+
+				<p:column>
+					<h:outputText value="#{ind.meta01}" />
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column>
+					<center><h:outputText escape="false" value="#{testeMB.statusVerde}" /></center>
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column>
+					<center><h:outputText escape="false" value="#{testeMB.statusLaranja}" /></center>
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column style="width:100px;">
+					<center><h:outputText escape="false" value="#{testeMB.statusVermelho}" /></center>
+				</p:column>
+
+
+			</p:dataTable>
+
+
+
+
+			<!-- FIM TITULO -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+

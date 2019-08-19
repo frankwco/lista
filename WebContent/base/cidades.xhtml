@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Cadastro de Cidades</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Cadastrar" update=":frmModalSalvar"
+								actionListener="#{cidadeMB.criarNovoObjeto()}"
+								onclick="PF('dlgCidade').show(); PF('dlgCidade').content.scrollTop('0')"
+								title="Cadastrar Cidade" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela" value="#{cidadeMB.listCidade}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum administrador cadastrado"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Nome" filterBy="#{list.nome}"
+							sortBy="#{list.nome}" filterMatchMode="contains">
+							<h:outputText value="#{list.nome}" />
+						</p:column>
+
+						<p:column headerText="Estado" filterBy="#{list.estado.nome}"
+							sortBy="#{list.estado.nome}" filterMatchMode="contains">
+							<h:outputText value="#{list.estado.nome}-#{list.estado.sigla}" />
+						</p:column>
+
+						<p:column headerText="Selecionada?">
+							<h:outputText rendered="#{list.selecionada==true}" value="Sim" />
+							<h:outputText rendered="#{list.selecionada==false}" value="Não" />
+						</p:column>
+
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton alt="Alterar" icon="ui-icon-pencil"
+									update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block" oncomplete="PF('dlgCidade').show();"
+									actionListener="#{cidadeMB.preencherLista(list)}">
+								</p:commandButton>
+								<p:commandButton actionListener="#{cidadeMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+							</p:panelGrid>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Cidade" widgetVar="dlgCidade" modal="true"
+				responsive="true" width="60%" id="dlgCidade" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalSalvar">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Nome: *</label>
+							<p:inputText onkeyup="value=value.toUpperCase()" required="true"
+								title="Nome" value="#{cidadeMB.cidade.nome}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Estado: </label>
+							<p:autoComplete required="true" dropdown="true"
+								value="#{cidadeMB.cidade.estado}" scrollHeight="170"
+								completeMethod="#{estadoMB.completar}" forceSelection="true"
+								converter="#{converterEstado}" var="cur"
+								itemLabel="#{cur.nome}-#{cur.sigla}" itemValue="#{cur}">
+							</p:autoComplete>
+						</div>
+						<div class="col-md-12">
+							<label>Selecionar Cidade?</label>
+							<p:selectOneMenu
+								value="#{cidadeMB.cidade.selecionada}"
+								style="margin-bottom:10px">
+								<f:selectItem itemLabel="Não" itemValue="false" />
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+
+							</p:selectOneMenu>
+						</div>
+
+
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Salvar"
+							actionListener="#{cidadeMB.salvar()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela" />
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgCidade').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+
