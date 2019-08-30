@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PT" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="../resources/template/template-administrador.xhtml">
+        <ui:define name="body">
+
+
+            <h:form prependId="false" style="text-align: left">
+
+            </h:form>
+            <p:messages showDetail="true" />
+
+            <p:panel header="Lista #{listaMB.iniciaListagem()}">
+
+                <h:form id="formGeralListarLista" prependId="false" >
+
+                    <p:growl id="bancoidsaass" />
+
+                    <table border="0" width="100%" >
+
+                        <tr>
+                            <td align="left">
+
+                                <p:commandButton value="Nova Lista" actionListener="#{listaMB.novaLista()}" ajax="false" action="/lista/lista.xhtml"/></td>
+
+                            <td align="left" style="width:52%"> <p:ajaxStatus style="width:16px;height:16px;">
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/ajaxloadingvermelho.gif" />
+                                    </f:facet>
+
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus></td>
+
+
+                        </tr>
+
+                    </table>
+                    <p:dataTable id="tabelaServicosLista"  var="objeto" value="#{listaMB.listaLista}" 
+                                 style="text-align: left"
+                                 paginator="true" rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="8,10,50,100"
+                                 >
+                        <p:column headerText="ID" style="width:20px"  >
+                            <h:outputText value="#{objeto.id}" />
+                        </p:column>
+                        <p:column headerText="Observação">
+                            <h:outputText value="#{objeto.observacao}" />
+                        </p:column>
+
+                        <p:column headerText="Data Lista" style="width:30px">
+                            <h:outputText value="#{objeto.dataLista}" 
+                                          rendered="#{objeto.dataLista != null}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" type="date" dateStyle="short" />
+                            </h:outputText>
+                            <h:outputText value="" rendered="#{objeto.dataLista == null}" />
+                        </p:column>
+
+                        <p:column style="width:40px">
+                            <p:commandLink value="Acessar" title="Acessar" ajax="false" actionListener="#{listaMB.alterarLista()}" action="/lista/lista.xhtml">
+                                <f:setPropertyActionListener value="#{objeto}" target="#{listaMB.listaSelecionada}"/>
+                            </p:commandLink>
+                        </p:column>
+
+                        <p:column style="width:42px">
+                            <p:commandLink value="Excluir" title="Excluir" oncomplete="dialogExcluirLista.show()">
+                                <f:setPropertyActionListener value="#{objeto}" target="#{listaMB.listaSelecionada}"/>
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+            
+                </h:form>
+            </p:panel>
+                    <p:confirmDialog appendToBody="true" message="Deseja Realmente Excluir o Registro? " width="200"
+                                    
+                                     header="Confirmar" severity="alert" widgetVar="dialogExcluirLista">
+
+
+                        <p:commandButton value="Sim"   actionListener="#{listaMB.excluirLista()}" update=":formGeralListarLista" oncomplete="dialogExcluirLista.hide()"/>
+                        <p:commandButton value="Não" oncomplete="dialogExcluirLista.hide()"/>
+
+                    </p:confirmDialog>
+
+
+
+
+
+
+        </ui:define>
+
+    </ui:composition>
+
+
+</html>

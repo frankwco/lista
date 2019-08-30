@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PT" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition id="idcompons" template="../resources/template/template-administrador.xhtml">
+
+        <ui:define id="iddefine" name="body">
+            <ui:include src="/cadastrosDialogs/dialogCadastroTipoServico.xhtml"/>
+
+            <p:messages showDetail="true" />
+
+            <p:panel id="panelCadastroTipoServico" header="Lista de Tipo de Serviços #{tipoServicoMB.iniciaListagem()}">
+
+                <h:form id="formListaTipoServico">
+
+                    <p:growl id="bancoid" />
+
+                    <table border="0" width="100%" >
+
+                        <tr>
+                            <td align="left">
+
+                                <p:commandButton value="Novo Cadastro" actionListener="#{tipoServicoMB.novoCadastro()}" oncomplete="cadastroTipoServico.show()" update=":formCadastroTipoServico" ajax="true"/></td>
+
+                            <td align="left" style="width:52%"> <p:ajaxStatus style="width:16px;height:16px;">
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/ajaxloadingvermelho.gif" />
+                                    </f:facet>
+
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus></td>
+
+
+                        </tr>
+
+                    </table>
+                    
+                    
+                    <p:dataTable id="tabelaTipoServico"  var="objeto" value="#{tipoServicoMB.listaTipoServico}" 
+                                 style="text-align: left"
+                                 paginator="true" rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="8,10,50,100"
+                                 >
+
+
+                        <p:column headerText="ID" style="width:20px"  >
+
+                            <h:outputText value="#{objeto.id}" />
+                        </p:column>
+
+                        <p:column headerText="Nome Singular" sortBy="#{objeto.nomeSingular}" filterBy="#{objeto.nomeSingular}" filterMatchMode="contains" >
+                            <h:outputText value="#{objeto.nomeSingular}" />
+
+                        </p:column>
+                        <p:column headerText="Nome Plural" sortBy="#{objeto.nomePlural}" filterBy="#{objeto.nomePlural}" filterMatchMode="contains" >
+                            <h:outputText value="#{objeto.nomePlural}" />
+
+                        </p:column>
+                        <p:column headerText="Ordem Aproximada" >
+                            <h:outputText value="#{objeto.ordemAproximada}" />
+
+                        </p:column>
+
+
+
+                        <p:column style="width:50px">
+                            <p:commandLink value="Alterar" title="Alterar" oncomplete="cadastroTipoServico.show()" update=":formCadastroTipoServico">
+                                <f:setPropertyActionListener value="#{objeto}" target="#{tipoServicoMB.tipoServicoSelecionado}"/>
+                            </p:commandLink>
+                        </p:column>
+
+                        <p:column style="width:50px">
+                            <p:commandLink value="Excluir" title="Excluir" oncomplete="dialogExcluirTipoServico.show()">
+                                <f:setPropertyActionListener value="#{objeto}" target="#{tipoServicoMB.tipoServicoSelecionado}"/>
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+
+
+
+
+   
+        </ui:define>
+
+
+    </ui:composition>
+
+
+</html>

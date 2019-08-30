@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PT" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="../resources/template/template-administrador.xhtml">
+        <ui:define name="body">
+            <ui:include src="listaDialogs/dialogLista.xhtml"/>
+
+
+            <h:form prependId="false" style="text-align: left">
+
+            </h:form>
+            <p:messages showDetail="true" />
+
+            <p:panel header="Lista">
+
+                <h:form id="formGeralLista" prependId="false" >
+
+                    <p:growl id="bancoidsaass" />
+
+                    <table border="0" width="100%" >
+
+                        <tr>
+                            <td align="left">
+                                <p:commandButton value="Iniciar Nova Lista" actionListener="#{listaMB.novaLista()}" update=":formDialogNovaLista, @form" oncomplete="dialogNovaListas.show()" ajax="true"/>
+                           </td>
+
+                            <td align="left" style="width:52%"> <p:ajaxStatus style="width:16px;height:16px;">
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/ajaxloadingvermelho.gif" />
+                                    </f:facet>
+
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus></td>
+
+
+                        </tr>
+
+                    </table>
+                    <br/>
+                    <h:outputText style="font-weight: bold" rendered="#{listaMB.listaSelecionada!=null}" value="Data Lista: "/>
+                    <h:outputText style="color: steelblue; font-weight: bold; font-size: 14px" value="#{listaMB.listaSelecionada.dataLista}" rendered="#{listaMB.listaSelecionada!=null}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" type="date" dateStyle="short" />
+                    </h:outputText><br/>
+                    <h:outputText style="font-weight: bold" rendered="#{listaMB.listaSelecionada!=null}" value="Observação: "/>
+                    <h:outputText style="color: steelblue; font-weight: bold; font-size: 14px" rendered="#{listaMB.listaSelecionada!=null}" value="#{listaMB.listaSelecionada.observacao}"/>
+                    <br/><br/>
+                    <p:remoteCommand name="remoteAtualiza" update="@form"/>
+                    <p:dataTable id="tabelaServicosLista"  var="objeto" value="#{listaMB.listaServicoLista}" 
+                                 style="text-align: left"
+                                 paginator="true" rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="8,10,50,100"
+                                 >
+                        <f:facet name="header">
+                            <p:commandButton style="color: black; font-weight: bold" actionListener="#{listaMB.novoServicoLista()}" value="Incluir Tipo de Serviço" update=":formDialogIncluirTipoServico" oncomplete="dialogIncluirTipoServiço.show()"/>
+                            <p:commandButton style="color: black; font-weight: bold" onclick="this.form.target='_blank'" ajax="false" action="#{listaMB.imprimir()}" actionListener="#{listaMB.alterarLista()}" oncomplete="remoteAtualiza()" update="@form" value="Imprimir"/>
+                        </f:facet>
+                        
+
+                        <p:column headerText="ID" style="width:20px"  >
+                            <h:outputText value="#{objeto.id}" />
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <h:outputText value="#{objeto.descricao}" />
+                        </p:column>
+                        <p:column headerText="Preen. Descrição">
+                            <h:outputText value="#{objeto.tipoDescricao}" />
+                        </p:column>
+                        <p:column headerText="Tipo Serviço">
+                            
+                           <p:commandLink style="text-decoration: underline; font-weight: bold;" value="#{objeto.tipoServico.nomeSingular} / #{objeto.tipoServico.nomePlural}" title="Visualizar" update=":formDialogServicoLista" actionListener="#{listaMB.listarListaServicoComum()}" oncomplete="dialogServicoLista.show()">
+                                <f:setPropertyActionListener value="#{objeto}" target="#{listaMB.servicoListaSelecionado}"/>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column headerText="Ordem" >
+                            <h:outputText value="#{objeto.ordem}" />
+                        </p:column>
+
+                        <p:column style="width:40px">
+                            <p:commandLink value="Alterar" title="Alterar" update=":formDialogIncluirTipoServico" oncomplete="dialogIncluirTipoServiço.show()">
+                                <f:setPropertyActionListener value="#{objeto}" target="#{listaMB.servicoListaSelecionado}"/>
+                            </p:commandLink>
+                        </p:column>
+                      
+
+                        <p:column style="width:42px">
+                            <p:commandLink value="Excluir" title="Excluir" oncomplete="dialogExcluirServicoLista.show()">
+                                <f:setPropertyActionListener value="#{objeto}" target="#{listaMB.servicoListaSelecionado}"/>
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+
+
+
+
+
+        </ui:define>
+
+    </ui:composition>
+
+
+</html>

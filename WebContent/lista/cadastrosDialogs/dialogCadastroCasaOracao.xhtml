@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+
+
+        <p:dialog appendToBody="true" header="Cadastro Casa de Oração #{controleCadastrosMB.iniciaListaCasaOracao()}" widgetVar="listaCadastroCasaOracao" position="center"  resizable="false" modal="true" height="400" width="750">
+            <p:commandButton value="Incluir Novo" actionListener="#{controleCadastrosMB.novaCasaOracao()}" oncomplete="cadastroCasaOracao.show()" update=":formDialogCadastroInserirCasaOracao"/>
+            <h:form prependId="false" id="formDialogCadastroCasaOracao">
+
+                <p:dataTable   var="objeto" value="#{controleCadastrosMB.listaCasaOracao}" 
+                               style="text-align: left"
+                               paginator="true" rows="10"
+                               paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                               rowsPerPageTemplate="8,10,50,100"
+                               >
+
+
+                    <p:column headerText="ID" style="width:20px"  >
+
+                        <h:outputText value="#{objeto.id}" />
+                    </p:column>
+
+                    <p:column headerText="Código"  >
+                        <h:outputText value="#{objeto.codigoCasaOracao}" />
+                    </p:column>
+                    <p:column headerText="Cidade"  >
+                        <h:outputText value="#{objeto.cidade}" />
+                    </p:column>
+                    <p:column headerText="Fone"  >
+                        <h:outputText value="#{objeto.telefone}" />
+                    </p:column>
+                    <p:column headerText="Endereço"  >
+                        <h:outputText value="#{objeto.endereco}" />
+                    </p:column>                     
+
+
+
+                    <p:column style="width:50px">
+                        <p:commandLink value="Usuários" title="Vizualizar Usuários" oncomplete="listaCadastroUsuarios.show()" update=":formDialogCadastroUsuario">
+                            <f:setPropertyActionListener value="#{objeto}" target="#{controleCadastrosMB.casaOracaoSelecionada}"/>
+                        </p:commandLink>
+                    </p:column>
+                    <p:column style="width:50px">
+                        <p:commandLink value="Alterar" title="Alterar" oncomplete="cadastroCasaOracao.show()" update=":formDialogCadastroInserirCasaOracao">
+                            <f:setPropertyActionListener value="#{objeto}" target="#{controleCadastrosMB.casaOracaoSelecionada}"/>
+                        </p:commandLink>
+                    </p:column>
+
+                    <p:column style="width:50px">
+                        <p:commandLink value="Excluir" title="Excluir">
+                            <f:setPropertyActionListener value="#{objeto}" target="#{controleCadastrosMB.casaOracaoSelecionada}"/>
+                        </p:commandLink>
+                    </p:column>
+
+                </p:dataTable>
+
+
+            </h:form>
+            <script type="text/javascript">
+                function handleComplete(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatorios");
+                    } else {
+                        cadastroServicoComun.hide();
+
+                    }
+                }
+            </script>
+        </p:dialog>
+
+        <p:dialog appendToBody="true" header="Cadastro Casa de Oração" widgetVar="cadastroCasaOracao" position="center"  resizable="false" modal="true" height="250" width="400">
+            <h:form prependId="false" id="formDialogCadastroInserirCasaOracao">
+                <h:panelGrid columns="3" style="margin-bottom:10px">
+
+                    <h:outputText value="Código:"/>
+                    <p:inputText required="true" id="cpcod" requiredMessage="Obrigatório" value="#{controleCadastrosMB.casaOracaoSelecionada.codigoCasaOracao}"/>
+                    <p:messages closable="true" for="cpcod"/>
+                    <h:outputText value="Cidade:"/>
+                    <p:inputText required="true" id="cpCid" requiredMessage="Obrigatório" value="#{controleCadastrosMB.casaOracaoSelecionada.cidade}"/>
+                    <p:messages  closable="true" for="cpCid"/>
+                    <h:outputText value="Endereço:"/>
+                    <p:inputText value="#{controleCadastrosMB.casaOracaoSelecionada.endereco}"/>
+                    <h:outputText value=""/>
+                    <h:outputText value="Fone:"/>
+                    <p:inputText value="#{controleCadastrosMB.casaOracaoSelecionada.telefone}"/>
+                    <h:outputText value=""/>
+                </h:panelGrid>
+                <p:commandButton value="Salvar" actionListener="#{controleCadastrosMB.inserirCasaOracao()}" update=":formDialogCadastroCasaOracao, @form" oncomplete="handleCompleteCadHomePrayer(xhr, status, args)"/>
+
+            </h:form>
+            <script type="text/javascript">
+                function handleCompleteCadHomePrayer(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatorios");
+                    } else {
+                        cadastroCasaOracao.hide();
+
+                    }
+                }
+            </script>
+        </p:dialog>
+
+
+
+
+        <p:dialog appendToBody="true" header="Cadastro Usuários #{controleCadastrosMB.iniciaListaUsuarios()}" widgetVar="listaCadastroUsuarios" position="center"  resizable="false" modal="true" height="400" width="750">
+            <p:commandButton value="Incluir Novo Usuário" actionListener="#{controleCadastrosMB.novoUsuario()}" oncomplete="cadastroUsuario.show()" update=":formDialogCadastroInserirUsuario"/>
+            <p:separator/>
+            <h:outputText value="Casa Oração:"/>
+                    <h:outputText style="font-weight: bold; color: cadetblue" value="#{controleCadastrosMB.casaOracaoSelecionada.codigoCasaOracao} - #{controleCadastrosMB.casaOracaoSelecionada.cidade}"/>
+                  <p:separator/>
+            <h:form prependId="false" id="formDialogCadastroUsuario">
+
+                <p:dataTable   var="objeto" value="#{controleCadastrosMB.listaUsuario}" 
+                               style="text-align: left"
+                               paginator="true" rows="10"
+                               paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                               rowsPerPageTemplate="8,10,50,100"
+                               >
+
+
+                    <p:column headerText="ID" style="width:20px"  >
+
+                        <h:outputText value="#{objeto.id}" />
+                    </p:column>
+
+                    <p:column headerText="Nome"  >
+                        <h:outputText value="#{objeto.nomeCompleto}" />
+                    </p:column>
+                    <p:column headerText="Login"  >
+                        <h:outputText value="#{objeto.nomeUsuario}" />
+                    </p:column>
+                    <p:column headerText="Cargo"  >
+                        <h:outputText value="#{objeto.cargo}" />
+                    </p:column>
+                    <p:column headerText="Cód Casa Oracao"  >
+                        <h:outputText value="#{objeto.codigoCasaOracao}" />
+                    </p:column>                     
+
+                    <p:column style="width:50px">
+                        <p:commandLink value="Alterar" title="Alterar" oncomplete="cadastroUsuario.show()" update=":formDialogCadastroInserirUsuario">
+                            <f:setPropertyActionListener value="#{objeto}" target="#{controleCadastrosMB.usuarioSelecionado}"/>
+                        </p:commandLink>
+                    </p:column>
+
+                    <p:column style="width:50px">
+                        <p:commandLink value="Excluir" title="Excluir">
+                            <f:setPropertyActionListener value="#{objeto}" target="#{controleCadastrosMB.usuarioSelecionado}"/>
+                        </p:commandLink>
+                    </p:column>
+
+                </p:dataTable>
+
+
+            </h:form>
+            <script type="text/javascript">
+                function handleComplete(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatorios");
+                    } else {
+                        cadastroUsuario.hide();
+
+                    }
+                }
+            </script>
+        </p:dialog>
+
+        <p:dialog appendToBody="true" header="Cadastro Usuário" widgetVar="cadastroUsuario" position="center"  resizable="false" modal="true" height="350" width="450">
+            <h:form prependId="false" id="formDialogCadastroInserirUsuario">
+                <h:panelGrid columns="2" style="margin-bottom:10px">
+                    <h:outputText value="Casa Oração:"/>
+                    <h:outputText style="font-weight: bold; color: cadetblue" value="#{controleCadastrosMB.casaOracaoSelecionada.codigoCasaOracao} - #{controleCadastrosMB.casaOracaoSelecionada.cidade}"/>
+                    <br/> <h:outputText value=""/>
+                    <h:outputText value="Nome Completo:"/>
+                    <p:inputText value="#{controleCadastrosMB.usuarioSelecionado.nomeCompleto}"/>
+
+                    <h:outputText value="Cargo:"/>
+                    <p:inputText value="#{controleCadastrosMB.usuarioSelecionado.cargo}"/>
+
+                    <h:outputText value="Email:"/>
+                    <p:inputText value="#{controleCadastrosMB.usuarioSelecionado.email}"/>
+
+                    <h:outputText value="Fone:"/>
+                    <p:inputText value="#{controleCadastrosMB.usuarioSelecionado.celular}"/>
+
+                    <h:outputText value="Login:"/>
+                    <p:inputText value="#{controleCadastrosMB.usuarioSelecionado.nomeUsuario}"/>
+
+                    <h:outputText value="Alterar Senha:" rendered="#{controleCadastrosMB.usuarioSelecionado.id!=null}" />  
+                    <p:selectOneMenu rendered="#{controleCadastrosMB.usuarioSelecionado.id!=null}" value="#{controleCadastrosMB.usuarioSelecionado.alterarSenha}">  
+                        <f:selectItem itemLabel="não" itemValue="não" />  
+                        <f:selectItem itemLabel="sim" itemValue="sim" />  
+                    </p:selectOneMenu>  
+                    <h:outputText value="Senha:"/>
+                    <p:inputText value="#{controleCadastrosMB.usuarioSelecionado.senha}"/>
+                    <h:outputText value="Cadastros"  />  
+                    <p:selectOneMenu value="#{controleCadastrosMB.usuarioSelecionado.cadastrarUsuario}">  
+                        <f:selectItem itemLabel="não" itemValue="não" />  
+                        <f:selectItem itemLabel="sim" itemValue="sim" />  
+                    </p:selectOneMenu>  
+                </h:panelGrid>
+                <p:commandButton value="Salvar" actionListener="#{controleCadastrosMB.inserirUsuario()}" update=":formDialogCadastroUsuario" oncomplete="cadastroUsuario.hide()"/>
+
+            </h:form>
+            <script type="text/javascript">
+                function handleComplete(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatorios");
+                    } else {
+                        cadastroUsuario.hide();
+
+                    }
+                }
+            </script>
+        </p:dialog>
+
+        <h:form>
+            <p:confirmDialog appendToBody="true" message="Deseja Realmente Excluir o Registro? " width="200"
+
+                             header="Confirmar" severity="alert" widgetVar="dialogExcluirServicoComun">
+
+
+                <p:commandButton value="Sim"   actionListener="#{servicoComunMB.excluiServicoComun()}" oncomplete="dialogExcluirServicoComun.hide()"/>
+                <p:commandButton value="Não" oncomplete="dialogExcluirServicoComun.hide()"/>
+
+            </p:confirmDialog>
+        </h:form>
+
+    </body>
+</html>

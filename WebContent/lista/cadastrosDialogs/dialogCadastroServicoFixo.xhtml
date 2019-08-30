@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+
+
+        <p:dialog appendToBody="true" header="Cadastro de Serviços Fixo" widgetVar="cadastroServicoFixo" position="center"  resizable="false" modal="true" height="250" width="550">
+            <h:form prependId="false" id="formDialogCadastroServicoFixo">
+                <h:panelGrid columns="2" style="margin-bottom:10px">
+
+                    <h:outputLabel value="Tipo Serviço:" />
+
+                    <p:autoComplete id="comboTipoServFixo"
+                                    value="#{servicoFixoMB.servicoFixoSelecionado.tipoServico}"
+                                    completeMethod="#{tipoServicoMB.completaTipoServico}"
+                                    var="comboTipoServFixo"
+                                    size="40"
+                                    required="true"
+                                    requiredMessage="Tipo Serviço Obrigatório"
+                                    dropdown="true"
+                                    itemValue="#{comboTipoServFixo}"
+                                    itemLabel="#{comboTipoServFixo}"
+                                    converter="tipoServicoConverter"
+                                    />
+
+                    <h:outputLabel value="Descrição:" />
+                    <p:inputText required="true" size="40" requiredMessage="Descrição Obrigatória" value="#{servicoFixoMB.servicoFixoSelecionado.descricao}"/>
+
+                    <h:outputLabel  value="Data:" />
+                    <p:calendar locale="pt_BR" value="#{servicoFixoMB.servicoFixoSelecionado.dataServico}" pattern="dd/MM/yyyy"/>
+
+                    <h:outputLabel value="Hora:" />
+                    <p:inputText value="#{servicoFixoMB.servicoFixoSelecionado.hora}"/>
+
+                    <h:outputText value="Incluir Mês Anterior:" />  
+                    <p:selectBooleanCheckbox value="#{servicoFixoMB.servicoFixoSelecionado.incluirMesAnterior}" />
+
+                    <h:outputText value="Atendido Por:"/>
+                    <p:inputText value="#{servicoFixoMB.servicoFixoSelecionado.atendidoPor}"/>
+
+                </h:panelGrid>
+           
+                <p:separator/>
+                <p:commandButton actionListener="#{servicoFixoMB.insereAlteraServicoFixo()}" value="Salvar"  oncomplete="handleCompleteFixedService(xhr, status, args)" update=":formGeralServicoFixo" />
+
+            </h:form>
+            <script type="text/javascript">
+                function handleCompleteFixedService(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatorios");
+                    } else {
+                        cadastroServicoFixo.hide();
+
+                    }
+                }
+            </script>
+
+
+        </p:dialog>
+
+        <h:form>
+            <p:confirmDialog appendToBody="true" message="Deseja Realmente Excluir o Registro? " width="200"
+                             
+                             header="Confirmar" severity="alert" widgetVar="dialogExcluirServicoFixo">
+
+
+                <p:commandButton value="Sim"   actionListener="#{servicoFixoMB.excluiServicoFixo()}" oncomplete="dialogExcluirServicoFixo.hide()"/>
+                <p:commandButton value="Não" oncomplete="dialogExcluirServicoFixo.hide()"/>
+
+            </p:confirmDialog>
+        </h:form>
+
+    </body>
+</html>

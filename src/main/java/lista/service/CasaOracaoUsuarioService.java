@@ -10,7 +10,7 @@ import dao.GenericDAO;
 import lista.modelo.EntidadeItensServicoLista;
 import util.Transacional;
 
-public class ItensServicoListaService implements Serializable{
+public class CasaOracaoUsuarioService implements Serializable{
 	
 	/**
 	 * 
