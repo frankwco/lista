@@ -52,8 +52,8 @@ public class RecuperSenhaLoginMB implements Serializable {
 	}
 
 	public Boolean buscarEmail() {
-		lista = daoPessoa.listaComStatus(Usuario.class);
-		List<Cliente> lc = daoCliente.listaComStatus(Cliente.class);
+		lista = daoPessoa.listaComStatusSemCodigoCasaOracao(Usuario.class);
+		List<Cliente> lc = daoCliente.listaComStatusSemCodigoCasaOracao(Cliente.class);
 		if (lista.stream().anyMatch(p -> p.getEmail().equals(email))) {
 			return true;
 		} else if (lc.stream().anyMatch(p -> p.getEmail().equals(email))) {

@@ -5,141 +5,150 @@ and open the template in the editor.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
-    <body>
+<body>
 
+	<p:dialog appendToBody="true" header="Cadastro de Serviços Comum"
+		widgetVar="cadastroServicoComun" position="center" resizable="false"
+		modal="true" height="400" width="750">
+		<h:form prependId="false" id="formDialogCadastroServicoComum">
+			<h:panelGrid columns="2" style="margin-bottom:10px">
 
-
-        <p:dialog appendToBody="true" header="Cadastro de Serviços Comum" widgetVar="cadastroServicoComun" position="center"  resizable="false" modal="true" height="400" width="750">
-            <h:form prependId="false" id="formDialogCadastroServicoComum">
-                <h:panelGrid columns="2" style="margin-bottom:10px">
-
-                    <h:outputLabel value="Nome:" />
-
-                    <p:autoComplete id="comboTipoServCmu"
-                                    value="#{servicoComunMB.servicoComunSelecionado.tipoServico}"
-                                    completeMethod="#{tipoServicoMB.completaTipoServico}"
-                                    var="comboTipoServCmu"
-                                    size="30"
-                                    required="true"
-                                    requiredMessage="Tipo Serviço Obrigatório"
-                                    dropdown="true"
-                                    itemValue="#{comboTipoServCmu}"
-                                    itemLabel="#{comboTipoServCmu}"
-                                    converter="tipoServicoConverter"
-                                    />
-
-                    <h:outputLabel value="Descrição:" />
-                    <p:inputText required="true" size="30" requiredMessage="Descrição Obrigatória" value="#{servicoComunMB.servicoComunSelecionado.descricao}"/>
-
-                    <h:outputLabel value="Hora:" />
-                    <p:inputText value="#{servicoComunMB.servicoComunSelecionado.horaStr}"/>
-
-                    <h:outputText value="Incluir Mês Anterior:" />  
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.mesAnterior}" />
-
-                    <h:outputText value="Incluir Mês Seguinte:" />  
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.mesSeguinte}" />
-
-                    <h:outputText value="Dia Referencia:" />  
-                    <p:selectOneMenu value="#{servicoComunMB.servicoComunSelecionado.dia}">  
-                        <f:selectItem itemLabel="1" itemValue="1" />  
-                        <f:selectItem itemLabel="2" itemValue="2" />  
-                        <f:selectItem itemLabel="3" itemValue="3" />  
-                        <f:selectItem itemLabel="4" itemValue="4" />  
-                        <f:selectItem itemLabel="5" itemValue="5" />  
-                    </p:selectOneMenu> 
-                    <h:outputLabel value="Dia Semana:" />
-                    <p:selectOneMenu value="#{servicoComunMB.servicoComunSelecionado.diaSemana}">  
-                        <f:selectItem itemLabel="Domingo" itemValue="domingo" />  
-                        <f:selectItem itemLabel="Segunda" itemValue="segunda" />  
-                        <f:selectItem itemLabel="Terça" itemValue="terça" />  
-                        <f:selectItem itemLabel="Quarta" itemValue="quarta" />  
-                        <f:selectItem itemLabel="Quinta" itemValue="quinta" />  
-                        <f:selectItem itemLabel="Sexta" itemValue="sexta" />  
-                        <f:selectItem itemLabel="Sábado" itemValue="sabado" />  
-                    </p:selectOneMenu> 
-
-                </h:panelGrid>
-                <p:separator/>
-                <p:commandButton update="gridMesesServicoComum" actionListener="#{servicoComunMB.selecionarTodosMes()}" value="Selecionar Todos"/> 
-                <br/>
-                <h:panelGrid id="gridMesesServicoComum" columns="12">
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.janeiro}" />
-                    <h:outputText value="Janeiro" /> 
+				<h:outputLabel value="Nome:" />
 
 
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.fevereiro}" />
-                    <h:outputText value="Fevereiro" />  
+				<p:selectOneMenu id="comboTipoServCmu" style="width:100%"
+					value="#{servicoComumMB.servicoComum.tipoServico}"
+					converter="#{converterTipoServico}" panelStyle="width:180px"
+					effect="fade" var="t" filter="true" filterMatchMode="contains">
+					<f:selectItems value="#{tipoServicoMB.listTipoServico}" var="cur"
+						itemLabel="#{cur}" itemValue="#{cur}" />
+					<p:column style="white-space:normal !important;">
+						<h:outputText value="#{t}" />
+					</p:column>
+				</p:selectOneMenu>
 
 
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.marco}" />
-                    <h:outputText value="Março" />  
+				<h:outputLabel value="Descrição:" />
+				<p:inputText required="true" size="30"
+					requiredMessage="Descrição Obrigatória"
+					value="#{servicoComumMB.servicoComum.descricao}" />
+
+				<h:outputLabel value="Hora:" />
+				<p:inputText value="#{servicoComumMB.servicoComum.horaStr}" />
+
+				<h:outputText value="Incluir Mês Anterior:" />
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.mesAnterior}" />
+
+				<h:outputText value="Incluir Mês Seguinte:" />
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.mesSeguinte}" />
+
+				<h:outputText value="Dia Referencia:" />
+				<p:selectOneMenu value="#{servicoComumMB.servicoComum.dia}">
+					<f:selectItem itemLabel="1" itemValue="1" />
+					<f:selectItem itemLabel="2" itemValue="2" />
+					<f:selectItem itemLabel="3" itemValue="3" />
+					<f:selectItem itemLabel="4" itemValue="4" />
+					<f:selectItem itemLabel="5" itemValue="5" />
+				</p:selectOneMenu>
+				<h:outputLabel value="Dia Semana:" />
+				<p:selectOneMenu value="#{servicoComumMB.servicoComum.diaSemana}">
+					<f:selectItem itemLabel="Domingo" itemValue="domingo" />
+					<f:selectItem itemLabel="Segunda" itemValue="segunda" />
+					<f:selectItem itemLabel="Terça" itemValue="terça" />
+					<f:selectItem itemLabel="Quarta" itemValue="quarta" />
+					<f:selectItem itemLabel="Quinta" itemValue="quinta" />
+					<f:selectItem itemLabel="Sexta" itemValue="sexta" />
+					<f:selectItem itemLabel="Sábado" itemValue="sabado" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+			<p:separator />
+			<p:commandButton update="gridMesesServicoComum"
+				actionListener="#{servicoComumMB.selecionarTodosMes()}"
+				value="Selecionar Todos" />
+			<br />
+			<h:panelGrid id="gridMesesServicoComum" columns="12">
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.janeiro}" />
+				<h:outputText value="Janeiro" />
 
 
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.abril}" />
-                    <h:outputText value="Abril" />  
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.maio}" />
-                    <h:outputText value="Maio" />  
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.junho}" />
-                    <h:outputText value="Junho" />  
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.julho}" />
-                    <h:outputText value="Julho" /> 
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.agosto}" />
-                    <h:outputText value="Agosto" /> 
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.setembro}" />
-                    <h:outputText value="Setembro" /> 
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.outubro}" />
-                    <h:outputText value="Outubro" />  
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.novembro}" />
-                    <h:outputText value="Novembro" /> 
-
-                    <p:selectBooleanCheckbox value="#{servicoComunMB.servicoComunSelecionado.dezembro}" />
-                    <h:outputText value="Dezembro" />  
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.fevereiro}" />
+				<h:outputText value="Fevereiro" />
 
 
-                </h:panelGrid>
-                <p:separator/>
-                <p:commandButton actionListener="#{servicoComunMB.insereAlteraTipoServico()}" value="Salvar"  oncomplete="handleCompleteCommonServiceCad(xhr, status, args)" update=":formGeralServicoComum" />
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.marco}" />
+				<h:outputText value="Março" />
 
-            </h:form>
-            <script type="text/javascript">
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.abril}" />
+				<h:outputText value="Abril" />
+
+				<p:selectBooleanCheckbox value="#{servicoComumMB.servicoComum.maio}" />
+				<h:outputText value="Maio" />
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.junho}" />
+				<h:outputText value="Junho" />
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.julho}" />
+				<h:outputText value="Julho" />
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.agosto}" />
+				<h:outputText value="Agosto" />
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.setembro}" />
+				<h:outputText value="Setembro" />
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.outubro}" />
+				<h:outputText value="Outubro" />
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.novembro}" />
+				<h:outputText value="Novembro" />
+
+				<p:selectBooleanCheckbox
+					value="#{servicoComumMB.servicoComum.dezembro}" />
+				<h:outputText value="Dezembro" />
+
+
+			</h:panelGrid>
+			<p:separator />
+			<p:commandButton actionListener="#{servicoComumMB.salvar()}"
+				value="Salvar"
+				oncomplete="handleCompleteCommonServiceCad(xhr, status, args)"
+				update=":formGeralServicoComum" />
+
+		</h:form>
+		<script type="text/javascript">
                 function handleCompleteCommonServiceCad(xhr, status, args) {
                     if(args.validationFailed) {
-                        alert("Campos obrigatorios");
+                        alert("Campos obrigatórios");
                     } else {
-                        cadastroServicoComun.hide();
+                        PF('cadastroServicoComun').hide();
 
                     }
                 }
             </script>
 
 
-        </p:dialog>
-
-        <h:form>
-            <p:confirmDialog appendToBody="true" message="Deseja Realmente Excluir o Registro? " width="200"
-                             
-                             header="Confirmar" severity="alert" widgetVar="dialogExcluirServicoComun">
+	</p:dialog>
 
 
-                <p:commandButton value="Sim"   actionListener="#{servicoComunMB.excluiServicoComun()}" update=":formGeralServicoComum" oncomplete="dialogExcluirServicoComun.hide()"/>
-                <p:commandButton value="Não" oncomplete="dialogExcluirServicoComun.hide()"/>
-
-            </p:confirmDialog>
-        </h:form>
-
-    </body>
+</body>
 </html>

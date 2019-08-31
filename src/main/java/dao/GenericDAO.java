@@ -69,6 +69,11 @@ public class GenericDAO<T> implements Serializable {
 		return manager.createQuery("from " + classeEntidade.getSimpleName()
 				+ " where (status <> 'excluido' or status is null) order by " + orderBy).getResultList();
 	}
+	
+	public List<T> listaComStatusSemCodigoCasaOracao(Class classeEntidade) {
+		return manager.createQuery("from " + classeEntidade.getSimpleName()
+				+ " where (status <> 'excluido' or status is null) ").getResultList();
+	}
 
 	public List<T> listar(Class classeEntidade, String condicao) {
 

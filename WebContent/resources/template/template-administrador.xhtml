@@ -9,7 +9,7 @@
 <h:head>
 	<meta charset="utf-8"></meta>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
-	<title>GF - Gestão Fácil</title>
+	<title>CCB Lista</title>
 	<meta
 		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 		name="viewport"></meta>
@@ -65,7 +65,7 @@
 		<header class="main-header">
 
 			<a href="inicio.jsf" class="logo"> <span class="logo-mini"><b>C</b></span>
-				<span class="logo-lg"><b>GF - Home</b></span>
+				<span class="logo-lg"><b>CCB Lista - Home</b></span>
 			</a>
 
 			<nav class="navbar navbar-static-top">
@@ -102,130 +102,47 @@
 					<!-- 					<li><a href="tipo.jsf"><i class="fa fa-user-secret" -->
 					<!-- 							aria-hidden="true"></i> <span>Permissões</span></a></li> -->
 
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+					<p:panelGrid>
 						<li><a href="estados.jsf"><i class="fa fa-map"
 								aria-hidden="true"></i> <span>Estados</span></a></li>
 					</p:panelGrid>
 
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+					<p:panelGrid>
 						<li><a href="cidades.jsf"><i class="fa fa-map-marker"
 								aria-hidden="true"></i> <span>Cidades</span></a></li>
 					</p:panelGrid>
-					
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="rotas.jsf"><i class="fa fa-car"
-								aria-hidden="true"></i> <span>Rotas</span></a></li>
-					</p:panelGrid>
 
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+
+
+					<p:panelGrid>
 						<li><a href="usuario.jsf"><i class="fa fa-user"
-								aria-hidden="true"></i> <span>Usuários/Colaboradores</span></a></li>
+								aria-hidden="true"></i> <span>Usuários</span></a></li>
 					</p:panelGrid>
 
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="grupoResiduos.jsf"><i
-								class="fa fa-trash" aria-hidden="true"></i> <span>Grupos
-									de Resíduos</span></a></li>
+					<p:panelGrid>
+						<li><a href="cadastroTipoServico.jsf"><i
+								class="fa fa-truck" aria-hidden="true"></i> <span>Tipo
+									Serviço</span></a></li>
 					</p:panelGrid>
 
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="clientes.jsf"><i class="fa fa-users"
-								aria-hidden="true"></i> <span>Clientes</span></a></li>
+					<p:panelGrid>
+						<li><a href="cadastroServicoComum.jsf"><i
+								class="fa fa-trash" aria-hidden="true"></i> <span>Serviço
+									Comum</span></a></li>
 					</p:panelGrid>
 
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="pontosColeta.jsf"><i
-								class="fa fa-truck" aria-hidden="true"></i> <span>Pontos
-									de Coleta</span></a></li>
-					</p:panelGrid>
-					
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="contratos.jsf"><i
-								class="fa fa-file" aria-hidden="true"></i> <span>Modelos de Contratos</span></a></li>
-					</p:panelGrid>
-					
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="dadosContratos.jsf"><i
-								class="fa fa-database" aria-hidden="true"></i> <span>Dados dos Contratos</span></a></li>
-					</p:panelGrid>
-					
-							<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="contasReceber.jsf"><i
-								class="fa fa-usd" aria-hidden="true"></i> <span>Contas a Receber</span></a></li>
+					<p:panelGrid>
+						<li><a href="cadastrpServicoFixo.jsf"><i
+								class="fa fa-users" aria-hidden="true"></i> <span>Serviço
+									Fixo</span></a></li>
 					</p:panelGrid>
 
-
-
-
-
-					<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="coleta.jsf"><i class="fa fa-pencil-square-o"
-								aria-hidden="true"></i> <span>Lançar Coletas</span></a></li>
-					</p:panelGrid>
-					
-						<p:panelGrid
-						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
-						<li><a href="fechamentoMes.jsf"><i class="fa fa-calendar"
-								aria-hidden="true"></i> <span>Fechamento Mês</span></a></li>
+					<p:panelGrid>
+						<li><a href="listarListas.jsf"><i class="fa fa-file"
+								aria-hidden="true"></i> <span>Lista</span></a></li>
 					</p:panelGrid>
 
-
-
-
-
-
-<!-- 					<p:panelGrid -->
-<!-- 						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}"> -->
-<!-- 						<li><a href="categoriaIndicador.jsf"><i -->
-<!-- 								class="fa fa-user-secret" aria-hidden="true"></i> <span>Categoria -->
-<!-- 									Indicador</span></a></li> -->
-<!-- 					</p:panelGrid> -->
-
-<!-- 					<p:panelGrid -->
-<!-- 						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}"> -->
-<!-- 						<li><a href="processo.jsf"><i class="fa fa-user-secret" -->
-<!-- 								aria-hidden="true"></i> <span> Processo</span></a></li> -->
-<!-- 					</p:panelGrid> -->
-
-
-<!-- 					<li><a href="grupoLancamento.jsf"><i -->
-<!-- 							class="fa fa-user-secret" aria-hidden="true"></i> <span> -->
-<!-- 								Variáveis de Cálculo</span></a></li> -->
-
-<!-- 					<p:panelGrid -->
-<!-- 						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}"> -->
-<!-- 						<li><a href="indicador.jsf"><i class="fa fa-user-secret" -->
-<!-- 								aria-hidden="true"></i> <span> Indicador</span></a></li> -->
-<!-- 					</p:panelGrid> -->
-
-					<!-- 					<li><a href="selecionarProcessosIndicadores.jsf"><i -->
-					<!-- 							class="fa fa-user-secret" aria-hidden="true"></i> <span> -->
-					<!-- 								Selecionar Processos x Grupo de <br />Indicadores -->
-					<!-- 						</span></a></li> -->
-
-<!-- 					<li><a href="atividade.jsf"><i class="fa fa-user-secret" -->
-<!-- 							aria-hidden="true"></i> <span> Atividade</span></a></li> -->
-
-
-<!-- 					<p:panelGrid -->
-<!-- 						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}"> -->
-<!-- 						<li><a href="selecionarIndicadores.jsf"><i -->
-<!-- 								class="fa fa-user-secret" aria-hidden="true"></i> <span> -->
-<!-- 									Selecionar Indicadores</span></a></li> -->
-<!-- 					</p:panelGrid> -->
-
-
+				
 				</ul>
 			</section>
 			<hr />
@@ -234,22 +151,6 @@
 				<ul class="sidebar-menu">
 
 
-
-<!-- 					<li><a href="lancamento.jsf"><i class="fa fa-user-secret" -->
-<!-- 							aria-hidden="true"></i> <span> Lançamentos de Informações</span></a></li> -->
-
-<!-- 					<li><a href="ocorrencias.jsf"><i class="fa fa-user-secret" -->
-<!-- 							aria-hidden="true"></i> <span> Registro de Ocorrências</span></a></li> -->
-
-					<!-- 					<li><a href="avaliacaoDesempenho.jsf"><i -->
-					<!-- 							class="fa fa-user-secret" aria-hidden="true"></i> <span> -->
-					<!-- 								Avaliação de Desempenho - Old</span></a></li> -->
-
-<!-- 					<p:panelGrid -->
-<!-- 						rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}"> -->
-<!-- 						<li><a href="avaliacao.jsf"><i class="fa fa-user-secret" -->
-<!-- 								aria-hidden="true"></i> <span> Avaliação de Desempenho</span></a></li> -->
-<!-- 					</p:panelGrid> -->
 				</ul>
 			</section>
 		</aside>

@@ -34,6 +34,7 @@ public class Usuario implements Serializable{
 	private Boolean acessoSistema=false;
 	private String permissao;
 	private Boolean status;
+	private String codigoCasaOracao;
 	
 	//
 	//
@@ -41,6 +42,12 @@ public class Usuario implements Serializable{
 	
 	public Long getId() {
 		return id;
+	}
+	public String getCodigoCasaOracao() {
+		return codigoCasaOracao;
+	}
+	public void setCodigoCasaOracao(String codigoCasaOracao) {
+		this.codigoCasaOracao = codigoCasaOracao;
 	}
 	public String getCnh() {
 		return cnh;

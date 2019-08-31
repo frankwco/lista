@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
-    <body>
+<body>
 
 
-        <!-- Dialog referente ao CADASTRO DE BANCO-->
+	<!-- Dialog referente ao CADASTRO DE BANCO-->
 
-        <p:dialog appendToBody="true" header="Cadastro de Tipo de Serviços" widgetVar="cadastroTipoServico" position="center"  resizable="false" modal="true" width="550">
-            <h:form id="formCadastroTipoServico">
-                <h:panelGrid columns="2" style="margin-bottom:10px">
+	<p:dialog appendToBody="true" header="Cadastro de Tipo de Serviços"
+		widgetVar="cadastroTipoServico" position="center" resizable="false"
+		modal="true" width="550">
+		<h:form id="formCadastroTipoServico">
+			<h:panelGrid columns="2" style="margin-bottom:10px">
 
-                    <h:outputLabel value="Nome Singular:" />
-                  
-                    <p:inputText required="true" size="50" requiredMessage="campos obrigatórios" value="#{ tipoServicoMB.tipoServicoSelecionado.nomeSingular}"/>
-                    
-                    <h:outputLabel value="Nome Plural:" />
-                    
-                    <p:inputText required="true" size="50" requiredMessage="campos obrigatórios" value="#{ tipoServicoMB.tipoServicoSelecionado.nomePlural}"/>
-                    
-                    <h:outputLabel value="Ordem Aproximada:" />
-                    
-                    <p:inputText required="true" requiredMessage="campos obrigatórios" value="#{ tipoServicoMB.tipoServicoSelecionado.ordemAproximada}"/>
-                    
+				<h:outputLabel value="Nome Singular:" />
 
-                </h:panelGrid>
-                <p:commandButton actionListener="#{tipoServicoMB.insereAlteraTipoServico()}" value="Salvar" update=":formListaTipoServico, @form"  oncomplete="handleCompletes(xhr, status, args)" />
+				<p:inputText required="true" size="50"
+					requiredMessage="campos obrigatórios"
+					value="#{tipoServicoMB.tipoServico.nomeSingular}" />
 
-            </h:form>
-            <script type="text/javascript">
+				<h:outputLabel value="Nome Plural:" />
+
+				<p:inputText required="true" size="50"
+					requiredMessage="campos obrigatórios"
+					value="#{tipoServicoMB.tipoServico.nomePlural}" />
+
+				<h:outputLabel value="Ordem Aproximada:" />
+
+				<p:inputText required="true" requiredMessage="campos obrigatórios"
+					value="#{tipoServicoMB.tipoServico.ordemAproximada}" />
+
+
+			</h:panelGrid>
+			<p:commandButton
+				actionListener="#{tipoServicoMB.salvar()}"
+				value="Salvar" update=":formListaTipoServico, @form"
+				oncomplete="handleCompletes(xhr, status, args)" />
+
+		</h:form>
+		<script type="text/javascript">
                 function handleCompletes(xhr, status, args) {
                     if(args.validationFailed) {
-                        alert("Campos obrigatorios");
+                        alert("Campos obrigatórios");
                     } else {
-                        cadastroTipoServico.hide();
+                        PF('cadastroTipoServico').hide();
 
                     }
                 }
             </script>
 
 
-        </p:dialog>
-
-        
-        <h:form>
-            <p:confirmDialog appendToBody="true" message="Deseja Realmente Excluir o Registro? " width="200"
-                            
-                             header="Confirmar" severity="alert" widgetVar="dialogExcluirTipoServico">
+	</p:dialog>
 
 
-                <p:commandButton value="Simm" actionListener="#{tipoServicoMB.excluiTipoServico()}" update=":formListaTipoServico" oncomplete="dialogExcluirTipoServico.hide()"/>
-                <p:commandButton value="Não" oncomplete="dialogExcluirTipoServico.hide()"/>
-
-            </p:confirmDialog>
-</h:form>
-    </body>
+	
+</body>
 </html>

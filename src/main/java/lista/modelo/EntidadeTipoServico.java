@@ -126,4 +126,11 @@ public class EntidadeTipoServico implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return  nomeSingular + " / " + nomePlural ;
+	}
+	
+	
+
 }

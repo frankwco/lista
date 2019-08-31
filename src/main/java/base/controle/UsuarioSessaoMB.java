@@ -33,7 +33,7 @@ public class UsuarioSessaoMB implements Serializable {
 		
 		Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
-			System.out.println("Aquii usuario sessão");
+			//System.out.println("Aquii usuario sessão");
 			Object obj = authentication.getPrincipal();
 			if (obj instanceof UserDetails) {
 				nomeUsuario = ((UserDetails) obj).getUsername();
@@ -42,7 +42,7 @@ public class UsuarioSessaoMB implements Serializable {
 			}
 		}
 
-		List<Usuario> usu = daoUsuario.listar(Usuario.class, "email='" + nomeUsuario + "'");
+		List<Usuario> usu = daoUsuario.listarSemCodigoCasaOracao(Usuario.class, "email='" + nomeUsuario + "'");
 		if (usu.size() > 0) {
 			usuario = usu.get(0);
 		}

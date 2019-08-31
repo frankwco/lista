@@ -7,92 +7,108 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition id="idcompons" template="../resources/template/template-administrador.xhtml">
 
-        <ui:define id="iddefine" name="body">
-            <ui:include src="/cadastrosDialogs/dialogCadastroTipoServico.xhtml"/>
+	<ui:define name="mensagem">
+		<ui:include src="../componentes/mensagem.xhtml" />
+	</ui:define>
+	<ui:define name="modal-confirmacao">
+		<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+	</ui:define>
 
-            <p:messages showDetail="true" />
+	<ui:define name="conteudo">
+		<ui:include src="cadastrosDialogs/dialogCadastroTipoServico.xhtml" />
 
-            <p:panel id="panelCadastroTipoServico" header="Lista de Tipo de Serviços #{tipoServicoMB.iniciaListagem()}">
+		<p:messages showDetail="true" />
 
-                <h:form id="formListaTipoServico">
+		<p:panel id="panelCadastroTipoServico"
+			header="Lista de Tipo de Serviços">
 
-                    <p:growl id="bancoid" />
+			<h:form id="formListaTipoServico">
 
-                    <table border="0" width="100%" >
+				<p:growl id="bancoid" />
 
-                        <tr>
-                            <td align="left">
+				<table border="0" width="100%">
 
-                                <p:commandButton value="Novo Cadastro" actionListener="#{tipoServicoMB.novoCadastro()}" oncomplete="cadastroTipoServico.show()" update=":formCadastroTipoServico" ajax="true"/></td>
+					<tr>
+						<td align="left"><p:commandButton value="Novo Cadastro"
+								actionListener="#{tipoServicoMB.criarNovoObjeto()}"
+								oncomplete="PF('cadastroTipoServico').show()"
+								update=":formCadastroTipoServico" ajax="true" /></td>
 
-                            <td align="left" style="width:52%"> <p:ajaxStatus style="width:16px;height:16px;">
-                                    <f:facet name="start">
-                                        <h:graphicImage value="/img/ajaxloadingvermelho.gif" />
-                                    </f:facet>
+						<td align="left" style="width: 52%"><p:ajaxStatus
+								style="width:16px;height:16px;">
+								<f:facet name="start">
+									<h:graphicImage value="/img/ajaxloadingvermelho.gif" />
+								</f:facet>
 
-                                    <f:facet name="complete">
-                                        <h:outputText value="" />
-                                    </f:facet>
-                                </p:ajaxStatus></td>
-
-
-                        </tr>
-
-                    </table>
-                    
-                    
-                    <p:dataTable id="tabelaTipoServico"  var="objeto" value="#{tipoServicoMB.listaTipoServico}" 
-                                 style="text-align: left"
-                                 paginator="true" rows="10"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="8,10,50,100"
-                                 >
+								<f:facet name="complete">
+									<h:outputText value="" />
+								</f:facet>
+							</p:ajaxStatus></td>
 
 
-                        <p:column headerText="ID" style="width:20px"  >
+					</tr>
 
-                            <h:outputText value="#{objeto.id}" />
-                        </p:column>
-
-                        <p:column headerText="Nome Singular" sortBy="#{objeto.nomeSingular}" filterBy="#{objeto.nomeSingular}" filterMatchMode="contains" >
-                            <h:outputText value="#{objeto.nomeSingular}" />
-
-                        </p:column>
-                        <p:column headerText="Nome Plural" sortBy="#{objeto.nomePlural}" filterBy="#{objeto.nomePlural}" filterMatchMode="contains" >
-                            <h:outputText value="#{objeto.nomePlural}" />
-
-                        </p:column>
-                        <p:column headerText="Ordem Aproximada" >
-                            <h:outputText value="#{objeto.ordemAproximada}" />
-
-                        </p:column>
+				</table>
 
 
+				<p:dataTable id="tabelaTipoServico" var="objeto"
+					value="#{tipoServicoMB.listTipoServico}" style="text-align: left"
+					paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="8,10,50,100">
 
-                        <p:column style="width:50px">
-                            <p:commandLink value="Alterar" title="Alterar" oncomplete="cadastroTipoServico.show()" update=":formCadastroTipoServico">
-                                <f:setPropertyActionListener value="#{objeto}" target="#{tipoServicoMB.tipoServicoSelecionado}"/>
-                            </p:commandLink>
-                        </p:column>
 
-                        <p:column style="width:50px">
-                            <p:commandLink value="Excluir" title="Excluir" oncomplete="dialogExcluirTipoServico.show()">
-                                <f:setPropertyActionListener value="#{objeto}" target="#{tipoServicoMB.tipoServicoSelecionado}"/>
-                            </p:commandLink>
-                        </p:column>
+					<p:column headerText="ID" style="width:20px">
 
-                    </p:dataTable>
-                </h:form>
-            </p:panel>
+						<h:outputText value="#{objeto.id}" />
+					</p:column>
+
+					<p:column headerText="Nome Singular"
+						sortBy="#{objeto.nomeSingular}" filterBy="#{objeto.nomeSingular}"
+						filterMatchMode="contains">
+						<h:outputText value="#{objeto.nomeSingular}" />
+
+					</p:column>
+					<p:column headerText="Nome Plural" sortBy="#{objeto.nomePlural}"
+						filterBy="#{objeto.nomePlural}" filterMatchMode="contains">
+						<h:outputText value="#{objeto.nomePlural}" />
+
+					</p:column>
+					<p:column headerText="Ordem Aproximada">
+						<h:outputText value="#{objeto.ordemAproximada}" />
+
+					</p:column>
 
 
 
+					<p:column style="width:50px">
+						<p:commandLink value="Alterar" title="Alterar"
+							oncomplete="PF('cadastroTipoServico').show()"
+							update=":formCadastroTipoServico">
+							<f:setPropertyActionListener value="#{objeto}"
+								target="#{tipoServicoMB.tipoServico}" />
+						</p:commandLink>
+					</p:column>
 
-   
-        </ui:define>
+					<p:column style="width:50px">
+						<p:commandLink value="Excluir" title="Excluir"
+							actionListener="#{tipoServicoMB.inativar(objeto)}">
+							<p:confirm header="Confirmação" message="Deseja excluir?" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</p:panel>
 
 
-    </ui:composition>
+
+
+
+	</ui:define>
+
+
+</ui:composition>
 
 
 </html>

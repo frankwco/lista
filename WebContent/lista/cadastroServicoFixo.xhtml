@@ -1,96 +1,115 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PT" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-    <ui:composition template="../resources/template/template-administrador.xhtml">
-        <ui:define name="body">
-            <ui:include src="cadastrosDialogs/dialogCadastroServicoFixo.xhtml"/>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition
+	template="../resources/template/template-administrador.xhtml">
+	<ui:define name="mensagem">
+		<ui:include src="../componentes/mensagem.xhtml" />
+	</ui:define>
+	<ui:define name="modal-confirmacao">
+		<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<ui:include src="cadastrosDialogs/dialogCadastroServicoFixo.xhtml" />
 
 
-            <h:form prependId="false" style="text-align: left">
+		<h:form prependId="false" style="text-align: left">
 
-            </h:form>
-            <p:messages showDetail="true" />
+		</h:form>
+		<p:messages showDetail="true" />
 
-            <p:panel header="Lista de Serviços Fixo #{servicoFixoMB.iniciaListagem()}">
+		<p:panel header="Lista de Serviços Fixo">
 
-                <h:form id="formGeralServicoFixo" prependId="false" >
+			<h:form id="formGeralServicoFixo" prependId="false">
 
-                    <p:growl id="bancoids" />
+				<p:growl id="bancoids" />
 
-                    <table border="0" width="100%" >
+				<table border="0" width="100%">
 
-                        <tr>
-                            <td align="left">
+					<tr>
+						<td align="left"><p:commandButton value="Novo Cadastro"
+								actionListener="#{servicoFixoMB.criarNovoObjeto()}"
+								update=":formDialogCadastroServicoFixo"
+								oncomplete="PF('cadastroServicoFixo').show()" ajax="true" /></td>
 
-                                <p:commandButton value="Novo Cadastro" actionListener="#{servicoFixoMB.novoCadastro()}" update=":formDialogCadastroServicoFixo" oncomplete="cadastroServicoFixo.show()" ajax="true"/></td>
+						<td align="left" style="width: 52%"><p:ajaxStatus
+								style="width:16px;height:16px;">
+								<f:facet name="start">
+									<h:graphicImage value="/img/ajaxloadingvermelho.gif" />
+								</f:facet>
 
-                            <td align="left" style="width:52%"> <p:ajaxStatus style="width:16px;height:16px;">
-                                    <f:facet name="start">
-                                        <h:graphicImage value="/img/ajaxloadingvermelho.gif" />
-                                    </f:facet>
-
-                                    <f:facet name="complete">
-                                        <h:outputText value="" />
-                                    </f:facet>
-                                </p:ajaxStatus></td>
-
-
-                        </tr>
-
-                    </table>
-                    <p:dataTable id="tabelaServicoFixo"  var="objeto" value="#{servicoFixoMB.listaServico}" 
-                                 style="text-align: left"
-                                 paginator="true" rows="10"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="8,10,50,100"
-                                 >
-                        <p:column headerText="ID" style="width:20px"  >
-                            <h:outputText value="#{objeto.id}" />
-                        </p:column>
-
-                        <p:column headerText="Tipo Serviço" sortBy="#{objeto.tipoServico.nomePlural}" filterBy="#{objeto.tipoServico.nomePlural}">
-                            <h:outputText value="#{objeto.tipoServico.nomePlural} / #{objeto.tipoServico.nomeSingular}" />
-                        </p:column>
-                        <p:column headerText="Descrição" sortBy="#{objeto.descricao}" filterBy="#{objeto.descricao}" >
-                            <h:outputText value="#{objeto.descricao}" />
-                        </p:column>
-
-                        <p:column headerText="Data Serviço" style="width:30px">
-                            <h:outputText value="#{objeto.dataServico}" rendered="#{objeto.dataServico != null}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" type="date" dateStyle="short" />
-                            </h:outputText>
-                            <h:outputText value="" rendered="#{objeto.dataServico == null}" />
-                        </p:column>
-
-                        <p:column headerText="Hora" style="width:30px">
-                            <h:outputText value="#{objeto.hora}" />
-
-                        </p:column>
+								<f:facet name="complete">
+									<h:outputText value="" />
+								</f:facet>
+							</p:ajaxStatus></td>
 
 
-                        <p:column style="width:40px">
-                            <p:commandLink value="Alterar" title="Alterar" update=":formDialogCadastroServicoFixo" oncomplete="cadastroServicoFixo.show()">
-                                <f:setPropertyActionListener value="#{objeto}" target="#{servicoFixoMB.servicoFixoSelecionado}"/>
-                            </p:commandLink>
-                        </p:column>
+					</tr>
 
-                        <p:column style="width:42px">
-                            <p:commandLink value="Excluir" title="Excluir" oncomplete="dialogExcluirServicoFixo.show()">
-                                <f:setPropertyActionListener value="#{objeto}" target="#{servicoFixoMB.servicoFixoSelecionado}"/>
-                            </p:commandLink>
-                        </p:column>
+				</table>
+				<p:dataTable id="tabelaServicoFixo" var="objeto"
+					value="#{servicoFixoMB.listServicoFixo}" style="text-align: left"
+					paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="8,10,50,100">
+					<p:column headerText="ID" style="width:20px">
+						<h:outputText value="#{objeto.id}" />
+					</p:column>
 
-                    </p:dataTable>
-                </h:form>
-            </p:panel>
+					<p:column headerText="Tipo Serviço"
+						sortBy="#{objeto.tipoServico.nomePlural}"
+						filterBy="#{objeto.tipoServico.nomePlural}">
+						<h:outputText
+							value="#{objeto.tipoServico.nomePlural} / #{objeto.tipoServico.nomeSingular}" />
+					</p:column>
+					<p:column headerText="Descrição" sortBy="#{objeto.descricao}"
+						filterBy="#{objeto.descricao}">
+						<h:outputText value="#{objeto.descricao}" />
+					</p:column>
 
-        </ui:define>
+					<p:column headerText="Data Serviço" style="width:30px">
+						<h:outputText value="#{objeto.dataServico}"
+							rendered="#{objeto.dataServico != null}">
+							<f:convertDateTime pattern="dd/MM/yyyy" type="date"
+								dateStyle="short" />
+						</h:outputText>
+						<h:outputText value="" rendered="#{objeto.dataServico == null}" />
+					</p:column>
 
-    </ui:composition>
+					<p:column headerText="Hora" style="width:30px">
+						<h:outputText value="#{objeto.hora}" />
+
+					</p:column>
+
+
+					<p:column style="width:40px">
+						<p:commandLink value="Alterar" title="Alterar"
+							update=":formDialogCadastroServicoFixo"
+							oncomplete="cadastroServicoFixo.show()">
+							<f:setPropertyActionListener value="#{objeto}"
+								target="#{servicoFixoMB.servicoFixo}" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column style="width:42px">
+						<p:commandLink value="Excluir" title="Excluir"
+							actionListener="#{servicoFixoMB.inativar(objeto)}">
+							<p:confirm header="Confirmação" message="Deseja excluir?" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+
+	</ui:define>
+
+</ui:composition>
 
 
 </html>

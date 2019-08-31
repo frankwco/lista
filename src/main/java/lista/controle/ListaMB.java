@@ -57,7 +57,7 @@ public class ListaMB implements Serializable {
 
 	@Inject
 	private GenericDAO<EntidadeLista> daoLista; // faz as buscas
-	
+
 	@Inject
 	private GenericDAO<EntidadeServicoComum> daoServicoComum; // faz as buscas
 
@@ -96,17 +96,16 @@ public class ListaMB implements Serializable {
 		this.listaLista = null;
 	}
 
-	public void excluirServicoLista() {
+	public void excluirServicoLista(EntidadeServicoLista isl) {
 		if (getServicoListaSelecionado().getId() != null) {
 			List<EntidadeItensServicoLista> li = this.daoItensServicoLista.listar(EntidadeItensServicoLista.class,
-					"servicoLista.id=" + this.servicoListaSelecionado.getId());
+					"servicoLista.id=" + isl.getId());
 			for (EntidadeItensServicoLista l : li) {
 				l.setStatus("excluido");
 				this.itensServicoService.inserirAlterar(l);
 			}
-			this.servicoListaSelecionado.setStatus("excluido");
-			this.servicoListaService.inserirAlterar(this.servicoListaSelecionado);
-			this.servicoListaSelecionado = null;
+			isl.setStatus("excluido");
+			this.servicoListaService.inserirAlterar(isl);
 			this.listaServicoLista = null;
 		}
 	}
@@ -220,9 +219,9 @@ public class ListaMB implements Serializable {
 		this.servicoListaSelecionado = null;
 	}
 
-	public void excluirLista() {
-		List<EntidadeServicoLista> sl = daoServicoLista.listar(EntidadeServicoLista.class,
-				"lista.id=" + this.listaSelecionada.getId());
+	public void excluirLista(EntidadeLista l) {
+
+		List<EntidadeServicoLista> sl = daoServicoLista.listar(EntidadeServicoLista.class, "lista.id=" + l.getId());
 		for (EntidadeServicoLista s : sl) {
 			List<EntidadeItensServicoLista> lit = daoItensServicoLista.listar(EntidadeItensServicoLista.class,
 					"servicoLista.id=" + s.getId());
@@ -234,8 +233,9 @@ public class ListaMB implements Serializable {
 			servicoListaService.inserirAlterar(s);
 
 		}
-		this.listaSelecionada.setObservacao("excluido - teste");
-		listaService.inserirAlterar(this.listaSelecionada);
+		l.setStatus("excluido");
+
+		listaService.inserirAlterar(l);
 		novaLista();
 	}
 
@@ -342,7 +342,7 @@ public class ListaMB implements Serializable {
 	}
 
 	private void insereServicoscomum() {
-		String cod =casaOracaoLogada;
+		String cod = casaOracaoLogada;
 
 		List<EntidadeServicoComum> listaSCIncluir = new ArrayList();
 		List<EntidadeServicoComum> listaMesAnterior = new ArrayList();
