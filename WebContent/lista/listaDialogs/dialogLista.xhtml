@@ -42,7 +42,7 @@ and open the template in the editor.
                     if(args.validationFailed) {
                         alert("Campos obrigatórios");
                     } else {
-                        dialogNovaListas.hide();
+                        PF('dialogNovaListas').hide();
 
                     }
                 }
@@ -51,21 +51,7 @@ and open the template in the editor.
 
 	</p:dialog>
 
-	<h:form>
-		<p:confirmDialog appendToBody="true" modal="true"
-			message="Deseja Realmente Excluir o Registro? " width="200"
-			showEffect="explode" hideEffect="explode" header="Confirmar"
-			severity="alert" widgetVar="dialogExcluirServicoFixo">
-
-
-			<p:commandButton value="Sim"
-				actionListener="#{servicoFixoMB.excluiServicoFixo()}"
-				oncomplete="dialogExcluirServicoFixo.hide()" />
-			<p:commandButton value="Não"
-				oncomplete="dialogExcluirServicoFixo.hide()" />
-
-		</p:confirmDialog>
-	</h:form>
+	
 
 	<p:dialog appendToBody="true" header="Serviços Lista"
 		widgetVar="dialogServicoLista" position="center" resizable="false"
@@ -140,7 +126,7 @@ and open the template in the editor.
                     if(args.validationFailed) {
                         alert("Campos obrigatorios");
                     } else {
-                        dialogServicoLista.hide();
+                        PF('dialogServicoLista').hide();
 
                     }
                 }
@@ -168,17 +154,21 @@ and open the template in the editor.
 		<h:form prependId="false" id="formDialogIncluirTipoServico">
 			<p:panelGrid columns="2">
 				<h:outputText value="Tipo Serviço:" />
-				<p:autoComplete id="comboTipoServCmu"
+				
+					<p:selectOneMenu id="comboTipoServCmu" style="width:100%"
 					value="#{listaMB.servicoListaSelecionado.tipoServico}"
-					completeMethod="#{tipoServicoMB.completaTipoServico}"
-					var="comboTipoServCmu" size="30" required="true"
-					requiredMessage="Tipo Serviço Obrigatório" dropdown="true"
-					itemValue="#{comboTipoServCmu}" itemLabel="#{comboTipoServCmu}"
-					converter="tipoServicoConverter">
+					converter="#{converterTipoServico}" panelStyle="width:180px"
+					effect="fade" var="t" filter="true" filterMatchMode="contains">
 					<p:ajax event="itemSelect"
 						update=":formDialogIncluirTipoServico:campoOrdemTipoServico"
-						listener="#{listaMB.setarOrdem()}" />
-				</p:autoComplete>
+						listener="#{listaMB.setarOrdem()}"/>
+					<f:selectItems value="#{tipoServicoMB.listTipoServico}" var="cur"
+						itemLabel="#{cur}" itemValue="#{cur}" />
+					<p:column style="white-space:normal !important;">
+						<h:outputText value="#{t}" />
+					</p:column>
+				</p:selectOneMenu>
+				
 				<h:outputText value="Ordem:" />
 				<p:inputText required="true" id="campoOrdemTipoServico"
 					requiredMessage="Ordem Obrigatória"
@@ -211,7 +201,7 @@ and open the template in the editor.
                     if(args.validationFailed) {
                         alert("Campos obrigatorios");
                     } else {
-                        dialogIncluirTipoServiço.hide();
+                        PF('dialogIncluirTipoServiço').hide();
 
                     }
                 }
@@ -273,7 +263,7 @@ and open the template in the editor.
                     if(args.validationFailed) {
                         alert("Campos obrigatorios");
                     } else {
-                        inserirItemServico.hide();
+                        PF('inserirItemServico').hide();
 
                     }
                 }
