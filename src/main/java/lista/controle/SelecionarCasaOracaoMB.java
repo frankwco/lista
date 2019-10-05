@@ -24,7 +24,7 @@ import lista.modelo.EntidadeCasaOracao;
 import lista.modelo.EntidadeCasaOracaoUsuario;
 import lista.modelo.EntidadeServicoLista;
 import lista.service.CasaOracaoService;
-import lista.service.CasaOracaoUsuarioService;
+import lista.service.ItensServicoListaService;
 
 @SessionScoped
 @Named("selecionarCasaOracaoMB")
@@ -40,7 +40,7 @@ public class SelecionarCasaOracaoMB implements Serializable {
 	private GenericDAO<EntidadeCasaOracaoUsuario> daoCasaOracaoUsuario; // faz as buscas
 
 	@Inject
-	private CasaOracaoUsuarioService casaOracaoUsuarioService; // inserir no banco
+	private ItensServicoListaService casaOracaoUsuarioService; // inserir no banco
 
 	@Inject
 	private UsuarioService usuarioService;

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listaFolhaDM" pageWidth="220" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="216" leftMargin="2" rightMargin="2" topMargin="14" bottomMargin="0" isFloatColumnFooter="true" uuid="4719ed29-7ada-4113-bcd0-98c63f417e8a">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CCBLista"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/frank/Área de trabalho/Coisas/relatorios CCBLISTA/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="IDLISTA" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CIDADE" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     tabelalista.idLista AS tabelaLista_idLista,
+     tabelalista.codigoCasaOracao AS tabelaLista_codigoCasaOracao,
+     tabelalista.dataLista AS tabelaLista_dataLista,
+     tabelalista.observacao AS tabelaLista_observacao,
+     tabelalista.status AS tabelaLista_status,
+     tabelaservicolista.idServicoLista AS tabelaservicolista_idServicoLista,
+     tabelaservicolista.codigoCasaOracao AS tabelaservicolista_codigoCasaOracao,
+     tabelaservicolista.descricao AS tabelaservicolista_descricao,
+     tabelaservicolista.ordem AS tabelaservicolista_ordem,
+     tabelaservicolista.status AS tabelaservicolista_status,
+     tabelaservicolista.idLista AS tabelaservicolista_idLista,
+     tabelaservicolista.idTipoServico AS tabelaservicolista_idTipoServico,
+     tabelatiposervico.idTipoServico AS tabelatiposervico_idTipoServico,
+          tabelatiposervico.nomePlural AS tabelatiposervico_nomePlural,
+     tabelatiposervico.nomeSingular AS tabelatiposervico_nomeSingular
+FROM
+     tabelaservicolista tabelaservicolista INNER JOIN tabelalista ON tabelaservicolista.idLista = tabelalista.idLista
+     INNER JOIN tabelatiposervico tabelatiposervico ON tabelaservicolista.idTipoServico = tabelatiposervico.idTipoServico
+WHERE
+     tabelalista.idLista = $P{IDLISTA} and (tabelalista.status is null or tabelalista.status <> 'excluido') and (tabelaservicolista.status is null or tabelaservicolista.status <> 'excluido')
+ORDER BY
+     tabelaservicolista.ordem ASC]]>
+	</queryString>
+	<field name="tabelaLista_idLista" class="java.lang.Long"/>
+	<field name="tabelaLista_codigoCasaOracao" class="java.lang.String"/>
+	<field name="tabelaLista_dataLista" class="java.sql.Date"/>
+	<field name="tabelaLista_observacao" class="java.lang.String"/>
+	<field name="tabelaLista_status" class="java.lang.String"/>
+	<field name="tabelaservicolista_idServicoLista" class="java.lang.Long"/>
+	<field name="tabelaservicolista_codigoCasaOracao" class="java.lang.String"/>
+	<field name="tabelaservicolista_descricao" class="java.lang.String"/>
+	<field name="tabelaservicolista_ordem" class="java.lang.Integer"/>
+	<field name="tabelaservicolista_status" class="java.lang.String"/>
+	<field name="tabelaservicolista_idLista" class="java.lang.Long"/>
+	<field name="tabelaservicolista_idTipoServico" class="java.lang.Long"/>
+	<field name="tabelatiposervico_idTipoServico" class="java.lang.Long"/>
+	<field name="tabelatiposervico_nomePlural" class="java.lang.String"/>
+	<field name="tabelatiposervico_nomeSingular" class="java.lang.String"/>
+	<title>
+		<band height="61" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="0" width="213" height="13" backcolor="#CCCCCC" uuid="460be53b-55ce-4f0a-9be4-da879b4f2ad4"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true" isStrikeThrough="false" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[CONGREGAÇÃO CRISTÃ NO BRASIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="44" width="201" height="4" backcolor="#000000" uuid="15791fd0-6c96-4794-b310-033fff0cfd55"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="49" width="213" height="11" uuid="fb867d4b-b575-4e69-acae-e0514b5e2822"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LISTA DE BATISMOS E OUTROS SERVIÇOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="33" width="4" height="14" backcolor="#000000" uuid="fdffbf02-a92d-459e-8631-1826bdba85fb"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="13" width="4" height="20" uuid="dec5958d-c8a1-482e-9eeb-9ed4afaf8ade"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="44" width="12" height="4" uuid="6eb18444-19bd-4b9e-8ae9-6acba89254f1"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="33" width="119" height="10" uuid="ebf67b28-90f0-45a7-9e21-c3a60f4b466d"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Versão para Dispositivos Móveis]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="13" width="211" height="20" uuid="bb34ec02-c8d5-4576-a452-19df99931302"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CIDADE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="12" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="0" width="27" height="12" backcolor="#CCCCCC" uuid="4df3c7ac-7309-4389-9404-fa6df633acea">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="28" y="0" width="27" height="12" backcolor="#CCCCCC" uuid="e03c4e88-f1ba-4fbb-8eb4-172898088823">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HORA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="0" width="159" height="12" backcolor="#CCCCCC" uuid="b401418c-d2de-4ab7-aec1-04e28386e1b1">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ LOCALIDADE                 ATENDIDO POR]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="1" y="0" width="213" height="26" forecolor="#000000" backcolor="#EBEBEB" uuid="41c2053d-91d7-434c-aae0-b9ab19b27031">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$F{tabelaservicolista_descricao}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="1" y="26" width="213" height="4" uuid="628aa797-358b-4e45-9e31-9468a4a5dcc4">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="IDSERVICOLISTA">
+					<subreportParameterExpression><![CDATA[$F{tabelaservicolista_idServicoLista}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["subListaFolhaDM.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="1" y="0" width="213" height="14" uuid="63574958-a2ff-47ce-aac4-2025afd1d74b"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tabelaLista_dataLista}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

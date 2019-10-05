@@ -49,6 +49,7 @@ public class ServicoComumMB implements Serializable {
 	
 	
 	 public void selecionarTodosMes() {
+		 System.out.println("Seleção de todos");
 		 /*  39 */     if ((this.servicoComum.getJaneiro() != null) && (this.servicoComum.getJaneiro().booleanValue() == true)) {
 		 /*  40 */       this.servicoComum.setJaneiro(Boolean.valueOf(false));
 		 /*  41 */       this.servicoComum.setFevereiro(Boolean.valueOf(false));

@@ -80,14 +80,25 @@
 					<f:facet name="header">
 						<p:commandButton style="color: black; font-weight: bold"
 							actionListener="#{listaMB.novoServicoLista()}"
-							value="Incluir Tipo de Serviço"
+							value="Incluir Tipo de Serviço Nesta Lista"
 							update=":formDialogIncluirTipoServico"
 							oncomplete="PF('dialogIncluirTipoServiço').show()" />
-						<p:commandButton style="color: black; font-weight: bold"
-							onclick="this.form.target='_blank'" ajax="false"
-							action="#{listaMB.imprimir()}"
-							actionListener="#{listaMB.alterarLista()}"
-							oncomplete="remoteAtualiza()" update="@form" value="Imprimir" />
+							<br/><br/>
+
+
+						<p:commandButton value="Imprimir Lista Mobile"
+							onclick="this.form.target='_blank'"
+							action="#{listaMB.imprimir(0)}" ajax="false"
+							oncomplete="remoteAtualiza()" />&nbsp;&nbsp;
+						<p:commandButton value="Imprimir Lista Modelo 2 por página"
+							onclick="this.form.target='_blank'"
+							action="#{listaMB.imprimir(1)}" ajax="false"
+							oncomplete="remoteAtualiza()" />&nbsp;&nbsp;
+						<p:commandButton value="Imprimir Lista Modelo 1 por página"
+							onclick="this.form.target='_blank'"
+							action="#{listaMB.imprimir(2)}" ajax="false"
+							oncomplete="remoteAtualiza()" />
+
 					</f:facet>
 
 
@@ -107,7 +118,7 @@
 							value="#{objeto.tipoServico.nomeSingular} / #{objeto.tipoServico.nomePlural}"
 							title="Visualizar" update=":formDialogServicoLista"
 							actionListener="#{listaMB.listarListaServicoComum()}"
-							oncomplete="dialogServicoLista.show()">
+							oncomplete="PF('dialogServicoLista').show()">
 							<f:setPropertyActionListener value="#{objeto}"
 								target="#{listaMB.servicoListaSelecionado}" />
 						</p:commandLink>
@@ -116,10 +127,11 @@
 						<h:outputText value="#{objeto.ordem}" />
 					</p:column>
 
-					
 
-					<p:column >
-						<p:commandButton value="Alterar" title="Alterar"
+
+					<p:column>
+						<p:commandButton value="Alterar Título do Serviço"
+							title="Alterar Título do Serviço"
 							update=":formDialogIncluirTipoServico"
 							oncomplete="PF('dialogIncluirTipoServiço').show()">
 							<f:setPropertyActionListener value="#{objeto}"
@@ -127,7 +139,7 @@
 						</p:commandButton>
 						<p:commandButton value="Excluir" title="Excluir"
 							actionListener="#{listaMB.excluirServicoLista(objeto)}">
-							
+<p:confirm header="Confirmação" message="Deseja excluir?" />
 						</p:commandButton>
 					</p:column>
 

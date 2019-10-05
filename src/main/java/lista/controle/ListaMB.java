@@ -18,8 +18,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.hibernate.Session;
 
 import base.modelo.Atividade;
 import base.modelo.Usuario;
@@ -32,10 +35,12 @@ import lista.modelo.EntidadeServicoComum;
 import lista.modelo.EntidadeServicoFixo;
 import lista.modelo.EntidadeServicoLista;
 import lista.modelo.EntidadeTipoServico;
-import lista.service.CasaOracaoUsuarioService;
+import lista.service.CasaOracaoService;
+import lista.service.ItensServicoListaService;
 import lista.service.ListaService;
 import lista.service.ServicoListaService;
 import util.CalculaDiferencaAno;
+import util.ChamarRelatorio;
 
 @ViewScoped
 @Named("listaMB")
@@ -68,19 +73,25 @@ public class ListaMB implements Serializable {
 	private GenericDAO<EntidadeServicoLista> daoServicoLista; // faz as buscas
 
 	@Inject
-	private CasaOracaoUsuarioService itensServicoService; // inserir no banco
+	private ItensServicoListaService itensServicoService; // inserir no banco
 
 	@Inject
 	private ServicoListaService servicoListaService; // inserir no banco
 
 	@Inject
-	private CasaOracaoUsuarioService itemServicoListaService; // inserir no banco
+	private CasaOracaoService casaOracaoService; // inserir no banco
+
+	@Inject
+	private ItensServicoListaService itemServicoListaService; // inserir no banco
 
 	@Inject
 	private ListaService listaService; // inserir no banco
 
 	@Inject
 	private UsuarioService usuarioService; // inserir no banco
+
+	@Inject
+	private EntityManager manager;
 
 	@PostConstruct
 	public void init() {
@@ -90,6 +101,12 @@ public class ListaMB implements Serializable {
 		if (session.getAttribute("casaOracaoLogada") != null) {
 			casaOracaoLogada = (String) session.getAttribute("casaOracaoLogada");
 		}
+
+		if (session.getAttribute("idLista") != null) {
+			Long id = (Long) session.getAttribute("idLista");
+			listaSelecionada = daoLista.buscarPorId(EntidadeLista.class, id);
+		}
+
 	}
 
 	public void iniciaListagem() {
@@ -153,25 +170,57 @@ public class ListaMB implements Serializable {
 		this.itemServicoLista = null;
 	}
 
-	public void imprimir() {
-//		ChamaRelatorio chamaRelatorio;
-//		if (getListaSelecionada().getId() != null) {
-//			List<EntidadeServicoLista> sl = daoServicoLista.listar(EntidadeServicoLista.class,
-//					"lista.id=" + this.listaSelecionada.getId());
-//			for (EntidadeServicoLista s : sl) {
-//				if (s.getTipoDescricao().equalsIgnoreCase("Automatico")) {
-//					List it = daoItensServicoLista.listar(EntidadeItensServicoLista.class,
-//							"servicoLista.id=" + s.getId());
-//					if (it.size() > 1) {
-//						s.setDescricao(s.getTipoServico().getNomePlural());
-//						servicoListaService.inserirAlterar(s);
-//					} else {
-//						s.setDescricao(s.getTipoServico().getNomeSingular());
-//						servicoListaService.inserirAlterar(s);
-//					}
-//				}
-//			}
-//			alterarLista();
+	public void imprimir(int modelo) {
+//		System.out.println(modelo);
+		String relatorio = "";
+		switch (modelo) {
+		case 0:
+			relatorio = "listaFolhaDM.jasper";
+			break;
+		case 1:
+			relatorio = "listaFolhaA4.jasper";
+			break;
+		case 2:
+			relatorio = "listaFolhaA4_modelo2.jasper";
+			
+		}
+		
+//		System.out.println(relatorio);
+
+		if (getListaSelecionada().getId() != null) {
+			List<EntidadeServicoLista> sl = daoServicoLista.listar(EntidadeServicoLista.class,
+					"lista.id=" + this.listaSelecionada.getId());
+			for (EntidadeServicoLista s : sl) {
+				if (s.getTipoDescricao().equalsIgnoreCase("Automatico")) {
+					List it = daoItensServicoLista.listar(EntidadeItensServicoLista.class,
+							"servicoLista.id=" + s.getId());
+					if (it.size() > 1) {
+						s.setDescricao(s.getTipoServico().getNomePlural());
+						servicoListaService.inserirAlterar(s);
+					} else {
+						s.setDescricao(s.getTipoServico().getNomeSingular());
+						servicoListaService.inserirAlterar(s);
+					}
+				}
+			}
+		}
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		HttpSession session = (HttpSession) request.getSession();
+
+		if (session.getAttribute("idLista") != null) {
+			Long id = (Long) session.getAttribute("idLista");
+//			System.out.println("idd: " + id);
+			HashMap parametro = new HashMap<>();
+			parametro.put("IDLISTA", id);
+			parametro.put("CIDADE", casaOracaoService.retornaCasaOracao());
+			ChamarRelatorio ch = new ChamarRelatorio(relatorio, parametro,
+					"lista_" + new SimpleDateFormat("dd-MM-yyyy").format(listaSelecionada.getDataLista()));
+			Session sessions = manager.unwrap(Session.class);
+			sessions.doWork(ch);
+		}
+
 //			HashMap par = new HashMap();
 //			System.out.println("id: " + this.listaSelecionada.getId());
 //			par.put("REPORT_LOCALE", new Locale("pt", "BR"));
@@ -204,6 +253,10 @@ public class ListaMB implements Serializable {
 			insereServicoscomum();
 			this.listaServicoLista = null;
 			this.listaLista = null;
+			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+					.getRequest();
+			HttpSession session = (HttpSession) request.getSession();
+			session.setAttribute("idLista", listaSelecionada.getId());
 		} else {
 			this.listaService.inserirAlterar(this.listaSelecionada);
 		}
@@ -213,10 +266,15 @@ public class ListaMB implements Serializable {
 		this.listaItensServicoLista = null;
 	}
 
-	public void alterarLista() {
+	public String alterarLista(EntidadeLista l) {
 		this.listaItensServicoLista = null;
 		this.listaServicoLista = null;
 		this.servicoListaSelecionado = null;
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		HttpSession session = (HttpSession) request.getSession();
+		session.setAttribute("idLista", l.getId());
+		return "lista.xhtml?redirect=true";
 	}
 
 	public void excluirLista(EntidadeLista l) {
@@ -247,7 +305,7 @@ public class ListaMB implements Serializable {
 		String ultimo = String.valueOf(dataInicial.getActualMaximum(5));
 		String dataFinal = String.valueOf(dataInicial.get(1)) + "-" + String.valueOf(dataInicial.get(2) + 1) + "-"
 				+ ultimo;
-		System.out.println("data ini: " + dataFinal);
+		// System.out.println("data ini: " + dataFinal);
 		List<EntidadeServicoFixo> listaFixo = daoServicoFixo.listar(EntidadeServicoFixo.class, "dataServico between '"
 				+ this.formataDataConsulta.format(this.listaSelecionada.getDataLista()) + "' and '" + dataFinal + "'");
 
@@ -523,6 +581,7 @@ public class ListaMB implements Serializable {
 				servLista = (EntidadeServicoLista) listaServico.get(0);
 			} else {
 				servLista.setCodigoCasaOracao(cod);
+				servLista.setTipoDescricao("Automatico");//ESSE AQUIII
 				servLista.setLista(this.listaSelecionada);
 				servLista.setTipoServico(tipo);
 				servLista.setOrdem(tipo.getOrdemAproximada());
@@ -562,6 +621,7 @@ public class ListaMB implements Serializable {
 			} else {
 				servLista.setCodigoCasaOracao(cod);
 				servLista.setLista(this.listaSelecionada);
+				servLista.setTipoDescricao("Automatico"); //ESSE AQUIIII
 				servLista.setTipoServico(tipo);
 				servLista.setOrdem(tipo.getOrdemAproximada());
 				servicoListaService.inserirAlterar(servLista);
@@ -638,7 +698,9 @@ public class ListaMB implements Serializable {
 				servLista = (EntidadeServicoLista) listaServico.get(0);
 			} else {
 				servLista.setCodigoCasaOracao(cod);
+				
 				servLista.setLista(this.listaSelecionada);
+				servLista.setTipoDescricao("Automatico"); //ESSE AQUIIII
 				servLista.setTipoServico(tipo);
 				servLista.setOrdem(tipo.getOrdemAproximada());
 				servicoListaService.inserirAlterar(servLista);

@@ -16,7 +16,7 @@ and open the template in the editor.
 		widgetVar="cadastroServicoComun" position="center" resizable="false"
 		modal="true" height="400" width="750">
 		<h:form prependId="false" id="formDialogCadastroServicoComum">
-			<h:panelGrid columns="2" style="margin-bottom:10px">
+			<p:panelGrid styleClass="semBorda" columns="2" style="margin-bottom:10px">
 
 				<h:outputLabel value="Nome:" />
 
@@ -68,13 +68,13 @@ and open the template in the editor.
 					<f:selectItem itemLabel="Sábado" itemValue="sabado" />
 				</p:selectOneMenu>
 
-			</h:panelGrid>
+			</p:panelGrid>
 			<p:separator />
-			<p:commandButton update="gridMesesServicoComum"
+			<p:commandButton update=":gridMesesServicoComum"
 				actionListener="#{servicoComumMB.selecionarTodosMes()}"
 				value="Selecionar Todos" />
 			<br />
-			<h:panelGrid id="gridMesesServicoComum" columns="12">
+			<p:panelGrid styleClass="semBorda" id="gridMesesServicoComum" columns="12">
 
 				<p:selectBooleanCheckbox
 					value="#{servicoComumMB.servicoComum.janeiro}" />
@@ -127,7 +127,7 @@ and open the template in the editor.
 				<h:outputText value="Dezembro" />
 
 
-			</h:panelGrid>
+			</p:panelGrid>
 			<p:separator />
 			<p:commandButton actionListener="#{servicoComumMB.salvar()}"
 				value="Salvar"

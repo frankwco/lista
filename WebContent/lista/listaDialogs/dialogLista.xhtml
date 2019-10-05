@@ -9,6 +9,7 @@ and open the template in the editor.
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
+	
 
 <body>
 
@@ -18,7 +19,7 @@ and open the template in the editor.
 		widgetVar="dialogNovaListas" position="center" resizable="false"
 		modal="true" height="140" width="500">
 		<h:form id="formDialogNovaLista">
-			<h:panelGrid columns="2" style="margin-bottom:10px">
+			<p:panelGrid styleClass="semBorda" columns="2" style="margin-bottom:10px">
 				<h:outputText value="Observação" />
 				<p:inputText size="50"
 					value="#{listaMB.listaSelecionada.observacao}" />
@@ -29,7 +30,7 @@ and open the template in the editor.
 					value="#{listaMB.listaSelecionada.dataLista}" pattern="dd/MM/yyyy" />
 
 
-			</h:panelGrid>
+			</p:panelGrid>
 
 
 			<p:commandButton actionListener="#{listaMB.insereLista()}"
@@ -51,17 +52,17 @@ and open the template in the editor.
 
 	</p:dialog>
 
-	
+
 
 	<p:dialog appendToBody="true" header="Serviços Lista"
 		widgetVar="dialogServicoLista" position="center" resizable="false"
-		modal="true" height="400" width="700">
+		modal="true" height="400" width="800">
 		<h:form prependId="false" id="formDialogServicoLista">
 
 			<p:commandButton value="Incluir Item"
 				actionListener="#{listaMB.novoItemServico()}"
 				update=":formDialogInserirItemSevico"
-				oncomplete="inserirItemServico.show()" />
+				oncomplete="PF('inserirItemServico').show()" />
 			<br />
 			<p:dataTable id="tabelaServicosListaDialogs" var="objeto"
 				value="#{listaMB.listaItensServicoLista}" style="text-align: left"
@@ -74,21 +75,19 @@ and open the template in the editor.
 							value="Tipo Serviço: #{listaMB.servicoListaSelecionado.tipoServico.nomeSingular}" />
 					</p:outputPanel>
 				</f:facet>
-				<p:column headerText="ID" style="width:20px">
-					<h:outputText value="#{objeto.id}" />
-				</p:column>
-				<p:column headerText="Descrição">
+				
+				<p:column headerText="Descrição" style="width:280px">
 					<p:commandLink
 						style="text-decoration: underline; font-weight: bold;"
 						value="#{objeto.descricao}" title="Alterar"
-						oncomplete="inserirItemServico.show()"
+						oncomplete="PF('inserirItemServico').show()"
 						update=":formDialogInserirItemSevico">
 						<f:setPropertyActionListener value="#{objeto}"
 							target="#{listaMB.itemServicoLista}" />
 					</p:commandLink>
 
 				</p:column>
-				<p:column headerText="Data Serviço" style="width:30px">
+				<p:column headerText="Data Serviço">
 					<h:outputText value="#{objeto.dataServicoDate}"
 						rendered="#{objeto.dataServicoDate != null}">
 						<f:convertDateTime pattern="dd/MM/yyyy" type="date"
@@ -102,14 +101,10 @@ and open the template in the editor.
 				<p:column headerText="Atendido Por">
 					<h:outputText value="#{objeto.atendidoPor}" />
 				</p:column>
-				<p:column headerText="codigo">
-					<h:outputText value="#{objeto.codigoMesAno}" />
-				</p:column>
 
-
-				<p:column style="width:42px">
+				<p:column>
 					<p:commandLink value="Excluir" title="Excluir"
-						oncomplete="dialogExcluirItem.show()">
+						oncomplete="PF('dialogExcluirItem').show()">
 						<f:setPropertyActionListener value="#{objeto}"
 							target="#{listaMB.itemServicoLista}" />
 					</p:commandLink>
@@ -142,33 +137,34 @@ and open the template in the editor.
 		<p:commandButton value="Sim"
 			actionListener="#{listaMB.excluirItemServico()}"
 			update=":formDialogServicoLista"
-			oncomplete="dialogExcluirItem.hide()" />
-		<p:commandButton value="Não" oncomplete="dialogExcluirItem.hide()" />
+			oncomplete="PF('dialogExcluirItem').hide()" />
+		<p:commandButton value="Não"
+			oncomplete="PF('dialogExcluirItem').hide()" />
 
 	</p:confirmDialog>
 
 
 	<p:dialog appendToBody="true" header="Incluir Tipo de Serviço"
 		widgetVar="dialogIncluirTipoServiço" position="center"
-		resizable="false" modal="true" height="250" width="500">
+		resizable="false" modal="true" height="350" width="700">
 		<h:form prependId="false" id="formDialogIncluirTipoServico">
-			<p:panelGrid columns="2">
+			<p:panelGrid columns="2" styleClass="semBorda">
 				<h:outputText value="Tipo Serviço:" />
-				
-					<p:selectOneMenu id="comboTipoServCmu" style="width:100%"
+
+				<p:selectOneMenu id="comboTipoServCmu" style="width:100%"
 					value="#{listaMB.servicoListaSelecionado.tipoServico}"
 					converter="#{converterTipoServico}" panelStyle="width:180px"
 					effect="fade" var="t" filter="true" filterMatchMode="contains">
 					<p:ajax event="itemSelect"
 						update=":formDialogIncluirTipoServico:campoOrdemTipoServico"
-						listener="#{listaMB.setarOrdem()}"/>
+						listener="#{listaMB.setarOrdem()}" />
 					<f:selectItems value="#{tipoServicoMB.listTipoServico}" var="cur"
 						itemLabel="#{cur}" itemValue="#{cur}" />
 					<p:column style="white-space:normal !important;">
 						<h:outputText value="#{t}" />
 					</p:column>
 				</p:selectOneMenu>
-				
+
 				<h:outputText value="Ordem:" />
 				<p:inputText required="true" id="campoOrdemTipoServico"
 					requiredMessage="Ordem Obrigatória"
@@ -177,7 +173,7 @@ and open the template in the editor.
 			</p:panelGrid>
 			<p:separator />
 			<p:separator />
-			<p:panelGrid columns="2">
+			<p:panelGrid columns="2" styleClass="semBorda">
 				<h:outputText value="Tipo Descrição:" />
 				<p:selectOneMenu
 					value="#{listaMB.servicoListaSelecionado.tipoDescricao}">
@@ -216,11 +212,11 @@ and open the template in the editor.
 		widgetVar="inserirItemServico" position="center" resizable="false"
 		modal="true" height="250" width="550">
 		<h:form prependId="false" id="formDialogInserirItemSevico">
-			<h:panelGrid columns="2" style="margin-bottom:10px">
+			<p:panelGrid  columns="2" style="margin-bottom:10px;" styleClass="semBorda">
 
 				<h:outputLabel value="Tipo Serviço:" />
 
-				<p:selectOneMenu style="width:100%"
+				<p:selectOneMenu style="width:100%" disabled="true"
 					value="#{listaMB.servicoListaSelecionado.tipoServico}"
 					converter="#{converterTipoServico}" panelStyle="width:180px"
 					effect="fade" var="t" filter="true" filterMatchMode="contains">
@@ -249,7 +245,7 @@ and open the template in the editor.
 				<h:outputText value="Atendido Por:" />
 				<p:inputText value="#{listaMB.itemServicoLista.atendidoPor}" />
 
-			</h:panelGrid>
+			</p:panelGrid>
 
 			<p:separator />
 			<p:commandButton actionListener="#{listaMB.inserirItemServico()}"

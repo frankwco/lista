@@ -62,21 +62,21 @@
 							<h:outputText value="#{list.email}" />
 						</p:column>
 
-<!-- 						<p:column headerText="Permissão" filterBy="{list.permissao}" -->
-<!-- 							sortBy="{list.permissao}" filterMatchMode="contains"> -->
-<!-- 							<h:outputText value="{list.permissao}" /> -->
-<!-- 						</p:column> -->
+						<!-- 						<p:column headerText="Permissão" filterBy="{list.permissao}" -->
+						<!-- 							sortBy="{list.permissao}" filterMatchMode="contains"> -->
+						<!-- 							<h:outputText value="{list.permissao}" /> -->
+						<!-- 						</p:column> -->
 
-<!-- 						<p:column headerText="Acesso ao Sistema"> -->
-<!-- 							<p:panelGrid columns="2" styleClass="ui-noborder"> -->
-<!-- 								<p:commandButton alt="Conceder Permissões" icon="ui-icon-pencil" -->
-<!-- 									update=":formTabelaPermissoes" utitle="Conceder Permissões" -->
-<!-- 									styleClass="btn btn-block" -->
-<!-- 									oncomplete="PF('dlgPermissoes').show();" -->
-<!-- 									actionListener="{usuarioMB.preencherPermissoes(list)}"> -->
-<!-- 								</p:commandButton> -->
-<!-- 							</p:panelGrid> -->
-<!-- 						</p:column> -->
+						<!-- 						<p:column headerText="Acesso ao Sistema"> -->
+						<!-- 							<p:panelGrid columns="2" styleClass="ui-noborder"> -->
+						<!-- 								<p:commandButton alt="Conceder Permissões" icon="ui-icon-pencil" -->
+						<!-- 									update=":formTabelaPermissoes" utitle="Conceder Permissões" -->
+						<!-- 									styleClass="btn btn-block" -->
+						<!-- 									oncomplete="PF('dlgPermissoes').show();" -->
+						<!-- 									actionListener="{usuarioMB.preencherPermissoes(list)}"> -->
+						<!-- 								</p:commandButton> -->
+						<!-- 							</p:panelGrid> -->
+						<!-- 						</p:column> -->
 
 
 						<p:column headerText="Opções">
@@ -114,14 +114,14 @@
 					<div class="ui-fluid">
 						<div class="col-md-12">
 							<label>Nome: *</label>
-							<p:inputText required="true" requiredMessage="Nome Obrigatório" onkeyup="value=value.toUpperCase()" title="Nome"
+							<p:inputText required="true" requiredMessage="Nome Obrigatório"
+								onkeyup="value=value.toUpperCase()" title="Nome"
 								value="#{usuarioMB.usuario.nome}" />
 						</div>
 
 						<div class="col-md-12">
 							<label>E-mail: </label>
-							<p:inputText title="E-mail"
-								value="#{usuarioMB.usuario.email}" />
+							<p:inputText title="E-mail" value="#{usuarioMB.usuario.email}" />
 						</div>
 
 						<div class="col-md-12">
@@ -130,17 +130,17 @@
 								validator="validacaoCPF" mask="999.999.999-99" title="E-mail"
 								value="#{usuarioMB.usuario.cpf}" />
 						</div>
-						
-								<div class="col-md-12">
-									<label>Casa de Oração</label>
-									<p:selectOneMenu
-										value="#{usuarioMB.usuario.codigoCasaOracao}"
-										style="margin-bottom:10px">
-										<f:selectItem itemLabel="Nova Esperança" itemValue="1" />
-										<f:selectItem itemLabel="Colorado"  itemValue="2"/>										
-									</p:selectOneMenu>
-								</div>
-
+						<p:panelGrid
+							rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+							<div class="col-md-12">
+								<label>Casa de Oração</label>
+								<p:selectOneMenu value="#{usuarioMB.usuario.codigoCasaOracao}"
+									style="margin-bottom:10px">
+									<f:selectItem itemLabel="Nova Esperança" itemValue="1" />
+									<f:selectItem itemLabel="Colorado" itemValue="2" />
+								</p:selectOneMenu>
+							</div>
+						</p:panelGrid>
 
 						<small>Campos obrigatórios *</small>
 					</div>

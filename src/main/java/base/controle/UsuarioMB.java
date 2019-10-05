@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -132,6 +134,14 @@ public class UsuarioMB implements Serializable {
 	public void salvar() {
 		try {
 			if (usuario.getId() == null) {
+				if (usuario.getCodigoCasaOracao() == null || usuario.getCodigoCasaOracao().equals("")) {
+					HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
+							.getExternalContext().getRequest();
+					HttpSession session = (HttpSession) request.getSession();
+					if (session.getAttribute("casaOracaoLogada") != null) {
+						usuario.setCodigoCasaOracao(((String) session.getAttribute("casaOracaoLogada")));
+					}
+				}
 				usuario.setAcessoSistema(true);
 				usuario.setPermissao("responsavel");
 				usuario.setSenha(CriptografiaSenha.criptografar(usuario.getSenha()));

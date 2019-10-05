@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
+<!-- 2016-11-07T23:29:37 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subListaFolhaA4" pageWidth="278" pageHeight="842" columnWidth="278" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9fd18c2c-fb65-4c6e-b855-07d6778870fb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CCBListsa"/>
+	<parameter name="IDSERVICOLISTA" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     tabelaitensservicolista.`idItensServicoLista` AS tabelaitensservicolista_idItensServicoLista,
+     tabelaitensservicolista.`atendidoPor` AS tabelaitensservicolista_atendidoPor,
+     tabelaitensservicolista.`codigoCasaOracao` AS tabelaitensservicolista_codigoCasaOracao,
+     tabelaitensservicolista.`codigoMesAno` AS tabelaitensservicolista_codigoMesAno,
+     tabelaitensservicolista.`dataServicoDate` AS tabelaitensservicolista_dataServicoDate,
+     tabelaitensservicolista.`dataServicoStr` AS tabelaitensservicolista_dataServicoStr,
+     tabelaitensservicolista.`descricao` AS tabelaitensservicolista_descricao,
+     tabelaitensservicolista.`hora` AS tabelaitensservicolista_hora,
+     tabelaitensservicolista.`status`,
+     tabelaitensservicolista.`idServicoLista` AS tabelaitensservicolista_idServicoLista
+FROM
+     `tabelaitensservicolista` tabelaitensservicolista where tabelaitensservicolista.`idServicoLista`=$P{IDSERVICOLISTA} and (tabelaitensservicolista.status is null or tabelaitensservicolista.status <> 'excluido') order by tabelaitensservicolista.`dataServicoDate`, tabelaitensservicolista.`hora`]]>
+	</queryString>
+	<field name="tabelaitensservicolista_idItensServicoLista" class="java.lang.Long"/>
+	<field name="tabelaitensservicolista_atendidoPor" class="java.lang.String"/>
+	<field name="tabelaitensservicolista_codigoCasaOracao" class="java.lang.String"/>
+	<field name="tabelaitensservicolista_codigoMesAno" class="java.lang.String"/>
+	<field name="tabelaitensservicolista_dataServicoDate" class="java.sql.Date"/>
+	<field name="tabelaitensservicolista_dataServicoStr" class="java.lang.String"/>
+	<field name="tabelaitensservicolista_descricao" class="java.lang.String"/>
+	<field name="tabelaitensservicolista_hora" class="java.lang.String"/>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tabelaitensservicolista_idServicoLista" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="27" y="0" width="27" height="11" uuid="0f702998-e800-4570-8d90-042ea4bc3dba">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tabelaitensservicolista_hora}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="27" height="11" uuid="7713c957-b511-45af-a788-d31c4fa1d844">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tabelaitensservicolista_dataServicoDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="54" y="0" width="224" height="11" uuid="f2b50e1c-c0d4-41d6-be86-0c43bb2f46c1"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$F{tabelaitensservicolista_descricao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="199" y="0" width="79" height="11" isPrintWhenDetailOverflows="true" uuid="b4190f65-06e3-4ff1-a39b-6ed1bd24a256"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tabelaitensservicolista_atendidoPor}+" "]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

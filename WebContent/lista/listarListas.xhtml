@@ -74,14 +74,13 @@
 				
 					<p:column >
 						<p:commandButton value="Acessar" title="Acessar" ajax="false"
-							actionListener="#{listaMB.alterarLista()}"
-							action="/lista/lista.xhtml">
-							<f:setPropertyActionListener value="#{objeto}"
-								target="#{listaMB.listaSelecionada}" />
+							action="#{listaMB.alterarLista(objeto)}"
+							>
+					
 						</p:commandButton>
-						<p:commandButton value="Excluir" title="Excluir"
+						<p:commandButton value="Excluir" title="Excluir" update="@form"
 							actionListener="#{listaMB.excluirLista(objeto)}">
-						
+							<p:confirm header="Confirmação" message="Deseja excluir?" />
 						</p:commandButton>
 					</p:column>
 

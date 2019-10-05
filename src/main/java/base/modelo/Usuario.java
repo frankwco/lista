@@ -35,6 +35,7 @@ public class Usuario implements Serializable{
 	private String permissao;
 	private Boolean status;
 	private String codigoCasaOracao;
+	private String casaOracao;
 	
 	//
 	//
@@ -42,6 +43,12 @@ public class Usuario implements Serializable{
 	
 	public Long getId() {
 		return id;
+	}
+	public String getCasaOracao() {
+		return casaOracao;
+	}
+	public void setCasaOracao(String casaOracao) {
+		this.casaOracao = casaOracao;
 	}
 	public String getCodigoCasaOracao() {
 		return codigoCasaOracao;
