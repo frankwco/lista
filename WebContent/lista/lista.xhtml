@@ -116,21 +116,19 @@
 						<h:outputText value="#{objeto.ordem}" />
 					</p:column>
 
-					<p:column style="width:40px">
-						<p:commandLink value="Alterar" title="Alterar"
+					
+
+					<p:column >
+						<p:commandButton value="Alterar" title="Alterar"
 							update=":formDialogIncluirTipoServico"
 							oncomplete="PF('dialogIncluirTipoServiço').show()">
 							<f:setPropertyActionListener value="#{objeto}"
 								target="#{listaMB.servicoListaSelecionado}" />
-						</p:commandLink>
-					</p:column>
-
-
-					<p:column style="width:42px">
-						<p:commandLink value="Excluir" title="Excluir"
+						</p:commandButton>
+						<p:commandButton value="Excluir" title="Excluir"
 							actionListener="#{listaMB.excluirServicoLista(objeto)}">
 							
-						</p:commandLink>
+						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>

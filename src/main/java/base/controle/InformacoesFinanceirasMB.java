@@ -204,6 +204,10 @@ public class InformacoesFinanceirasMB implements Serializable {
 		informacoesFinanceiras.setValorFixoMensalTotal(0.);
 		informacoesFinanceiras.setValorFixoMensalPonto(0.);
 	}
+	
+	public void zerarDiaFechamento() {
+		informacoesFinanceiras.setDiaFechamento(0);
+	}
 
 	public void zerarCobraValorExcedente() {
 		informacoesFinanceiras.setPesoMensal(0.);

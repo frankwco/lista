@@ -62,7 +62,6 @@ public class FechamentoMesMB implements Serializable {
 	private Double totalAberto = 0.;
 	private Double totalDesconto = 0.;
 	private FechamentoMes fechamentoMesFaturamento;
-	
 
 	private Long idFechamentoAutenticidade;
 
@@ -192,9 +191,9 @@ public class FechamentoMesMB implements Serializable {
 						parcela.setObservacao(fm.getObservacao());
 
 						if (parcela.getValorParcela().equals(fm.getValorDesconto())) {
-							//parcela.setValorPago(0.);
-							//parcela.setDesconto(fm.getValorDesconto());
-							//parcela.setDataPagamento(new Date());
+							// parcela.setValorPago(0.);
+							// parcela.setDesconto(fm.getValorDesconto());
+							// parcela.setDataPagamento(new Date());
 						}
 						contasReceberParcelaService.inserirAlterar(parcela);
 						// FechamentoMes
@@ -213,7 +212,7 @@ public class FechamentoMesMB implements Serializable {
 				fechamentoMesService.inserirAlterar(fechamentoMesFaturamento);
 			}
 
-			//buscarFechamentoMes("");
+			// buscarFechamentoMes("");
 			ExibirMensagem.exibirMensagem("Faturamento Alterado com Sucesso!");
 		}
 	}
@@ -443,11 +442,57 @@ public class FechamentoMesMB implements Serializable {
 					// System.out.println(informacao.getCliente().getNomeRazaoSocialNomeFantasiaEndereco());
 					for (ItensInformacaoFinanceiraPontoColeta itensPontos : listaItensPontos) {
 
+						// CONSULTA DE FECHAMENTO PARCIAL DEVE SER FEITA NESTA DE BAIXO...
+						String consulta = "coleta.pontoColeta.id=" + itensPontos.getPontoColeta().getId()
+								+ " and dataColeta BETWEEN '" + fechamentoMes.getAno() + "-" + fechamentoMes.getMes()
+								+ "-01' and '" + fechamentoMes.getAno() + "-" + fechamentoMes.getMes() + "-31'";
+						if (fechamento.getInformacaoFinanceira().getFechamentoDataDiferente().equals(true)) {
+
+							Calendar calDataInicial = Calendar.getInstance();
+							calDataInicial.setTime(new Date());
+							calDataInicial.set(Calendar.DAY_OF_MONTH,
+									fechamentoMes.getInformacaoFinanceira().getDiaFechamento());
+							calDataInicial.set(Calendar.MONTH, (fechamento.getMes() - 1));
+							calDataInicial.set(Calendar.YEAR, fechamentoMes.getAno());
+							fechamento.setDataInicialFechamento(calDataInicial.getTime());
+
+							Calendar calDataFinal = Calendar.getInstance();
+							calDataFinal.setTime(new Date());
+							calDataFinal.set(Calendar.DAY_OF_MONTH,
+									fechamentoMes.getInformacaoFinanceira().getDiaFechamento());
+							calDataFinal.set(Calendar.MONTH, (fechamento.getMes()));
+							calDataFinal.set(Calendar.YEAR, fechamentoMes.getAno());
+							fechamento.setDataFinalFechamento(calDataFinal.getTime());
+
+						} else {
+
+							Calendar calDataInicial = Calendar.getInstance();
+							calDataInicial.setTime(new Date());
+							calDataInicial.set(Calendar.MONTH, (fechamento.getMes()));
+							calDataInicial.set(Calendar.YEAR, fechamentoMes.getAno());
+							calDataInicial.set(Calendar.DAY_OF_MONTH, calDataInicial.getMinimum(Calendar.MONTH));
+							fechamentoMes.setDataInicialFechamento(calDataInicial.getTime());
+
+							Calendar calDataFinal = Calendar.getInstance();
+							calDataFinal.setTime(new Date());
+							calDataFinal.set(Calendar.MONTH, (fechamento.getMes()));
+							calDataFinal.set(Calendar.YEAR, fechamentoMes.getAno());
+							calDataInicial.set(Calendar.DAY_OF_MONTH, calDataInicial.getMinimum(Calendar.MONTH));
+							fechamentoMes.setDataFinalFechamento(calDataFinal.getTime());
+						}
+						
+						Calendar dataPesquisaInicial = Calendar.getInstance();
+						dataPesquisaInicial.setTime(fechamento.getDataInicialFechamento());		
+						
+						Calendar dataPesquisaFinal= Calendar.getInstance();
+						dataPesquisaFinal.setTime(fechamento.getDataFinalFechamento());		
+
+						consulta = "coleta.pontoColeta.id=" + itensPontos.getPontoColeta().getId()
+								+ " and dataColeta BETWEEN '" + dataPesquisaInicial.YEAR + "-" + dataPesquisaInicial.MONTH
+								+ "-"+dataPesquisaInicial.DAY_OF_MONTH+"' and '" + dataPesquisaFinal.YEAR + "-" + dataPesquisaFinal.MONTH + "-"+dataPesquisaFinal.DAY_OF_MONTH+"'";
+
 						List<ItensColeta> listaItensColeta = daoItensColeta.listarCadastros(ItensColeta.class,
-								"coleta.pontoColeta.id=" + itensPontos.getPontoColeta().getId()
-										+ " and dataColeta BETWEEN '" + fechamentoMes.getAno() + "-"
-										+ fechamentoMes.getMes() + "-01' and '" + fechamentoMes.getAno() + "-"
-										+ fechamentoMes.getMes() + "-31'");
+								consulta);
 
 						FechamentoMesItensPontoColeta fechamentoItens = new FechamentoMesItensPontoColeta();
 						fechamentoItens.setFechamentoMes(fechamento);
@@ -471,7 +516,7 @@ public class FechamentoMesMB implements Serializable {
 								fechamentoItens.setValorExcedenteGruposContrato(0.);
 								fechamentoItens.setValorFixoMensalCobradoParte(0.);
 								fechamentoItens.setValorFixoMensalContratoPonto(0.);
-								
+
 								fechamentoItens.setValorTotal(0.);
 
 							} else {
@@ -633,8 +678,9 @@ public class FechamentoMesMB implements Serializable {
 					for (ContasReceberParcelas cr : lcr) {
 						valoresParcelas += cr.getValorParcela();
 					}
-					//ESSE VALOR ESTÁ COM PROBLEMAS PQ, QUANDO ELE GERA UMA CONTAS A PAGAR E DEPOIS ATUALIZA
-					//O FECHAMENTO DE MÊS ELE BUSCA TODAS AS PARCELAS DO CONTAS A RECEBER....
+					// ESSE VALOR ESTÁ COM PROBLEMAS PQ, QUANDO ELE GERA UMA CONTAS A PAGAR E DEPOIS
+					// ATUALIZA
+					// O FECHAMENTO DE MÊS ELE BUSCA TODAS AS PARCELAS DO CONTAS A RECEBER....
 					fechamento.setDiferencaGerarContasPagar(fechamento.getValorFinal() - valoresParcelas);
 
 					if (fechamento.getInformacaoFinanceira().getFormaCobranca().equals("Anual")) {
@@ -706,10 +752,10 @@ public class FechamentoMesMB implements Serializable {
 						parcela.setValorParcela(contaReceber.getValorParcelas());
 						parcela.setReferenteMes(fechamento.getMes());
 						parcela.setReferenteAno(fechamento.getAno());
-						
-						if(fechamento.getFaturado().equals(true)) {
-							//parcela.setDataPagamento(new Date());
-							//parcela.setValorPago(parcela.getValorParcela());
+
+						if (fechamento.getFaturado().equals(true)) {
+							// parcela.setDataPagamento(new Date());
+							// parcela.setValorPago(parcela.getValorParcela());
 							parcela.setBoletoEmitido(true);
 						}
 
@@ -857,7 +903,6 @@ public class FechamentoMesMB implements Serializable {
 	public void setFechamentoMesFaturamento(FechamentoMes fechamentoMesFaturamento) {
 		this.fechamentoMesFaturamento = fechamentoMesFaturamento;
 	}
-	
 
 	/** por enquanto, retorna pelo nome/razão social do cliente **/
 	// public List<InformacaoFinanceira> completarAtividade(String str) {

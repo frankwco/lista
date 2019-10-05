@@ -18,18 +18,18 @@
 		</ui:define>
 
 		<ui:define name="conteudo">
-		<p:ajaxStatus onstart="PF('statusDialog').show()"
-					onsuccess="PF('statusDialog').hide()" />
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
 
-				<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
-					closable="false" resizable="false" showHeader="false">
-					<h:outputText style="font-weight:bold"
-						value="Aguarde, realizando operação...." />
-					<br />
-					<center>
-						<p:graphicImage name="img/aguarde.gif" />
-					</center>
-				</p:dialog>
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:outputText style="font-weight:bold"
+					value="Aguarde, realizando operação...." />
+				<br />
+				<center>
+					<p:graphicImage name="img/aguarde.gif" />
+				</center>
+			</p:dialog>
 			<!-- TITULO -->
 			<div class="row">
 				<div class="col-md-12">
@@ -52,7 +52,7 @@
 								title="Cadastrar" />
 						</h:form>
 
-				
+
 					</ol>
 				</div>
 
@@ -98,7 +98,8 @@
 						rowsPerPageTemplate="5,10,15,30,50,100">
 						<p:ajax event="filter" global="false" />
 
-						<p:column headerText="Cliente" style="white-space:normal !important;"
+						<p:column headerText="Cliente"
+							style="white-space:normal !important;"
 							filterBy="#{list.cliente.nomeRazaoSocial}"
 							sortBy="#{list.cliente.nomeRazaoSocial}"
 							filterMatchMode="contains">
@@ -114,7 +115,8 @@
 						</p:column>
 
 						<p:column width="70" headerText="Vencimento">
-							<h:outputText value="#{formataDataMB.formatarData(list.dataFinal)}">
+							<h:outputText
+								value="#{formataDataMB.formatarData(list.dataFinal)}">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
 						</p:column>
@@ -249,6 +251,25 @@
 										requiredMessage="Quantidade de Meses Obrigatória!!"
 										value="#{informacoesFinanceirasMB.informacoesFinanceiras.quantidadeMesesContrato}" />
 								</div>
+
+								<div class="col-md-6">
+									<label>Fechamento em data diferente?: *</label>
+									<p:selectOneMenu id="console"
+										value="#{informacoesFinanceirasMB.informacoesFinanceiras.fechamentoDataDiferente}"
+										style="margin-bottom:10px">
+										<f:selectItem itemLabel="Não" itemValue="false" />
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<p:ajax update="inputDiaFechamento"
+											listener="#{informacoesFinanceirasMB.zerarDiaFechamento()}" />
+									</p:selectOneMenu>
+								</div>
+
+								<div class="col-md-6">
+									<label>Dia do fechamento: *</label>
+									<p:inputText id="inputDiaFechamento" disabled="#{informacoesFinanceirasMB.informacoesFinanceiras.fechamentoDataDiferente==false}"
+										value="#{informacoesFinanceirasMB.informacoesFinanceiras.diaFechamento}" />
+								</div>
+
 
 								<div class="col-md-12">
 									<label>Existe um Valor Fixo Mensal?: *</label>
@@ -512,7 +533,7 @@
 								paginator="true" paginatorPosition="bottom"
 								emptyMessage="Nenhum Item Cadastrado!"
 								rowsPerPageTemplate="5,10,15,30,50,100">
-<p:ajax event="filter" global="false" />
+								<p:ajax event="filter" global="false" />
 								<p:column headerText="Grupo de Residuos"
 									filterBy="#{list.grupoResiduos.descricao}"
 									sortBy="#{list.grupoResiduos.descricao}"
@@ -588,7 +609,7 @@
 								paginator="true" paginatorPosition="bottom"
 								emptyMessage="Nenhum Item Cadastrado!"
 								rowsPerPageTemplate="5,10,15,30,50,100">
-<p:ajax event="filter" global="false" />
+								<p:ajax event="filter" global="false" />
 								<p:column headerText="Ponto de Coleta"
 									filterBy="#{list.pontoColeta.nomeRazaoSocialNomeFantasiaEndereco}"
 									sortBy="#{list.pontoColeta.nomeRazaoSocialNomeFantasiaEndereco}"
@@ -629,8 +650,8 @@
 				</h:form>
 			</p:dialog>
 			<!-- FIM DO DIALOG SALVAR -->
-			
-			
+
+
 
 		</ui:define>
 	</ui:composition>

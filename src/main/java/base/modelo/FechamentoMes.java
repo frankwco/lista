@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "fechamento_mes")
@@ -60,10 +62,32 @@ public class FechamentoMes implements Serializable {
 	private Boolean fechamentoAnteriorAberto=false;
 	private Double valorDesconto=0.;
 	
+	@Temporal(TemporalType.DATE)
+	private Date dataInicialFechamento;
+	@Temporal(TemporalType.DATE)
+	private Date dataFinalFechamento;
 	
 	
 	
 	
+	
+	
+	public Date getDataInicialFechamento() {
+		return dataInicialFechamento;
+	}
+
+	public void setDataInicialFechamento(Date dataInicialFechamento) {
+		this.dataInicialFechamento = dataInicialFechamento;
+	}
+
+	public Date getDataFinalFechamento() {
+		return dataFinalFechamento;
+	}
+
+	public void setDataFinalFechamento(Date dataFinalFechamento) {
+		this.dataFinalFechamento = dataFinalFechamento;
+	}
+
 	public Double getValorDesconto() {
 	if(valorDesconto==null) {
 		valorDesconto=0.;

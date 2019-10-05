@@ -76,26 +76,24 @@
 						filterBy="#{objeto.diaSemana}">
 						<h:outputText value="#{objeto.diaSemana}" />
 					</p:column>
-					<p:column headerText="Hora" style="width:30px">
+					<p:column headerText="Hora">
 						<h:outputText value="#{objeto.horaStr}" />
 
 					</p:column>
 
 
-					<p:column style="width:40px">
-						<p:commandLink value="Alterar" title="Alterar"
+					<p:column>
+						<p:commandButton value="Alterar" title="Alterar"
 							update=":formDialogCadastroServicoComum"
 							oncomplete="PF('cadastroServicoComun').show()">
 							<f:setPropertyActionListener value="#{objeto}"
 								target="#{servicoComumMB.servicoComum}" />
-						</p:commandLink>
-					</p:column>
-
-					<p:column style="width:42px">
-						<p:commandLink value="Excluir" title="Excluir"
+						</p:commandButton>
+						
+						<p:commandButton value="Excluir" title="Excluir"
 							actionListener="#{servicoComumMB.inativar(objeto)}">
 							<p:confirm header="Confirmação" message="Deseja excluir?" />
-						</p:commandLink>
+						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>

@@ -81,20 +81,17 @@
 
 
 
-					<p:column style="width:50px">
-						<p:commandLink value="Alterar" title="Alterar"
+					<p:column>
+						<p:commandButton value="Alterar" title="Alterar"
 							oncomplete="PF('cadastroTipoServico').show()"
 							update=":formCadastroTipoServico">
 							<f:setPropertyActionListener value="#{objeto}"
 								target="#{tipoServicoMB.tipoServico}" />
-						</p:commandLink>
-					</p:column>
-
-					<p:column style="width:50px">
-						<p:commandLink value="Excluir" title="Excluir"
+						</p:commandButton>
+						<p:commandButton value="Excluir" title="Excluir"
 							actionListener="#{tipoServicoMB.inativar(objeto)}">
 							<p:confirm header="Confirmação" message="Deseja excluir?" />
-						</p:commandLink>
+						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>

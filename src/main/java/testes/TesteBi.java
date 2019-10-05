@@ -1,17 +1,17 @@
 package testes;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class TesteBi {
 	public static void main(String[] s) {
-		double meta = 10;
-		double alcancado = 7;
-		double resultado = alcancado/meta*100;
-		System.out.println(resultado);
+		Calendar calDataInicial = Calendar.getInstance();
+		calDataInicial.setTime(new Date());							
+		calDataInicial.set(Calendar.MONTH,5);
+		calDataInicial.set(Calendar.YEAR, 2019);	
+		calDataInicial.set(Calendar.DAY_OF_MONTH,calDataInicial.getMinimum(Calendar.MONTH));
+		System.out.println(calDataInicial.getTime());
 		
-		DecimalFormat df = new DecimalFormat("#.00");
-		
-		System.out.println(df.format(1122234565.916385));
-		// Imprime 0,91238
 	}
 }

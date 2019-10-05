@@ -72,7 +72,7 @@
 						<h:outputText value="#{objeto.descricao}" />
 					</p:column>
 
-					<p:column headerText="Data Serviço" style="width:30px">
+					<p:column headerText="Data Serviço" >
 						<h:outputText value="#{objeto.dataServico}"
 							rendered="#{objeto.dataServico != null}">
 							<f:convertDateTime pattern="dd/MM/yyyy" type="date"
@@ -81,26 +81,25 @@
 						<h:outputText value="" rendered="#{objeto.dataServico == null}" />
 					</p:column>
 
-					<p:column headerText="Hora" style="width:30px">
+					<p:column headerText="Hora" >
 						<h:outputText value="#{objeto.hora}" />
 
 					</p:column>
 
 
-					<p:column style="width:40px">
-						<p:commandLink value="Alterar" title="Alterar"
+				
+
+					<p:column>
+						<p:commandButton value="Alterar" title="Alterar"
 							update=":formDialogCadastroServicoFixo"
 							oncomplete="cadastroServicoFixo.show()">
 							<f:setPropertyActionListener value="#{objeto}"
 								target="#{servicoFixoMB.servicoFixo}" />
-						</p:commandLink>
-					</p:column>
-
-					<p:column style="width:42px">
-						<p:commandLink value="Excluir" title="Excluir"
+						</p:commandButton>
+						<p:commandButton value="Excluir" title="Excluir"
 							actionListener="#{servicoFixoMB.inativar(objeto)}">
 							<p:confirm header="Confirmação" message="Deseja excluir?" />
-						</p:commandLink>
+						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>

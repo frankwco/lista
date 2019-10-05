@@ -70,8 +70,12 @@ public class InformacaoFinanceira implements Serializable {
 	private String conta;
 	private Boolean comunicarEmail = false;
 	private Integer quantidadeMesesContrato;
-	
 
+	private Boolean fechamentoDataDiferente = false;
+	private Integer diaFechamento=0;	
+	@Temporal(TemporalType.DATE)
+	private Date dataUltimoFechamento;
+	
 	@OneToMany(mappedBy = "informacoesFinanceiras", fetch = FetchType.EAGER)
 	private List<ItensInformacaoFinanceiraPontoColeta> listaItensInformacoesFinanceirasPontoColeta;
 
@@ -79,6 +83,44 @@ public class InformacaoFinanceira implements Serializable {
 
 		return listaItensInformacoesFinanceirasPontoColeta;
 	}
+	
+	
+
+	public Boolean getFechamentoDataDiferente() {
+		return fechamentoDataDiferente;
+	}
+
+
+
+	public void setFechamentoDataDiferente(Boolean fechamentoDataDiferente) {
+		this.fechamentoDataDiferente = fechamentoDataDiferente;
+	}
+
+
+
+	public Integer getDiaFechamento() {
+		return diaFechamento;
+	}
+
+
+
+	public void setDiaFechamento(Integer diaFechamento) {
+		this.diaFechamento = diaFechamento;
+	}
+
+
+
+	public Date getDataUltimoFechamento() {
+		return dataUltimoFechamento;
+	}
+
+
+
+	public void setDataUltimoFechamento(Date dataUltimoFechamento) {
+		this.dataUltimoFechamento = dataUltimoFechamento;
+	}
+
+
 
 	public String getListaItensInformacoesFinanceiraPontoColetaString() {
 		String retorno = "Sem ponto";

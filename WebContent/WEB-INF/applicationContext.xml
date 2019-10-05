@@ -66,6 +66,9 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 		<intercept-url pattern="/cliente/inicio.jsf"
 			access="hasRole('CLIENTE')" />
+			
+			<intercept-url pattern="/lista/inicio.jsf"
+			access="hasRole('responsavel') or hasRole('assistente')" />
 
 
 

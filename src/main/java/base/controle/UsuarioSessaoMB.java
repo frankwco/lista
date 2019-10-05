@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,8 +48,24 @@ public class UsuarioSessaoMB implements Serializable {
 		List<Usuario> usu = daoUsuario.listarSemCodigoCasaOracao(Usuario.class, "email='" + nomeUsuario + "'");
 		if (usu.size() > 0) {
 			usuario = usu.get(0);
+			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+					.getRequest();
+			String casaOracaoLogada="";
+			HttpSession session = (HttpSession) request.getSession();
+			session.setAttribute("casaOracaoLogada", usuario.getCodigoCasaOracao());
 		}
 
+	}
+	
+	public String getCodigoCasaOracao() {
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		String casaOracaoLogada="";
+		HttpSession session = (HttpSession) request.getSession();
+		if (session.getAttribute("casaOracaoLogada") != null) {
+			casaOracaoLogada = (String) session.getAttribute("casaOracaoLogada");
+		}
+		return casaOracaoLogada;
 	}
 
 	public Usuario getUsuario() {

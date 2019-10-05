@@ -8,6 +8,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import base.modelo.Permissoes;
 import base.modelo.PontoColeta;
@@ -19,6 +24,7 @@ import util.ExibirMensagem;
 import util.FecharDialog;
 import util.Mensagem;
 import dao.GenericDAO;
+import lista.service.CustomAuthenticationProvider;
 
 @ViewScoped
 @Named("usuarioMB")
@@ -44,6 +50,9 @@ public class UsuarioMB implements Serializable {
 	@Inject
 	private PermissoesService permissoesService; // inserir no banco
 
+	@Inject
+	private CustomAuthenticationProvider prov;
+
 	@PostConstruct
 	public void inicializar() {
 		usuario = new Usuario();
@@ -51,9 +60,7 @@ public class UsuarioMB implements Serializable {
 		listaUsuario = daoUsuario.listaComStatus(Usuario.class);
 		usuarioBusca = new ArrayList<>();
 		permissao = new Permissoes();
-
 	}
-	
 
 	public UsuarioMB() {
 		// TODO Auto-generated constructor stub
@@ -91,7 +98,7 @@ public class UsuarioMB implements Serializable {
 
 		}
 	}
-	
+
 	public List<Usuario> completar(String str) {
 		List<Usuario> list = daoUsuario.listaComStatus(Usuario.class);
 		List<Usuario> selecionados = new ArrayList<>();
@@ -125,6 +132,7 @@ public class UsuarioMB implements Serializable {
 	public void salvar() {
 		try {
 			if (usuario.getId() == null) {
+				usuario.setAcessoSistema(true);
 				usuario.setPermissao("responsavel");
 				usuario.setSenha(CriptografiaSenha.criptografar(usuario.getSenha()));
 				usuario.setStatus(true);

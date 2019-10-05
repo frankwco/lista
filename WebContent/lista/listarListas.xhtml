@@ -62,7 +62,7 @@
 						<h:outputText value="#{objeto.observacao}" />
 					</p:column>
 
-					<p:column headerText="Data Lista" style="width:30px">
+					<p:column headerText="Data Lista" >
 						<h:outputText value="#{objeto.dataLista}"
 							rendered="#{objeto.dataLista != null}">
 							<f:convertDateTime pattern="dd/MM/yyyy" type="date"
@@ -71,20 +71,18 @@
 						<h:outputText value="" rendered="#{objeto.dataLista == null}" />
 					</p:column>
 
-					<p:column style="width:40px">
-						<p:commandLink value="Acessar" title="Acessar" ajax="false"
+				
+					<p:column >
+						<p:commandButton value="Acessar" title="Acessar" ajax="false"
 							actionListener="#{listaMB.alterarLista()}"
 							action="/lista/lista.xhtml">
 							<f:setPropertyActionListener value="#{objeto}"
 								target="#{listaMB.listaSelecionada}" />
-						</p:commandLink>
-					</p:column>
-
-					<p:column style="width:42px">
-						<p:commandLink value="Excluir" title="Excluir"
+						</p:commandButton>
+						<p:commandButton value="Excluir" title="Excluir"
 							actionListener="#{listaMB.excluirLista(objeto)}">
 						
-						</p:commandLink>
+						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>
