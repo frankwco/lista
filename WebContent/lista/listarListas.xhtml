@@ -55,28 +55,21 @@
 					paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="8,10,50,100">
-					<p:column headerText="ID" style="width:20px">
-						<h:outputText value="#{objeto.id}" />
-					</p:column>
+
 					<p:column headerText="Observação">
 						<h:outputText value="#{objeto.observacao}" />
 					</p:column>
 
-					<p:column headerText="Data Lista" >
-						<h:outputText value="#{objeto.dataLista}"
-							rendered="#{objeto.dataLista != null}">
-							<f:convertDateTime pattern="dd/MM/yyyy" type="date"
-								dateStyle="short" />
-						</h:outputText>
-						<h:outputText value="" rendered="#{objeto.dataLista == null}" />
+					<p:column headerText="Data Lista">
+						<h:outputText
+							value="#{formataDataMB.formatarData(objeto.dataLista)}" />
 					</p:column>
 
-				
-					<p:column >
+
+					<p:column>
 						<p:commandButton value="Acessar" title="Acessar" ajax="false"
-							action="#{listaMB.alterarLista(objeto)}"
-							>
-					
+							action="#{listaMB.alterarLista(objeto)}">
+
 						</p:commandButton>
 						<p:commandButton value="Excluir" title="Excluir" update="@form"
 							actionListener="#{listaMB.excluirLista(objeto)}">
@@ -88,7 +81,7 @@
 
 			</h:form>
 		</p:panel>
-		
+
 
 	</ui:define>
 

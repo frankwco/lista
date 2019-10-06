@@ -15,7 +15,7 @@
 		widgetVar="cadastroTipoServico" position="center" resizable="false"
 		modal="true" width="550">
 		<h:form id="formCadastroTipoServico">
-			<h:panelGrid columns="2" style="margin-bottom:10px">
+			<p:panelGrid styleClass="semBorda" columns="2" style="margin-bottom:10px">
 
 				<h:outputLabel value="Nome Singular:" />
 
@@ -35,7 +35,7 @@
 					value="#{tipoServicoMB.tipoServico.ordemAproximada}" />
 
 
-			</h:panelGrid>
+			</p:panelGrid>
 			<p:commandButton
 				actionListener="#{tipoServicoMB.salvar()}"
 				value="Salvar" update=":formListaTipoServico, @form"

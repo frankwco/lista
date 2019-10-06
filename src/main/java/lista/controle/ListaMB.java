@@ -161,11 +161,11 @@ public class ListaMB implements Serializable {
 		this.itemServicoLista = null;
 	}
 
-	public void excluirItemServico() {
-		if (getItemServicoLista().getId() != null) {
-			this.itemServicoLista.setStatus("excluido");
-			this.itemServicoListaService.inserirAlterar(this.itemServicoLista);
-		}
+	public void excluirItemServico(EntidadeItensServicoLista it) {
+	
+		it.setStatus("excluido");
+			this.itemServicoListaService.inserirAlterar(it);
+		
 		this.listaItensServicoLista = null;
 		this.itemServicoLista = null;
 	}
@@ -823,7 +823,7 @@ public class ListaMB implements Serializable {
 	public List<EntidadeLista> getListaLista() {
 		if (this.listaLista == null) {
 			this.listaLista = new ArrayList();
-			this.listaLista = daoLista.listaComStatus(EntidadeLista.class);
+			this.listaLista = daoLista.listaComStatus(EntidadeLista.class," dataLista desc");
 		}
 		return this.listaLista;
 	}

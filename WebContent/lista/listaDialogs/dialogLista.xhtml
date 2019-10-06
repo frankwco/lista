@@ -9,7 +9,7 @@ and open the template in the editor.
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 
 <body>
 
@@ -19,7 +19,8 @@ and open the template in the editor.
 		widgetVar="dialogNovaListas" position="center" resizable="false"
 		modal="true" height="140" width="500">
 		<h:form id="formDialogNovaLista">
-			<p:panelGrid styleClass="semBorda" columns="2" style="margin-bottom:10px">
+			<p:panelGrid styleClass="semBorda" columns="2"
+				style="margin-bottom:10px">
 				<h:outputText value="Observação" />
 				<p:inputText size="50"
 					value="#{listaMB.listaSelecionada.observacao}" />
@@ -75,7 +76,7 @@ and open the template in the editor.
 							value="Tipo Serviço: #{listaMB.servicoListaSelecionado.tipoServico.nomeSingular}" />
 					</p:outputPanel>
 				</f:facet>
-				
+
 				<p:column headerText="Descrição" style="width:280px">
 					<p:commandLink
 						style="text-decoration: underline; font-weight: bold;"
@@ -103,11 +104,10 @@ and open the template in the editor.
 				</p:column>
 
 				<p:column>
-					<p:commandLink value="Excluir" title="Excluir"
-						oncomplete="PF('dialogExcluirItem').show()">
-						<f:setPropertyActionListener value="#{objeto}"
-							target="#{listaMB.itemServicoLista}" />
-					</p:commandLink>
+					<p:commandButton value="Excluir" title="Excluir" update="@form"
+						actionListener="#{listaMB.excluirItemServico(objeto)}">
+						<p:confirm header="Confirmação" message="Deseja excluir?" />
+					</p:commandButton>
 				</p:column>
 
 			</p:dataTable>
@@ -212,7 +212,8 @@ and open the template in the editor.
 		widgetVar="inserirItemServico" position="center" resizable="false"
 		modal="true" height="250" width="550">
 		<h:form prependId="false" id="formDialogInserirItemSevico">
-			<p:panelGrid  columns="2" style="margin-bottom:10px;" styleClass="semBorda">
+			<p:panelGrid columns="2" style="margin-bottom:10px;"
+				styleClass="semBorda">
 
 				<h:outputLabel value="Tipo Serviço:" />
 

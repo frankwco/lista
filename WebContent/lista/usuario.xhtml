@@ -131,7 +131,7 @@
 								value="#{usuarioMB.usuario.cpf}" />
 						</div>
 						<p:panelGrid
-							rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+							rendered="#{usuarioSessaoMB.usuario.cnh=='1'}">
 							<div class="col-md-12">
 								<label>Casa de Oração</label>
 								<p:selectOneMenu value="#{usuarioMB.usuario.codigoCasaOracao}"

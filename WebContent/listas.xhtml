@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/template/template-padrao.xhtml">
+	<ui:define name="conteudo">
+
+
+
+
+		<h:form>
+			<section class="content">
+
+				<div class="row">
+
+					<p:repeat value="#{listarListasMB.listCasaOracao}" var="casa">
+						<div class="col-lg-12 col-xs-12">
+
+							<div class="small-box bg-olive">
+								<div class="inner">
+									<h2>#{casa.cidade}</h2>
+								</div>
+								<div class="icon">
+									<i class="fa fa-file" aria-hidden="true"></i>
+								</div>
+								<h:commandLink class="small-box-footer" ajax="false"
+									action="#{listarListasMB.buscarListasCidade(casa)}">
+									Acessar as Listas <i
+									class="fa fa-arrow-circle-right"></i>
+								</h:commandLink>
+								
+
+							</div>
+						</div>
+					</p:repeat>
+
+
+				</div>
+			</section>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -37,6 +38,20 @@ public class FormataDataMB implements Serializable {
 		if (dt != null) {
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			return format.format(dt);
+
+		} else {
+			return "";
+		}
+	}
+	
+	public String formatarDataMesAno(Date dt) {
+		if (dt != null) {
+			Locale ptbr = new Locale("pt","BR");
+			SimpleDateFormat formatMes = new SimpleDateFormat("MMMM", ptbr);
+			SimpleDateFormat formatAno = new SimpleDateFormat("yyyy", ptbr);
+			String formatted = formatMes.format(dt)+" de "+formatAno.format(dt);
+			
+			return formatted;
 
 		} else {
 			return "";
