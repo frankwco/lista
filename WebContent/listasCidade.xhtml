@@ -17,7 +17,7 @@
 					<p:repeat value="#{listarListasMB.listasCidade}" var="casa">
 							
 							<div class="col-lg-12 col-xs-12">
-							<p:commandLink>
+							<p:commandLink ajax="false" action="#{listarListasMB.buscarServicosLista(casa)}">
 								<div class="small-box bg-teal">
 									<div class="inner">
 										<center><h2 style="color:black !important">#{formataDataMB.formatarDataMesAno(casa.dataLista)} </h2></center>

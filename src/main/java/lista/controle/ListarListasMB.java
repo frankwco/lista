@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import lista.modelo.EntidadeCasaOracao;
+import lista.modelo.EntidadeItensServicoLista;
 import lista.modelo.EntidadeLista;
 import lista.modelo.EntidadeServicoLista;
 import lista.service.CasaOracaoService;
@@ -34,7 +35,11 @@ public class ListarListasMB implements Serializable {
 	
 	private List<EntidadeServicoLista> servicosLista;
 
+	@Inject
 	private GenericDAO<EntidadeServicoLista> daoServicosLista; // faz as buscas
+	
+	@Inject
+	private GenericDAO<EntidadeItensServicoLista> daoItensServicoLista; // faz as buscas
 	
 	@Inject
 	private GenericDAO<EntidadeLista> daoListas; // faz as buscas
@@ -66,7 +71,12 @@ public class ListarListasMB implements Serializable {
 		}
 		if (session.getAttribute("listaSelecionada") != null) {
 			servicosLista = daoServicosLista.listarSemCodigoCasaOracao(EntidadeServicoLista.class,
-					"codigoCasaOracao='" + ((String) session.getAttribute("cidadeSelecionada"))+"' order by dataLista desc");
+					"lista.id=" + ((Long) session.getAttribute("listaSelecionada"))+" order by ordem asc");
+			System.out.println("AS: "+servicosLista.size());
+			for(EntidadeServicoLista sl:servicosLista) {
+				sl.setItensServicoLista(daoItensServicoLista.listarSemCodigoCasaOracao(EntidadeItensServicoLista.class,
+						"servicoLista.id=" + sl.getId()+" order by dataServicoDate asc"));
+			}
 		}
 	}
 
@@ -85,7 +95,7 @@ public class ListarListasMB implements Serializable {
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
 		HttpSession session = (HttpSession) request.getSession();
-		session.setAttribute("listaSelecionada", ca.getCodigoCasaOracao());
+		session.setAttribute("listaSelecionada", ca.getId());
 
 		return "lista.jsf?redirect=true";
 	}
@@ -175,6 +185,14 @@ public class ListarListasMB implements Serializable {
 
 	public void setListasCidade(List<EntidadeLista> listasCidade) {
 		this.listasCidade = listasCidade;
+	}
+
+	public List<EntidadeServicoLista> getServicosLista() {
+		return servicosLista;
+	}
+
+	public void setServicosLista(List<EntidadeServicoLista> servicosLista) {
+		this.servicosLista = servicosLista;
 	}
 	
 

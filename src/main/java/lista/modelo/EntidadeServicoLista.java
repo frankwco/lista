@@ -1,6 +1,8 @@
 package lista.modelo;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tabelaservicolista")
@@ -32,6 +35,17 @@ public class EntidadeServicoLista implements Serializable {
 	private String codigoCasaOracao;
 	private String descricao;
 	private String tipoDescricao;
+	
+	@Transient
+	private List<EntidadeItensServicoLista> itensServicoLista;
+	
+	public List<EntidadeItensServicoLista> getItensServicoLista() {
+		return itensServicoLista;
+	}
+
+	public void setItensServicoLista(List<EntidadeItensServicoLista> itensServicoLista) {
+		this.itensServicoLista = itensServicoLista;
+	}
 
 	public Long getId() {
 		return id;

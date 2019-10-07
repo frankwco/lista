@@ -9,31 +9,49 @@
 <ui:composition template="resources/template/template-padrao.xhtml">
 	<ui:define name="conteudo">
 
-				<h:form>
-					<section class="content">
-					<center><h1>Listas de #{listarListasMB.casaOracao.cidade}</h1></center>
-						<div class="row">
-					
-					<p:repeat value="#{listarListasMB.listasCidade}" var="casa">
-							
-							<div class="col-lg-12 col-xs-12">
-							<p:commandLink>
-								<div class="small-box bg-teal">
-									<div class="inner">
-										<center><h2 style="color:black !important">#{formataDataMB.formatarDataMesAno(casa.dataLista)} </h2></center>
-									</div>
-								
-									
+		<h:form>
+			<section class="content">
+				<center>
+					<h1>Listas de #{listarListasMB.casaOracao.cidade}</h1>
+				</center>
+				<div class="row">
+
+
+
+					<p:repeat value="#{listarListasMB.servicosLista}" var="obj">
+
+						
+							<div class="small-box bg-olive">
+								<div class="inner">
+									<h2>#{obj.descricao}</h2>
 								</div>
-								</p:commandLink>
 							</div>
-							</p:repeat>
-								
-							
-						</div>
-					</section>
-				</h:form>
-		
+						
+						<p:dataTable var="car" value="#{obj.itensServicoLista}">
+
+							<p:column headerText="Data">
+								<h:outputText
+									value="#{formataDataMB.formatarData(car.dataServicoDate)}" />
+							</p:column>
+
+							<p:column headerText="Hora">
+								<h:outputText value="#{car.hora}" />
+							</p:column>
+
+							<p:column headerText="Descrição">
+								<h:outputText value="#{car.descricao}" />
+							</p:column>
+							<p:column headerText="Atendido">
+								<h:outputText value="#{car.atendidoPor}" />
+							</p:column>
+						</p:dataTable>
+
+					</p:repeat>
+
+				</div>
+			</section>
+		</h:form>
+
 
 	</ui:define>
 </ui:composition>
