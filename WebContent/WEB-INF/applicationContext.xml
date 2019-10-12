@@ -121,8 +121,8 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 		<beans:property name="driverClassName"
 			value="com.mysql.jdbc.Driver" />
 		<beans:property name="username" value="root" />
-<!-- 		<beans:property name="password" value="!@#gestao159/*" /> -->
-		<beans:property name="password" value="" />
+		<beans:property name="password" value="!@#gestao159/*" />
+<!-- 		<beans:property name="password" value="" /> -->
 	</beans:bean>
 
 </beans:beans>

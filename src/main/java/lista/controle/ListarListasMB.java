@@ -1,6 +1,7 @@
 package lista.controle;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +13,15 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.ibm.icu.text.SimpleDateFormat;
+
 import lista.modelo.EntidadeCasaOracao;
 import lista.modelo.EntidadeItensServicoLista;
 import lista.modelo.EntidadeLista;
 import lista.modelo.EntidadeServicoLista;
+import lista.modelo.EntidadeVisitas;
 import lista.service.CasaOracaoService;
+import lista.service.VisitasService;
 import util.ExibirMensagem;
 import util.FecharDialog;
 import util.Mensagem;
@@ -29,18 +34,19 @@ public class ListarListasMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private EntidadeCasaOracao casaOracao;
+	private EntidadeLista lista;
 	private List<EntidadeCasaOracao> casaOracaoBusca;
 	private List<EntidadeCasaOracao> listCasaOracao;
 	private List<EntidadeLista> listasCidade;
-	
+
 	private List<EntidadeServicoLista> servicosLista;
 
 	@Inject
 	private GenericDAO<EntidadeServicoLista> daoServicosLista; // faz as buscas
-	
+
 	@Inject
 	private GenericDAO<EntidadeItensServicoLista> daoItensServicoLista; // faz as buscas
-	
+
 	@Inject
 	private GenericDAO<EntidadeLista> daoListas; // faz as buscas
 
@@ -49,6 +55,9 @@ public class ListarListasMB implements Serializable {
 
 	@Inject
 	private CasaOracaoService casaOracaoService; // inserir no banco
+	
+	@Inject
+	private VisitasService visitaService; // inserir no banco
 
 	@PostConstruct
 	public void inicializar() {
@@ -57,45 +66,56 @@ public class ListarListasMB implements Serializable {
 
 		listCasaOracao = new ArrayList<>();
 		listCasaOracao = daoCasaOracao.listaComStatusSemCodigoCasaOracao(EntidadeCasaOracao.class);
-		//System.out.println(listCasaOracao.size());
+		// System.out.println(listCasaOracao.size());
 		casaOracaoBusca = new ArrayList<>();
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
 		HttpSession session = (HttpSession) request.getSession();
 		if (session.getAttribute("cidadeSelecionada") != null) {
-			listasCidade = daoListas.listarSemCodigoCasaOracao(EntidadeLista.class,
-					"codigoCasaOracao='" + ((String) session.getAttribute("cidadeSelecionada"))+"' order by dataLista desc");
+			listasCidade = daoListas.listarSemCodigoCasaOracao(EntidadeLista.class, "codigoCasaOracao='"
+					+ ((String) session.getAttribute("cidadeSelecionada")) + "' order by dataLista desc");
 			casaOracao = daoCasaOracao.listarSemCodigoCasaOracao(EntidadeCasaOracao.class,
-					"codigoCasaOracao='" + ((String) session.getAttribute("cidadeSelecionada"))+"'").get(0);
+					"codigoCasaOracao='" + ((String) session.getAttribute("cidadeSelecionada")) + "'").get(0);
 		}
 		if (session.getAttribute("listaSelecionada") != null) {
 			servicosLista = daoServicosLista.listarSemCodigoCasaOracao(EntidadeServicoLista.class,
-					"lista.id=" + ((Long) session.getAttribute("listaSelecionada"))+" order by ordem asc");
-			System.out.println("AS: "+servicosLista.size());
-			for(EntidadeServicoLista sl:servicosLista) {
+					"lista.id=" + ((Long) session.getAttribute("listaSelecionada")) + " order by ordem asc");
+			lista = daoListas.buscarPorId(EntidadeLista.class, (Long) session.getAttribute("listaSelecionada"));
+			// System.out.println("AS: "+servicosLista.size());
+			for (EntidadeServicoLista sl : servicosLista) {
 				sl.setItensServicoLista(daoItensServicoLista.listarSemCodigoCasaOracao(EntidadeItensServicoLista.class,
-						"servicoLista.id=" + sl.getId()+" order by dataServicoDate asc"));
+						"servicoLista.id=" + sl.getId() + " order by dataServicoDate asc"));
 			}
 		}
 	}
 
 	public String buscarListasCidade(EntidadeCasaOracao ca) {
-		System.out.println("CIdade " + ca.getCidade());
+	//	System.out.println("CIdade " + ca.getCidade());
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
 		HttpSession session = (HttpSession) request.getSession();
 		session.setAttribute("cidadeSelecionada", ca.getCodigoCasaOracao());
+		EntidadeVisitas visitas = new EntidadeVisitas();
+		visitas.setOnde("Clicou na cidade");
+		visitas.setCidade(ca.getCidade());
+		visitaService.inserirAlterar(visitas);
 
 		return "listasCidade.jsf?redirect=true";
 	}
-	
+
 	public String buscarServicosLista(EntidadeLista ca) {
-		
+
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
 		HttpSession session = (HttpSession) request.getSession();
 		session.setAttribute("listaSelecionada", ca.getId());
+		
+		EntidadeVisitas visitas = new EntidadeVisitas();
+		visitas.setOnde("Clicou na lista");
+		SimpleDateFormat format= new SimpleDateFormat("dd/MM/yyyy");
+		visitas.setCidade(format.format(ca.getDataLista()));
+		visitaService.inserirAlterar(visitas);
 
 		return "lista.jsf?redirect=true";
 	}
@@ -194,6 +214,15 @@ public class ListarListasMB implements Serializable {
 	public void setServicosLista(List<EntidadeServicoLista> servicosLista) {
 		this.servicosLista = servicosLista;
 	}
+
+	public EntidadeLista getLista() {
+		return lista;
+	}
+
+	public void setLista(EntidadeLista lista) {
+		this.lista = lista;
+	}
+	
 	
 
 }

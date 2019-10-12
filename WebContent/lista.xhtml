@@ -13,6 +13,7 @@
 			<section class="content">
 				<center>
 					<h1>Listas de #{listarListasMB.casaOracao.cidade}</h1>
+					<h3>#{formataDataMB.formatarDataMesAno(listarListasMB.lista.dataLista)}</h3>
 				</center>
 				<div class="row">
 
@@ -20,31 +21,31 @@
 
 					<p:repeat value="#{listarListasMB.servicosLista}" var="obj">
 
-						
-							<div class="small-box bg-olive">
-								<div class="inner">
-									<h2>#{obj.descricao}</h2>
-								</div>
-							</div>
-						
-						<p:dataTable var="car" value="#{obj.itensServicoLista}">
 
-							<p:column headerText="Data">
-								<h:outputText
-									value="#{formataDataMB.formatarData(car.dataServicoDate)}" />
-							</p:column>
+						<div class="small-box bg-olive">
+							<p style="font-size: 22px">#{obj.descricao}</p>
 
-							<p:column headerText="Hora">
-								<h:outputText value="#{car.hora}" />
-							</p:column>
 
-							<p:column headerText="Descrição">
-								<h:outputText value="#{car.descricao}" />
-							</p:column>
-							<p:column headerText="Atendido">
-								<h:outputText value="#{car.atendidoPor}" />
-							</p:column>
-						</p:dataTable>
+							<p:dataTable var="car" value="#{obj.itensServicoLista}">
+
+								<p:column headerText="Data" width="55">
+									<h:outputText
+										value="#{formataDataMB.formatarDataMesPontoAno(car.dataServicoDate)}" />
+								</p:column>
+
+								<p:column headerText="Hora" width="55">
+									<h:outputText value="#{car.hora}" />
+								</p:column>
+
+								<p:column headerText="Descrição     Atendido Por">
+									<p style="text-align:left; font-size:17px" >#{car.descricao} </p>
+								
+									<h:outputText style="float:right; font-weight:bold"
+										value="#{car.atendidoPor}" />
+								</p:column>
+
+							</p:dataTable>
+						</div>
 
 					</p:repeat>
 

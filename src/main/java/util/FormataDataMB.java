@@ -57,5 +57,19 @@ public class FormataDataMB implements Serializable {
 			return "";
 		}
 	}
+	
+	public String formatarDataMesPontoAno(Date dt) {
+		if (dt != null) {
+			Locale ptbr = new Locale("pt","BR");
+			SimpleDateFormat formatMes = new SimpleDateFormat("dd.MM", ptbr);
+	
+			String formatted = formatMes.format(dt);
+			
+			return formatted;
+
+		} else {
+			return "";
+		}
+	}
 
 }
