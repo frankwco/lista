@@ -8,51 +8,41 @@
 
 <ui:composition template="resources/template/template-padrao.xhtml">
 	<ui:define name="conteudo">
-	
 
-	 
-		<div class="bs-docs-header">
-			<div class="row">
-				<h:form>
-					<!-- Main content -->
-					<section class="content">
-						<div class="row">
-					
-							<div class="col-lg-4 col-xs-4">
-								<!-- small box -->
-								<div class="small-box bg-yellow">
-									<div class="inner">
-										<h2>Acessar o Módulo Lista</h2>
-									</div>
-									<div class="icon">
-										<i class="fa fa-user" aria-hidden="true"></i>
-									</div>
-									<a href="lista/inicio.jsf" class="small-box-footer">Entrar
-										<i class="fa fa-arrow-circle-right"></i>
-									</a>
+
+
+
+		<h:form>
+			<section class="content">
+
+				<div class="row">
+
+					<p:repeat value="#{listarListasMB.listCasaOracao}" var="casa">
+						<div class="col-lg-12 col-xs-12">
+
+							<div class="small-box bg-olive">
+								<div class="inner">
+									<h2>#{casa.cidade}</h2>
 								</div>
-							</div>
-							
-								<div class="col-lg-4 col-xs-4">
-								<!-- small box -->
-								<div class="small-box bg-blue">
-									<div class="inner">
-										<h2>Acessar o Módulo Gestão</h2>
-									</div>
-									<div class="icon">
-										<i class="fa fa-user" aria-hidden="true"></i>
-									</div>
-									<a href="cliente/inicio.jsf" class="small-box-footer">Entrar
-										<i class="fa fa-arrow-circle-right"></i>
-									</a>
+								<div class="icon">
+									<i class="fa fa-file" aria-hidden="true"></i>
 								</div>
+								<h:commandLink class="small-box-footer" ajax="false"
+									action="#{listarListasMB.buscarListasCidade(casa)}">
+									Acessar as Listas <i
+									class="fa fa-arrow-circle-right"></i>
+								</h:commandLink>
+								
+
 							</div>
-							
 						</div>
-					</section>
-				</h:form>
-			</div>
-		</div>
+					</p:repeat>
+
+
+				</div>
+			</section>
+		</h:form>
+
 
 	</ui:define>
 </ui:composition>
