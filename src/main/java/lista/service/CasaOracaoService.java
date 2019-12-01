@@ -42,11 +42,11 @@ public class CasaOracaoService implements Serializable{
 		if (session.getAttribute("casaOracaoLogada") != null) {
 			casaOracaoLogada = (String) session.getAttribute("casaOracaoLogada");
 		}
-		if(casaOracaoLogada.equals("1")) {
-			casaOracaoLogada="NOVA ESPERANÇA - PR";
-		} else if(casaOracaoLogada.equals("2")) {
-			casaOracaoLogada="COLORADO - PR";
-		} 
+		
+		EntidadeCasaOracao ca = dao.buscarPorId(EntidadeCasaOracao.class, Long.parseLong(casaOracaoLogada));
+		
+		casaOracaoLogada = ca.getCidade() + " - "+ca.getEstado();
+		
 		return casaOracaoLogada;
 	}
 

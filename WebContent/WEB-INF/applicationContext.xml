@@ -69,6 +69,29 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 			
 			<intercept-url pattern="/lista/inicio.jsf"
 			access="hasRole('responsavel') or hasRole('assistente')" />
+			
+						<intercept-url pattern="/lista/lista.jsf"
+			access="hasRole('responsavel') or hasRole('assistente')" />
+			
+						<intercept-url pattern="/lista/listarListas.jsf"
+			access="hasRole('responsavel') or hasRole('assistente')" />
+			
+						<intercept-url pattern="/lista/cadastroServicoComum.jsf"
+			access="hasRole('responsavel') or hasRole('assistente')" />
+			
+			
+			<intercept-url pattern="/lista/cadastroServicoFixo.jsf"
+			access="hasRole('responsavel') or hasRole('assistente')" />
+			<intercept-url pattern="/lista/ccadastroTipoServico.jsf"
+			access="hasRole('responsavel') or hasRole('assistente')" />
+			
+			
+			
+				<intercept-url pattern="/lista/lista/**"
+			access="hasRole('responsavel') or hasRole('assistente')" />
+			
+					<intercept-url pattern="/lista/listaad/**"
+			access="hasRole('responsavel') or hasRole('assistente')" />
 
 
 

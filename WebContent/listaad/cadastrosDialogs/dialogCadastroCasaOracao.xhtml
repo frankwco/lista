@@ -11,34 +11,29 @@
 
 	<!-- Dialog referente ao CADASTRO DE BANCO-->
 
-	<p:dialog header="Cadastro de Tipo de Serviços"
-		widgetVar="cadastroTipoServico" position="center" resizable="false"
+	<p:dialog appendToBody="true" header="Cadastro de Casa de Oração"
+		widgetVar="cadastroCasaOracao" position="center" resizable="false"
 		modal="true" width="550">
-		<h:form id="formCadastroTipoServico">
+		<h:form id="formCadastroCasaOracao">
 			<p:panelGrid styleClass="semBorda" columns="2" style="margin-bottom:10px">
 
-				<h:outputLabel value="Nome Singular:" />
+				<h:outputLabel value="Cidade:" />
 
 				<p:inputText required="true" size="50"
 					requiredMessage="campos obrigatórios"
-					value="#{tipoServicoMB.tipoServico.nomeSingular}" />
+					value="#{casaOracaoMB.casaOracao.cidade}" />
 
-				<h:outputLabel value="Nome Plural:" />
+				<h:outputLabel value="Estado:" />
 
 				<p:inputText required="true" size="50"
 					requiredMessage="campos obrigatórios"
-					value="#{tipoServicoMB.tipoServico.nomePlural}" />
+					value="#{casaOracaoMB.casaOracao.estado}" />
 
-				<h:outputLabel value="Ordem Aproximada:" />
-
-				<p:inputText required="true" requiredMessage="campos obrigatórios"
-					value="#{tipoServicoMB.tipoServico.ordemAproximada}" />
-
-
+			
 			</p:panelGrid>
 			<p:commandButton
-				actionListener="#{tipoServicoMB.salvar()}"
-				value="Salvar" update=":formListaTipoServico, @form"
+				actionListener="#{casaOracaoMB.salvar()}"
+				value="Salvar" update=":formListaCasaOracao, @form"
 				oncomplete="handleCompletes(xhr, status, args)" />
 
 		</h:form>
@@ -47,7 +42,7 @@
                     if(args.validationFailed) {
                         alert("Campos obrigatórios");
                     } else {
-                        PF('cadastroTipoServico').hide();
+                        PF('cadastroCasaOracao').hide();
 
                     }
                 }

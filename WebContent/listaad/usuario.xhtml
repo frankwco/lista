@@ -9,7 +9,7 @@
 
 <h:body>
 	<ui:composition
-		template="../resources/template/template-usuario.xhtml">
+		template="../resources/template/template-administrador.xhtml">
 		<ui:define name="mensagem">
 			<ui:include src="../componentes/mensagem.xhtml" />
 		</ui:define>
@@ -18,6 +18,7 @@
 		</ui:define>
 
 		<ui:define name="conteudo">
+		#{usuarioMB.buscarTodosUsuarios()}
 			<!-- TITULO -->
 			<div class="row">
 				<div class="col-md-12">
@@ -46,7 +47,7 @@
 			<!-- TABELA-->
 			<div class="col-md-12" style="min-height: 700px">
 				<h:form id="frmTabela">
-					<p:dataTable id="tabela" value="#{usuarioMB.listaUsuario}"
+					<p:dataTable id="tabela" value="#{usuarioMB.listaUsuarioGeral}"
 						resizableColumns="true" reflow="true" var="list" rows="10"
 						paginator="true" paginatorPosition="bottom"
 						emptyMessage="Nenhum usuario Cadastrado!!"
@@ -60,6 +61,11 @@
 						<p:column headerText="E-mail" filterBy="#{list.email}"
 							sortBy="#{list.email}" filterMatchMode="contains">
 							<h:outputText value="#{list.email}" />
+						</p:column>
+						
+							<p:column headerText="Administração" filterBy="#{list.casaOracao}"
+							sortBy="#{list.casaOracao}" filterMatchMode="contains">
+							<h:outputText value="#{list.casaOracao}" />
 						</p:column>
 
 						<!-- 						<p:column headerText="Permissão" filterBy="{list.permissao}" -->
@@ -124,13 +130,17 @@
 							<p:inputText title="E-mail" value="#{usuarioMB.usuario.email}" />
 						</div>
 
-						<div class="col-md-12">
-							<label>CPF:</label>
-							<p:inputMask validatorMessage="CPF Inválido"
-								validator="validacaoCPF" mask="999.999.999-99" title="E-mail"
-								value="#{usuarioMB.usuario.cpf}" />
-						</div>
-						
+						<p:panelGrid
+							>
+							<div class="col-md-12">
+								<label>Casa de Oração</label>
+								<p:selectOneMenu value="#{usuarioMB.usuario.codigoCasaOracao}"
+									style="margin-bottom:10px">
+									<f:selectItems value="#{casaOracaoMB.listCasaOracao}" var="ca" itemLabel="#{ca.cidade}" itemValue="#{ca.codigoCasaOracao}" />
+									
+								</p:selectOneMenu>
+							</div>
+						</p:panelGrid>
 
 						<small>Campos obrigatórios *</small>
 					</div>

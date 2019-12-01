@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <ui:composition id="idcompons" template="../resources/template/template-usuario.xhtml">
+    <ui:composition id="idcompons" template="../resources/template/template-administrador.xhtml">
 
 	<ui:define name="mensagem">
 		<ui:include src="../componentes/mensagem.xhtml" />
@@ -15,14 +15,14 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-		<ui:include src="cadastrosDialogs/dialogCadastroTipoServico.xhtml" />
+		<ui:include src="cadastrosDialogs/dialogCadastroCasaOracao.xhtml" />
 
 		<p:messages showDetail="true" />
 
 		<p:panel id="panelCadastroTipoServico"
-			header="Lista de Tipo de Serviços" style="min-height: 700px">
+			header="Cadastro de Casa de Oração" style="min-height: 700px">
 
-			<h:form id="formListaTipoServico">
+			<h:form id="formListaCasaOracao">
 
 				<p:growl id="bancoid" />
 
@@ -30,9 +30,9 @@
 
 					<tr>
 						<td align="left"><p:commandButton value="Novo Cadastro"
-								actionListener="#{tipoServicoMB.criarNovoObjeto()}"
-								oncomplete="PF('cadastroTipoServico').show()"
-								update=":formCadastroTipoServico" ajax="true" /></td>
+								actionListener="#{casaOracaoMB.criarNovoObjeto()}"
+								oncomplete="PF('cadastroCasaOracao').show()"
+								update=":formCadastroCasaOracao" ajax="true" /></td>
 
 						<td align="left" style="width: 52%"><p:ajaxStatus
 								style="width:16px;height:16px;">
@@ -51,39 +51,31 @@
 				</table>
 
 
-				<p:dataTable id="tabelaTipoServico" var="objeto"
-					value="#{tipoServicoMB.listTipoServico}" style="text-align: left"
+				<p:dataTable id="tabelaCasaOracao" var="objeto"
+					value="#{casaOracaoMB.listCasaOracao}" style="text-align: left"
 					paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="8,10,50,100">
 
-					<p:column headerText="Nome Singular"
-						sortBy="#{objeto.nomeSingular}" filterBy="#{objeto.nomeSingular}"
-						filterMatchMode="contains">
-						<h:outputText value="#{objeto.nomeSingular}" />
+					<p:column headerText="Cidade"
+						>
+						<h:outputText value="#{objeto.cidade}" />
 
 					</p:column>
-					<p:column headerText="Nome Plural" sortBy="#{objeto.nomePlural}"
-						filterBy="#{objeto.nomePlural}" filterMatchMode="contains">
-						<h:outputText value="#{objeto.nomePlural}" />
+					<p:column headerText="Estado" >
+						<h:outputText value="#{objeto.estado}" />
 
 					</p:column>
-					<p:column headerText="Ordem Aproximada">
-						<h:outputText value="#{objeto.ordemAproximada}" />
-
-					</p:column>
-
-
-
+					
 					<p:column>
 						<p:commandButton value="Alterar" title="Alterar"
-							oncomplete="PF('cadastroTipoServico').show()"
-							update=":formCadastroTipoServico">
+							oncomplete="PF('cadastroCasaOracao').show()"
+							update=":formCadastroCasaOracao">
 							<f:setPropertyActionListener value="#{objeto}"
-								target="#{tipoServicoMB.tipoServico}" />
+								target="#{casaOracaoMB.casaOracao}" />
 						</p:commandButton>
 						<p:commandButton value="Excluir" title="Excluir"
-							actionListener="#{tipoServicoMB.inativar(objeto)}">
+							actionListener="#{casaOracaoMB.inativar(objeto)}">
 							<p:confirm header="Confirmação" message="Deseja excluir?" />
 						</p:commandButton>
 					</p:column>
@@ -91,10 +83,6 @@
 				</p:dataTable>
 			</h:form>
 		</p:panel>
-
-
-
-
 
 	</ui:define>
 

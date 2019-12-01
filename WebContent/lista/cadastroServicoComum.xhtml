@@ -6,7 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition
-	template="../resources/template/template-administrador.xhtml">
+	template="../resources/template/template-usuario.xhtml">
 	<ui:define name="mensagem">
 		<ui:include src="../componentes/mensagem.xhtml" />
 	</ui:define>
@@ -22,7 +22,7 @@
 
 		<p:panel header="Lista de Serviços Comuns" style="min-height: 700px">
 
-			<h:form id="formGeralServicoComum" prependId="false">
+			<h:form id="formGeralServicoComum" >
 
 				<p:growl id="bancoid" />
 

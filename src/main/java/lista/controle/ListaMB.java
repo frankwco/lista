@@ -114,7 +114,8 @@ public class ListaMB implements Serializable {
 	}
 
 	public void excluirServicoLista(EntidadeServicoLista isl) {
-		if (getServicoListaSelecionado().getId() != null) {
+		//System.out.println("No excluir");
+		if (isl != null) {
 			List<EntidadeItensServicoLista> li = this.daoItensServicoLista.listar(EntidadeItensServicoLista.class,
 					"servicoLista.id=" + isl.getId());
 			for (EntidadeItensServicoLista l : li) {
@@ -125,6 +126,7 @@ public class ListaMB implements Serializable {
 			this.servicoListaService.inserirAlterar(isl);
 			this.listaServicoLista = null;
 		}
+		carregarNomes();
 	}
 
 	public void novaLista() {
@@ -159,6 +161,7 @@ public class ListaMB implements Serializable {
 		}
 		this.listaItensServicoLista = null;
 		this.itemServicoLista = null;
+		carregarNomes();
 	}
 
 	public void excluirItemServico(EntidadeItensServicoLista it) {
@@ -168,25 +171,10 @@ public class ListaMB implements Serializable {
 		
 		this.listaItensServicoLista = null;
 		this.itemServicoLista = null;
+		carregarNomes();
 	}
-
-	public void imprimir(int modelo) {
-//		System.out.println(modelo);
-		String relatorio = "";
-		switch (modelo) {
-		case 0:
-			relatorio = "listaFolhaDM.jasper";
-			break;
-		case 1:
-			relatorio = "listaFolhaA4.jasper";
-			break;
-		case 2:
-			relatorio = "listaFolhaA4_modelo2.jasper";
-			
-		}
-		
-//		System.out.println(relatorio);
-
+	
+	private void carregarNomes() {
 		if (getListaSelecionada().getId() != null) {
 			List<EntidadeServicoLista> sl = daoServicoLista.listar(EntidadeServicoLista.class,
 					"lista.id=" + this.listaSelecionada.getId());
@@ -204,6 +192,25 @@ public class ListaMB implements Serializable {
 				}
 			}
 		}
+	}
+
+	public void imprimir(int modelo) {
+//		System.out.println(modelo);
+		String relatorio = "";
+		switch (modelo) {
+		case 0:
+			relatorio = "listaFolhaDM.jasper";
+			break;
+		case 1:
+			relatorio = "listaFolhaA4.jasper";
+			break;
+		case 2:
+			relatorio = "listaFolhaA4_modelo2.jasper";
+			
+		}
+		
+
+		carregarNomes();
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
@@ -242,6 +249,7 @@ public class ListaMB implements Serializable {
 		}
 		this.listaServicoLista = null;
 		this.servicoListaSelecionado = null;
+		carregarNomes();
 	}
 
 	public void insereLista() {
@@ -274,7 +282,7 @@ public class ListaMB implements Serializable {
 				.getRequest();
 		HttpSession session = (HttpSession) request.getSession();
 		session.setAttribute("idLista", l.getId());
-		return "lista.xhtml?redirect=true";
+		return "lista.jsf?faces-redirect=true";
 	}
 
 	public void excluirLista(EntidadeLista l) {
@@ -295,6 +303,8 @@ public class ListaMB implements Serializable {
 
 		listaService.inserirAlterar(l);
 		novaLista();
+		listaLista = null;
+		carregarNomes();
 	}
 
 	private void insereServicoFixo() {
@@ -397,6 +407,7 @@ public class ListaMB implements Serializable {
 				}
 			}
 		}
+		carregarNomes();
 	}
 
 	private void insereServicoscomum() {
@@ -749,6 +760,7 @@ public class ListaMB implements Serializable {
 		insereServicoFixo();
 
 		this.listaServicoLista = null;
+		carregarNomes();
 	}
 
 	private Date retornaDataReferenteSemana(Date dataLista, int semanaServico, int mes, int anoServico, String dia) {

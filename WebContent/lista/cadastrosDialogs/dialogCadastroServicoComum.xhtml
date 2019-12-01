@@ -12,10 +12,10 @@ and open the template in the editor.
 
 <body>
 
-	<p:dialog appendToBody="true" header="Cadastro de Serviços Comum"
+	<p:dialog header="Cadastro de Serviços Comum"
 		widgetVar="cadastroServicoComun" position="center" resizable="false"
 		modal="true" height="400" width="750">
-		<h:form prependId="false" id="formDialogCadastroServicoComum">
+		<h:form id="formDialogCadastroServicoComum">
 			<p:panelGrid styleClass="semBorda" columns="2" style="margin-bottom:10px">
 
 				<h:outputLabel value="Nome:" />
@@ -34,7 +34,7 @@ and open the template in the editor.
 
 
 				<h:outputLabel value="Descrição:" />
-				<p:inputText required="true" size="30"
+				<p:inputText  size="30"
 					requiredMessage="Descrição Obrigatória"
 					value="#{servicoComumMB.servicoComum.descricao}" />
 
@@ -70,7 +70,7 @@ and open the template in the editor.
 
 			</p:panelGrid>
 			<p:separator />
-			<p:commandButton update=":gridMesesServicoComum"
+			<p:commandButton update="gridMesesServicoComum"
 				actionListener="#{servicoComumMB.selecionarTodosMes()}"
 				value="Selecionar Todos" />
 			<br />

@@ -6,7 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition
-	template="../resources/template/template-administrador.xhtml">
+	template="../resources/template/template-usuario.xhtml">
 	<ui:define name="mensagem">
 		<ui:include src="../componentes/mensagem.xhtml" />
 	</ui:define>
@@ -17,14 +17,14 @@
 	<ui:define name="conteudo">
 
 
-		<h:form prependId="false" style="text-align: left">
+		<h:form style="text-align: left">
 
 		</h:form>
 		<p:messages showDetail="true" />
 
 		<p:panel header="Lista " style="min-height: 700px">
 
-			<h:form id="formGeralListarLista" prependId="false">
+			<h:form id="formGeralListarLista" >
 
 				<p:growl id="bancoidsaass" />
 

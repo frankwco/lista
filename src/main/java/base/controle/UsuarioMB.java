@@ -26,6 +26,8 @@ import util.ExibirMensagem;
 import util.FecharDialog;
 import util.Mensagem;
 import dao.GenericDAO;
+import lista.modelo.EntidadeCasaOracao;
+import lista.service.CasaOracaoService;
 import lista.service.CustomAuthenticationProvider;
 
 @ViewScoped
@@ -39,9 +41,13 @@ public class UsuarioMB implements Serializable {
 	private List<Permissoes> permisssoes;
 	private List<Usuario> usuarioBusca;
 	private List<Usuario> listaUsuario;
+	private List<Usuario> listaUsuarioGeral;
 
 	@Inject
 	private GenericDAO<Usuario> daoUsuario; // faz as buscas
+	
+	@Inject
+	private GenericDAO<EntidadeCasaOracao> daoCasaOracao; // faz as buscas
 
 	@Inject
 	private UsuarioService usuarioService; // inserir no banco
@@ -60,13 +66,20 @@ public class UsuarioMB implements Serializable {
 		usuario = new Usuario();
 		listaUsuario = new ArrayList<>();
 		listaUsuario = daoUsuario.listaComStatus(Usuario.class);
+		
 		usuarioBusca = new ArrayList<>();
 		permissao = new Permissoes();
 	}
+	
 
 	public UsuarioMB() {
 		// TODO Auto-generated constructor stub
 
+	}
+	
+	public void buscarTodosUsuarios() {
+		listaUsuarioGeral = new ArrayList<>();
+		listaUsuarioGeral = daoUsuario.listaComStatusSemCodigoCasaOracao(Usuario.class);
 	}
 
 	public void preencherLista(Usuario t) {
@@ -80,6 +93,7 @@ public class UsuarioMB implements Serializable {
 
 	public void carregarLista() {
 		listaUsuario = daoUsuario.listaComStatus(Usuario.class);
+		buscarTodosUsuarios();
 	}
 
 	public void preencherPermissoes(Usuario usu) {
@@ -142,6 +156,8 @@ public class UsuarioMB implements Serializable {
 						usuario.setCodigoCasaOracao(((String) session.getAttribute("casaOracaoLogada")));
 					}
 				}
+				EntidadeCasaOracao ca = daoCasaOracao.buscarPorId(EntidadeCasaOracao.class, Long.parseLong(usuario.getCodigoCasaOracao()));
+				usuario.setCasaOracao(ca.getCidade()+" - "+ca.getEstado());
 				usuario.setAcessoSistema(true);
 				usuario.setPermissao("responsavel");
 				usuario.setSenha(CriptografiaSenha.criptografar(usuario.getSenha()));
@@ -149,7 +165,19 @@ public class UsuarioMB implements Serializable {
 				usuarioService.inserirAlterar(usuario);
 
 			} else {
-				usuario.setSenha(CriptografiaSenha.criptografar(usuario.getSenha()));
+				if (usuario.getCodigoCasaOracao() == null || usuario.getCodigoCasaOracao().equals("")) {
+					HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
+							.getExternalContext().getRequest();
+					HttpSession session = (HttpSession) request.getSession();
+					if (session.getAttribute("casaOracaoLogada") != null) {
+						usuario.setCodigoCasaOracao(((String) session.getAttribute("casaOracaoLogada")));
+					}
+				}
+				EntidadeCasaOracao ca = daoCasaOracao.buscarPorId(EntidadeCasaOracao.class, Long.parseLong(usuario.getCodigoCasaOracao()));
+				usuario.setCasaOracao(ca.getCidade()+" - "+ca.getEstado());
+				
+				
+				//usuario.setSenha(CriptografiaSenha.criptografar(usuario.getSenha()));
 				usuario.setStatus(true);
 				usuarioService.inserirAlterar(usuario);
 			}
@@ -221,5 +249,16 @@ public class UsuarioMB implements Serializable {
 	public void setPermisssoes(List<Permissoes> permisssoes) {
 		this.permisssoes = permisssoes;
 	}
+
+
+	public List<Usuario> getListaUsuarioGeral() {
+		return listaUsuarioGeral;
+	}
+
+
+	public void setListaUsuarioGeral(List<Usuario> listaUsuarioGeral) {
+		this.listaUsuarioGeral = listaUsuarioGeral;
+	}
+	
 
 }

@@ -5,8 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-<ui:composition
-	template="../resources/template/template-administrador.xhtml">
+<ui:composition template="../resources/template/template-usuario.xhtml">
 	<ui:define name="mensagem">
 		<ui:include src="../componentes/mensagem.xhtml" />
 	</ui:define>
@@ -15,17 +14,34 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-		<ui:include src="listaDialogs/dialogLista.xhtml" />
 
 
-		<h:form prependId="false" style="text-align: left">
+
+
+<!-- 		<ui:include src="listaDialogs/dialogLista.xhtml" /> -->
+
+<!-- 		<p:ajaxStatus onstart="PF('statusDialogs').show()" -->
+<!-- 			onsuccess="PF('statusDialog').hide()" /> -->
+
+<!-- 		<p:dialog widgetVar="statusDialogs" modal="true" draggable="false" -->
+<!-- 			closable="false" resizable="false" showHeader="false"> -->
+<!-- 			<h:outputText style="font-weight:bold" -->
+<!-- 				value="Aguarde, realizando operação...." /> -->
+<!-- 			<br /> -->
+<!-- 			<center> -->
+<!-- 				<p:graphicImage name="img/aguarde.gif" /> -->
+<!-- 			</center> -->
+<!-- 		</p:dialog> -->
+
+
+		<h:form style="text-align: left">
 
 		</h:form>
 		<p:messages showDetail="true" />
 
 		<p:panel header="Lista" style="min-height: 700px">
 
-			<h:form id="formGeralLista" prependId="false">
+			<h:form id="formGeralLista">
 
 				<p:growl id="bancoidsaass" />
 
@@ -37,16 +53,7 @@
 								update=":formDialogNovaLista, @form"
 								oncomplete="PF('dialogNovaListas').show()" ajax="true" /></td>
 
-						<td align="left" style="width: 52%"><p:ajaxStatus
-								style="width:16px;height:16px;">
-								<f:facet name="start">
-									<h:graphicImage value="/img/ajaxloadingvermelho.gif" />
-								</f:facet>
-
-								<f:facet name="complete">
-									<h:outputText value="" />
-								</f:facet>
-							</p:ajaxStatus></td>
+						<td align="left" style="width: 52%"></td>
 
 
 					</tr>
@@ -83,7 +90,8 @@
 							value="Incluir Tipo de Serviço Nesta Lista"
 							update=":formDialogIncluirTipoServico"
 							oncomplete="PF('dialogIncluirTipoServiço').show()" />
-							<br/><br/>
+						<br />
+						<br />
 
 
 						<p:commandButton value="Imprimir Lista Mobile"
@@ -134,20 +142,268 @@
 							<f:setPropertyActionListener value="#{objeto}"
 								target="#{listaMB.servicoListaSelecionado}" />
 						</p:commandButton>
-						<p:commandButton value="Excluir" title="Excluir"
+						<p:commandButton ajax="true" value="Excluir" title="Excluir"
+							update="@form"
 							actionListener="#{listaMB.excluirServicoLista(objeto)}">
-<p:confirm header="Confirmação" message="Deseja excluir?" />
+							<p:confirm header="Confirmação" message="Deseja excluir?" />
 						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>
+
+
 			</h:form>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+			</p:confirmDialog>
 		</p:panel>
 
 
 
 
+<p:dialog header="Incluir Nova Lista"
+		widgetVar="dialogNovaListas" position="center" resizable="false"
+		modal="true" height="140" width="500">
+		<h:form id="formDialogNovaLista">
+			<p:panelGrid styleClass="semBorda" columns="2"
+				style="margin-bottom:10px">
+				<h:outputText value="Observação" />
+				<p:inputText size="50"
+					value="#{listaMB.listaSelecionada.observacao}" />
 
+				<h:outputLabel value="Data Lista:" />
+				<p:calendar locale="pt_BR" required="true"
+					requiredMessage="Data Selecionada"
+					value="#{listaMB.listaSelecionada.dataLista}" pattern="dd/MM/yyyy" />
+
+
+			</p:panelGrid>
+
+
+			<p:commandButton actionListener="#{listaMB.insereLista()}"
+				value="Salvar" update=":formGeralLista" ajax="true"
+				oncomplete="handleCompleteNewList(xhr, status, args)" />
+
+		</h:form>
+		<script type="text/javascript">
+                function handleCompleteNewList(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatórios");
+                    } else {
+                        PF('dialogNovaListas').hide();
+
+                    }
+                }
+            </script>
+
+
+	</p:dialog>
+
+
+
+	<p:dialog header="Serviços Lista"
+		widgetVar="dialogServicoLista" position="center" resizable="false"
+		modal="true" height="400" width="800">
+		<h:form id="formDialogServicoLista">
+
+			<p:commandButton value="Incluir Item"
+				actionListener="#{listaMB.novoItemServico()}"
+				update=":formDialogInserirItemSevico"
+				oncomplete="PF('inserirItemServico').show()" />
+			<br />
+			<p:dataTable id="tabelaServicosListaDialogs" var="objeto"
+				value="#{listaMB.listaItensServicoLista}" style="text-align: left"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="8,10,50,100">
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText style="font-weight: bold; color: red"
+							value="Tipo Serviço: #{listaMB.servicoListaSelecionado.tipoServico.nomeSingular}" />
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column headerText="Descrição" style="width:280px">
+					<p:commandLink
+						style="text-decoration: underline; font-weight: bold;"
+						value="#{objeto.descricao}" title="Alterar"
+						oncomplete="PF('inserirItemServico').show()"
+						update=":formDialogInserirItemSevico">
+						<f:setPropertyActionListener value="#{objeto}"
+							target="#{listaMB.itemServicoLista}" />
+					</p:commandLink>
+
+				</p:column>
+				<p:column headerText="Data Serviço">
+					<h:outputText value="#{formataDataMB.formatarData(objeto.dataServicoDate)}"
+						/>
+					
+					
+				</p:column>
+				<p:column headerText="Hora">
+					<h:outputText value="#{objeto.hora}" />
+				</p:column>
+				<p:column headerText="Atendido Por">
+					<h:outputText value="#{objeto.atendidoPor}" />
+				</p:column>
+
+				<p:column>
+					<p:commandButton value="Excluir" title="Excluir" update="@form"
+						actionListener="#{listaMB.excluirItemServico(objeto)}">
+						<p:confirm header="Confirmação" message="Deseja excluir?" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+			<p:separator />
+			<p:commandButton rendered="false" value="Salvar"
+				update=":formGeralLista"
+				oncomplete="handleCompleteIncludeItem(xhr, status, args)" />
+		</h:form>
+		<script type="text/javascript">
+                function handleCompleteIncludeItem(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatorios");
+                    } else {
+                        PF('dialogServicoLista').hide();
+
+                    }
+                }
+            </script>
+	</p:dialog>
+
+
+
+
+
+	<p:dialog header="Incluir Tipo de Serviço"
+		widgetVar="dialogIncluirTipoServiço" position="center"
+		resizable="false" modal="true" height="350" width="700">
+		<h:form id="formDialogIncluirTipoServico">
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputText value="Tipo Serviço:" />
+
+				<p:selectOneMenu id="comboTipoServCmu" style="width:100%"
+					value="#{listaMB.servicoListaSelecionado.tipoServico}"
+					converter="#{converterTipoServico}" panelStyle="width:180px"
+					effect="fade" var="t" filter="true" filterMatchMode="contains">
+					<p:ajax event="itemSelect"
+						update=":formDialogIncluirTipoServico:campoOrdemTipoServico"
+						listener="#{listaMB.setarOrdem()}" />
+					<f:selectItems value="#{tipoServicoMB.listTipoServico}" var="cur"
+						itemLabel="#{cur}" itemValue="#{cur}" />
+					<p:column style="white-space:normal !important;">
+						<h:outputText value="#{t}" />
+					</p:column>
+				</p:selectOneMenu>
+
+				<h:outputText value="Ordem:" />
+				<p:inputText required="true" id="campoOrdemTipoServico"
+					requiredMessage="Ordem Obrigatória"
+					value="#{listaMB.servicoListaSelecionado.ordem}" />
+
+			</p:panelGrid>
+			<p:separator />
+			<p:separator />
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputText value="Tipo Descrição:" />
+				<p:selectOneMenu
+					value="#{listaMB.servicoListaSelecionado.tipoDescricao}">
+					<f:selectItem itemLabel="Automático" itemValue="Automatico" />
+					<f:selectItem itemLabel="Manual" itemValue="Manual" />
+				</p:selectOneMenu>
+				<h:outputText value="Descrição Manual:" />
+				<p:inputText value="#{listaMB.servicoListaSelecionado.descricao}" />
+
+
+			</p:panelGrid>
+
+			<p:separator />
+			<p:commandButton value="Salvar" update=":formGeralLista"
+				actionListener="#{listaMB.insereTipoServico()}"
+				oncomplete="handleCompleteInsertTypeService(xhr, status, args)" />
+
+		</h:form>
+		<script type="text/javascript">
+                function handleCompleteInsertTypeService(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatorios");
+                    } else {
+                        PF('dialogIncluirTipoServiço').hide();
+
+                    }
+                }
+            </script>
+
+
+	</p:dialog>
+
+
+
+	<p:dialog header="Inserir Serviço"
+		widgetVar="inserirItemServico" position="center" resizable="false"
+		modal="true" height="340" width="800">
+		<h:form id="formDialogInserirItemSevico">
+			<p:panelGrid columns="2" style="margin-bottom:10px;"
+				styleClass="semBorda">
+
+				<h:outputLabel value="Tipo Serviço:" />
+
+				<p:selectOneMenu style="width:100%" disabled="true"
+					value="#{listaMB.servicoListaSelecionado.tipoServico}"
+					converter="#{converterTipoServico}" panelStyle="width:180px"
+					effect="fade" var="t" filter="true" filterMatchMode="contains">
+					<f:selectItems value="#{tipoServicoMB.listTipoServico}" var="cur"
+						itemLabel="#{cur}" itemValue="#{cur}" />
+					<p:column style="white-space:normal !important;">
+						<h:outputText value="#{t}" />
+					</p:column>
+				</p:selectOneMenu>
+
+
+
+				<h:outputLabel value="Descrição:" />
+				<p:inputTextarea required="true" style="width: 310px"
+					autoResize="false" requiredMessage="Descrição Obrigatória"
+					value="#{listaMB.itemServicoLista.descricao}" />
+
+				<h:outputLabel value="Data:" />
+				<p:calendar locale="pt_BR"
+					value="#{listaMB.itemServicoLista.dataServicoDate}"
+					pattern="dd/MM/yyyy" />
+
+				<h:outputLabel value="Hora:" />
+				<p:inputText value="#{listaMB.itemServicoLista.hora}" />
+
+				<h:outputText value="Atendido Por:" />
+				<p:inputText value="#{listaMB.itemServicoLista.atendidoPor}" />
+
+			</p:panelGrid>
+
+			<p:separator />
+			<p:commandButton actionListener="#{listaMB.inserirItemServico()}"
+				value="Salvar"
+				oncomplete="handleCompleteInsertService(xhr, status, args)"
+				update=":formDialogServicoLista" />
+
+		</h:form>
+		<script type="text/javascript">
+                function handleCompleteInsertService(xhr, status, args) {
+                    if(args.validationFailed) {
+                        alert("Campos obrigatorios");
+                    } else {
+                        PF('inserirItemServico').hide();
+
+                    }
+                }
+            </script>
+
+
+	</p:dialog>
 	</ui:define>
 
 </ui:composition>

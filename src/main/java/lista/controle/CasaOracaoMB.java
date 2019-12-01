@@ -41,7 +41,7 @@ public class CasaOracaoMB implements Serializable {
 		casaOracao = new EntidadeCasaOracao();
 
 		listCasaOracao = new ArrayList<>();
-		listCasaOracao = daoCasaOracao.listaComStatus(EntidadeCasaOracao.class);
+		listCasaOracao = daoCasaOracao.listaComStatusSemCodigoCasaOracao(EntidadeCasaOracao.class);
 		casaOracaoBusca = new ArrayList<>();
 
 	}
@@ -66,15 +66,17 @@ public class CasaOracaoMB implements Serializable {
 
 		try {
 			if (casaOracao.getId() == null) {
-				String casaOracaoLogada = "";
-				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-						.getRequest();
-				HttpSession session = (HttpSession) request.getSession();
-				if (session.getAttribute("casaOracaoLogada") != null) {
-					casaOracaoLogada = (String) session.getAttribute("casaOracaoLogada");
-				}
-				casaOracao.setCodigoCasaOracao(casaOracaoLogada);
+//				String casaOracaoLogada = "";
+//				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+//						.getRequest();
+//				HttpSession session = (HttpSession) request.getSession();
+//				if (session.getAttribute("casaOracaoLogada") != null) {
+//					casaOracaoLogada = (String) session.getAttribute("casaOracaoLogada");
+//				}
+				//casaOracao.setCodigoCasaOracao(casaOracaoLogada);
 				// casaOracao.setStatus(true);
+				casaOracaoService.inserirAlterar(casaOracao);
+				casaOracao.setCodigoCasaOracao(String.valueOf(casaOracao.getId()));
 				casaOracaoService.inserirAlterar(casaOracao);
 
 			} else {
@@ -98,7 +100,7 @@ public class CasaOracaoMB implements Serializable {
 	}
 
 	public void carregarLista() {
-		listCasaOracao = daoCasaOracao.listaComStatus(EntidadeCasaOracao.class);
+		listCasaOracao = daoCasaOracao.listaComStatusSemCodigoCasaOracao(EntidadeCasaOracao.class);
 	}
 
 	public EntidadeCasaOracao getCasaOracao() {

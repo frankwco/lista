@@ -14,9 +14,9 @@ and open the template in the editor.
 
 
 
-        <p:dialog appendToBody="true" header="Cadastro Casa de Oração " widgetVar="listaCadastroCasaOracao" position="center"  resizable="false" modal="true" height="400" width="750">
+        <p:dialog header="Cadastro Casa de Oração " widgetVar="listaCadastroCasaOracao" position="center"  resizable="false" modal="true" height="400" width="750">
             <p:commandButton value="Incluir Novo" actionListener="#{controleCadastrosMB.novaCasaOracao()}" oncomplete="cadastroCasaOracao.show()" update=":formDialogCadastroInserirCasaOracao"/>
-            <h:form prependId="false" id="formDialogCadastroCasaOracao">
+            <h:form  id="formDialogCadastroCasaOracao">
 
                 <p:dataTable   var="objeto" value="#{controleCadastrosMB.listaCasaOracao}" 
                                style="text-align: left"
@@ -79,8 +79,8 @@ and open the template in the editor.
             </script>
         </p:dialog>
 
-        <p:dialog appendToBody="true" header="Cadastro Casa de Oração" widgetVar="cadastroCasaOracao" position="center"  resizable="false" modal="true" height="250" width="400">
-            <h:form prependId="false" id="formDialogCadastroInserirCasaOracao">
+        <p:dialog header="Cadastro Casa de Oração" widgetVar="cadastroCasaOracao" position="center"  resizable="false" modal="true" height="250" width="400">
+            <h:form id="formDialogCadastroInserirCasaOracao">
                 <h:panelGrid columns="3" style="margin-bottom:10px">
 
                     <h:outputText value="Código:"/>

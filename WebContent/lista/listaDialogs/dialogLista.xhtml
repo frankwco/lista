@@ -15,7 +15,7 @@ and open the template in the editor.
 
 
 
-	<p:dialog appendToBody="true" header="Incluir Nova Lista"
+	<p:dialog header="Incluir Nova Lista"
 		widgetVar="dialogNovaListas" position="center" resizable="false"
 		modal="true" height="140" width="500">
 		<h:form id="formDialogNovaLista">
@@ -55,10 +55,10 @@ and open the template in the editor.
 
 
 
-	<p:dialog appendToBody="true" header="Serviços Lista"
+	<p:dialog header="Serviços Lista"
 		widgetVar="dialogServicoLista" position="center" resizable="false"
 		modal="true" height="400" width="800">
-		<h:form prependId="false" id="formDialogServicoLista">
+		<h:form id="formDialogServicoLista">
 
 			<p:commandButton value="Incluir Item"
 				actionListener="#{listaMB.novoItemServico()}"
@@ -89,12 +89,10 @@ and open the template in the editor.
 
 				</p:column>
 				<p:column headerText="Data Serviço">
-					<h:outputText value="#{objeto.dataServicoDate}"
-						rendered="#{objeto.dataServicoDate != null}">
-						<f:convertDateTime pattern="dd/MM/yyyy" type="date"
-							dateStyle="short" />
-					</h:outputText>
-					<h:outputText value="" rendered="#{objeto.dataServicoDate == null}" />
+					<h:outputText value="#{formataDataMB.formatarData(objeto.dataServicoDate)}"
+						/>
+					
+					
 				</p:column>
 				<p:column headerText="Hora">
 					<h:outputText value="#{objeto.hora}" />
@@ -129,25 +127,13 @@ and open the template in the editor.
 	</p:dialog>
 
 
-	<p:confirmDialog appendToBody="true"
-		message="Deseja Realmente Excluir o Registro? " width="200"
-		header="Confirmar" severity="alert" widgetVar="dialogExcluirItem">
 
 
-		<p:commandButton value="Sim"
-			actionListener="#{listaMB.excluirItemServico()}"
-			update=":formDialogServicoLista"
-			oncomplete="PF('dialogExcluirItem').hide()" />
-		<p:commandButton value="Não"
-			oncomplete="PF('dialogExcluirItem').hide()" />
 
-	</p:confirmDialog>
-
-
-	<p:dialog appendToBody="true" header="Incluir Tipo de Serviço"
+	<p:dialog header="Incluir Tipo de Serviço"
 		widgetVar="dialogIncluirTipoServiço" position="center"
 		resizable="false" modal="true" height="350" width="700">
-		<h:form prependId="false" id="formDialogIncluirTipoServico">
+		<h:form id="formDialogIncluirTipoServico">
 			<p:panelGrid columns="2" styleClass="semBorda">
 				<h:outputText value="Tipo Serviço:" />
 
@@ -208,10 +194,10 @@ and open the template in the editor.
 
 
 
-	<p:dialog appendToBody="true" header="Inserir Serviço"
+	<p:dialog header="Inserir Serviço"
 		widgetVar="inserirItemServico" position="center" resizable="false"
-		modal="true" height="250" width="550">
-		<h:form prependId="false" id="formDialogInserirItemSevico">
+		modal="true" height="340" width="800">
+		<h:form id="formDialogInserirItemSevico">
 			<p:panelGrid columns="2" style="margin-bottom:10px;"
 				styleClass="semBorda">
 

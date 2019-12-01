@@ -24,6 +24,15 @@ package lista.modelo;
    private String telefone;
    private String codigoCasaOracao;
    private String status;
+   private String estado;
+   
+   
+public String getEstado() {
+	return estado;
+}
+public void setEstado(String estado) {
+	this.estado = estado;
+}
 public Long getId() {
 	return id;
 }

@@ -14,10 +14,10 @@ and open the template in the editor.
 
 
 
-	<p:dialog appendToBody="true" header="Cadastro de Serviços Fixo"
+	<p:dialog header="Cadastro de Serviços Fixo"
 		widgetVar="cadastroServicoFixo" position="center" resizable="false"
 		modal="true" height="250" width="550">
-		<h:form prependId="false" id="formDialogCadastroServicoFixo">
+		<h:form id="formDialogCadastroServicoFixo">
 			<h:panelGrid columns="2" style="margin-bottom:10px">
 
 				<h:outputLabel value="Tipo Serviço:" />
@@ -78,7 +78,7 @@ and open the template in the editor.
 	</p:dialog>
 
 	<h:form>
-		<p:confirmDialog appendToBody="true"
+		<p:confirmDialog 
 			message="Deseja Realmente Excluir o Registro? " width="200"
 			header="Confirmar" severity="alert"
 			widgetVar="dialogExcluirServicoFixo">
